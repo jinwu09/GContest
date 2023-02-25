@@ -10,38 +10,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id            String       @id @default(uuid())
-  name          String
-  email         String       @unique
-  password      String
-  quiz          quiz[]
-  Participant   Participant? @relation(fields: [participantId], references: [id])
-  participantId String?
+model Users {
+  id         String @id @default(uuid())
+  first_name String
+  last_name  String
+  school     String
+  email      String @unique
+  password   String
 }
 
-model quiz {
-  id       String     @id @default(uuid())
-  users    users?     @relation(fields: [usersId], references: [id])
-  usersId  String?
-  tittle   String
-  question question[]
+model Answer {
+  id         String    @id @default(uuid())
+  Quiz       Quiz?     @relation(fields: [quizId], references: [id])
+  quizId     String?
+  Question   Question? @relation(fields: [questionId], references: [id])
+  questionId String?
+  choice     choice?   @relation(fields: [choiceId], references: [id])
+  choiceId   String?
 }
 
-model Participant {
-  id    String   @id @default(uuid())
-  score Int
-  date  DateTime
-  users users[]
+model Quiz {
+  id         String    @id @default(uuid())
+  title      String
+  password   String?
+  number     Int
+  status     String
+  created_at DateTime
+  start_at   DateTime
+  ends_at    DateTime
+  Question   Question? @relation(fields: [questionId], references: [id])
+  questionId String?
+  answer     Answer[]
 }
 
-model question {
-  id     String  @id @default(uuid())
-  quiz   quiz?   @relation(fields: [quizId], references: [id])
-  quizId String?
+model Question {
+  id       String   @id @default(uuid())
+  content  String
+  score    Int
+  quiz     Quiz[]
+  choice   choice?  @relation(fields: [choiceId], references: [id])
+  choiceId String?
+  answer   Answer[]
 }
 
-enum role {
-  TEACHER
-  STUDENT
+model choice {
+  id         String     @id @default(uuid())
+  question   Question[]
+  content    String
+  is_correct Boolean
+  answer     Answer[]
 }
