@@ -11,11 +11,34 @@ datasource db {
 }
 
 model users {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
-  age      Int
+  id            String       @id @default(uuid())
+  name          String
+  email         String       @unique
+  password      String
+  quiz          quiz[]
+  Participant   Participant? @relation(fields: [participantId], references: [id])
+  participantId String?
+}
+
+model quiz {
+  id       String     @id @default(uuid())
+  users    users?     @relation(fields: [usersId], references: [id])
+  usersId  String?
+  tittle   String
+  question question[]
+}
+
+model Participant {
+  id    String   @id @default(uuid())
+  score Int
+  date  DateTime
+  users users[]
+}
+
+model question {
+  id     String  @id @default(uuid())
+  quiz   quiz?   @relation(fields: [quizId], references: [id])
+  quizId String?
 }
 
 enum role {
