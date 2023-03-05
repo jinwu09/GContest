@@ -19,12 +19,14 @@ model Users {
   password   String
 }
 
-model quiz {
-  id       String     @id @default(uuid())
-  users    users?     @relation(fields: [usersId], references: [id])
-  usersId  String?
-  tittle   String
-  question question[]
+model Answer {
+  id         String    @id @default(uuid())
+  Quiz       Quiz?     @relation(fields: [quizId], references: [id])
+  quizId     String?
+  Question   Question? @relation(fields: [questionId], references: [id])
+  questionId String?
+  choice     choice?   @relation(fields: [choiceId], references: [id])
+  choiceId   String?
 }
 
 model Quiz {
