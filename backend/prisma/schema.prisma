@@ -24,7 +24,7 @@ model quiz {
   id       String     @id @default(uuid())
   users    users?     @relation(fields: [usersId], references: [id])
   usersId  String?
-  tittle   String
+  title   String
   question question[]
 }
 
