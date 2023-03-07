@@ -3,6 +3,7 @@ import LoginView from '@/views/Auth/LoginView.vue';
 import RegisterView from '@/views/Auth/RegisterView.vue';
 import HomeDashboard from '@/views/Dashboard/HomeDashboard.vue';
 import CreateQuiz from '@/views/Dashboard/CreateQuiz.vue'
+import PathNotFound from '@/views/PathNotFound.vue'
 
 
 const router = createRouter({
@@ -31,6 +32,12 @@ const router = createRouter({
     {
       path:'/',
       redirect: 'login'
+    }
+    ,
+    {
+      path:'/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: PathNotFound
     }
   ]
 })

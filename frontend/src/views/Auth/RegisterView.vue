@@ -22,10 +22,10 @@ function navToLogin() {
                         </div>
                         <form>
                             <div class="row mt-3">
-                                <div class="col-md-6"><input class="form-control form-control-lg" type="text"
+                                <div class="col-md-6 mt-3"><input class="form-control form-control-lg" type="text"
                                         placeholder="First Name" aria-label=".form-control-lg example" autocomplete="off"
                                         required></div>
-                                <div class="col-md-6"> <input class="form-control form-control-lg" type="text"
+                                <div class="col-md-6 mt-3"> <input class="form-control form-control-lg" type="text"
                                         placeholder="Last Name" aria-label=".form-control-lg example" autocomplete="off"
                                         required></div>
 
@@ -71,4 +71,6 @@ function navToLogin() {
     </div>
 </template>
 
-<style scoped>@import url(@/assets/login-register-forms.css);</style>
+<style scoped>
+@import url(@/assets/login-register-forms.css);
+</style>

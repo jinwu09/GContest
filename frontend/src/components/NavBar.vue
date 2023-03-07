@@ -1,14 +1,28 @@
 <template>
-    <nav class="navbar bg-body-tertiary  bar-design">
+    <nav class="navbar bg-body-tertiary sticky-top bar-design">
         <div class="container-fluid">
-            <span class="mb-0 h1 title">Quiger</span>
+            <span class="mb-0 h1 title">
+                <span style="--i:1">Q</span>
+                <span style="--i:2">u</span>
+                <span style="--i:3">i</span>
+                <span style="--i:4">g</span>
+                <span style="--i:5">e</span>
+                <span style="--i:6">r</span>
+            </span>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                 aria-controls="offcanvasNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title title h1 m-2" id="offcanvasNavbarLabel">Quiger</h5>
+                    <h5 class="offcanvas-title title h1 m-2" id="offcanvasNavbarLabel">
+                        <span style="--i:1">Q</span>
+                        <span style="--i:2">u</span>
+                        <span style="--i:3">i</span>
+                        <span style="--i:4">g</span>
+                        <span style="--i:5">e</span>
+                        <span style="--i:6">r</span>
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
@@ -21,6 +35,15 @@
                                             d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z" />
                                     </svg>
                                 </span> Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link m-2 p-3" aria-current="page" href="#">
+                                <span class="pe-4"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                        fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z" />
+                                    </svg>
+                                </span> Create a Test</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link m-2 p-3" aria-current="page" href="#"><span class="pe-4"><svg
@@ -57,6 +80,14 @@
 .title {
     font-family: var(--title-font);
     color: var(--main-color);
+    
+}
+
+.title span{
+    animation: waviy 1s infinite;
+    animation-delay: calc(.1s * var(--i));
+    position: relative;
+  display: inline-block;
 }
 
 .bar-design {
@@ -64,13 +95,18 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.nav-link{
+.nav-link {
     color: var(--main-color);
 }
+
+
 
 .nav-item:hover>.nav-link:hover {
     background: var(--main-color);
     color: #f0f0f0;
 
-    transition: all 1s ease;
-}</style>
+    -webkit-transform: scale(1.1) rotate(4deg);
+    transform: scale(1.1) rotate(4deg);
+    /* transition: all 1s ease; */
+}
+</style>

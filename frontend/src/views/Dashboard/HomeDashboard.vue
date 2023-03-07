@@ -9,15 +9,15 @@ import NavBar from '@/components/NavBar.vue';
     <div class="mt-1">
         <div class="container-fluid">
             <div class="row mt-4">
-                <div class="col-md-1">
+                <div class="col-lg-1">
 
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-6">
                     <div class="row room-background m-2">
                         <div class="d-flex align-items-center justify-content-center ">
                             <div class="row w-75">
                                 <div class="col-md-8 mt-2">
-                                    <input class="form-control form-control-lg" type="text"
+                                    <input class="form-control form-control-lg" type="text" placeholder="Room Number"
                                         aria-label=".form-control-lg example">
                                 </div>
                                 <div class="col-md-4 mt-2">
@@ -29,15 +29,15 @@ import NavBar from '@/components/NavBar.vue';
                         </div>
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-lg-1">
 
                 </div>
-                <div class="col-md-3">
+                <div class="col-lg-3">
                     <div class="row test-background m-2">
                         <div class="d-flex align-items-center justify-content-center ">
                             <div class="row w-75">
                                 <div class="col-md-12 mt-2 text-center test-color">
-                                    <p class="h5"><span class="pe-4"><svg
+                                    <p class="h5 text-center"><span class="pe-4"><svg
                                                     xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                                                     fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
                                                     <path
@@ -91,7 +91,49 @@ import NavBar from '@/components/NavBar.vue';
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 25px;
 }
+
+/* .test-background:before{
+    content: '';
+  position: absolute;
+  border: var(--main-color) solid 4px;
+  border-radius: 25px;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: top, right, bottom, left;
+  transition-property: top, right, bottom, left;
+} */
+
+@keyframes bounce {
+	0%, 20%, 60%, 100% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+	}
+
+	40% {
+		-webkit-transform: translateY(-20px);
+		transform: translateY(-20px);
+	}
+
+	80% {
+		-webkit-transform: translateY(-10px);
+		transform: translateY(-10px);
+	}
+}
+
+/* .test-background:hover:before, .test-background:focus:before, .test-background:active:before {
+  top: -8px;
+  right: -8px;
+  bottom: -8px;
+  left: -8px;
+} */
+
 .test-background:hover{
     border: var(--main-color) 3px solid;
+        animation: bounce .2s;
 }
 </style>
