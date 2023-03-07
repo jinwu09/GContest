@@ -20,6 +20,7 @@ model Users {
   password   String
   Answer     Answer[]
   Quiz       Quiz[]
+  Token      String? 
 }
 
 model Answer {

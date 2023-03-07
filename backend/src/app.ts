@@ -18,7 +18,7 @@ const io = new Server(httpServer, {
   },
 });
 
-const port = 8080;
+const port = 2323;
 app.use(express.json());
 
 // test socket
