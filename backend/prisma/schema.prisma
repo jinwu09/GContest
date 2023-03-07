@@ -11,35 +11,42 @@ datasource db {
 }
 
 model Users {
-  id         String @id @default(uuid())
+  id         String   @id @default(uuid())
   first_name String
   last_name  String
-  school     String
-  email      String @unique
+  username   String
+  school     String?
+  email      String   @unique
   password   String
+  Answer     Answer[]
+  Quiz       Quiz[]
 }
 
 model Answer {
-  id         String    @id @default(uuid())
-  Quiz       Quiz?     @relation(fields: [quizId], references: [id])
-  quizId     String?
-  Question   Question? @relation(fields: [questionId], references: [id])
-  questionId String?
-  choice     choice?   @relation(fields: [choiceId], references: [id])
-  choiceId   String?
+  id          String    @id @default(uuid())
+  Quiz        Quiz?     @relation(fields: [quizId], references: [id])
+  quizId      String?
+  Question    Question? @relation(fields: [questionId], references: [id])
+  questionId  String?
+  choice      choice?   @relation(fields: [choiceId], references: [id])
+  choiceId    String?
+  Users       Users?    @relation(fields: [usersId], references: [id])
+  usersId     String?
+  answered_at DateTime  @default(now())
 }
 
 model Quiz {
-  id         String    @id @default(uuid())
+  id         String     @id @default(uuid())
   title      String
   password   String?
-  number     Int
+  room       String?    @unique
   status     String
-  created_at DateTime
+  creator    Users      @relation(fields: [creator_id], references: [id])
+  creator_id String
+  created_at DateTime   @default(now())
   start_at   DateTime
   ends_at    DateTime
-  Question   Question? @relation(fields: [questionId], references: [id])
-  questionId String?
+  question   Question[]
   answer     Answer[]
 }
 
@@ -47,10 +54,11 @@ model Question {
   id       String   @id @default(uuid())
   content  String
   score    Int
-  quiz     Quiz[]
   choice   choice?  @relation(fields: [choiceId], references: [id])
   choiceId String?
   answer   Answer[]
+  Quiz     Quiz     @relation(fields: [quizId], references: [id])
+  quizId   String
 }
 
 model choice {
