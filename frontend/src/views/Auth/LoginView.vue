@@ -22,10 +22,16 @@
                     </div>
                     <form>
                         <div class="row">
-                            <input class="form-control form-control-lg" type="text" placeholder="Username" aria-label=".form-control-lg example" autocomplete="off" required>
+                            <div class="col-md-12">
+                                <input class="form-control form-control-lg" type="email" placeholder="Email" aria-label=".form-control-lg example" autocomplete="off" required>
+
+                            </div>
                         </div>
                         <div class="row mt-3">
-                            <input class="form-control form-control-lg" type="password" placeholder="Password" aria-label=".form-control-lg example" autocomplete="off" required>
+                            <div class="col-md-12">
+                                <input class="form-control form-control-lg" type="password" placeholder="Password" aria-label=".form-control-lg example" autocomplete="off" required>
+
+                            </div>
                         </div>
                         <div class="row mt-3">
                             <div class="d-grid mx-auto">
