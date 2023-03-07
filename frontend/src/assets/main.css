@@ -1,8 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
 
+@keyframes waviy {
+  0%,40%,100% {
+    transform: translateY(0)
+  }
+  20% {
+    transform: translateY(-10px)
+  }
+}
 
 :root{
   --main-color: #3C2A2F;
   --title-font: 'Josefin Sans', sans-serif;
+}
+
+.body{
+  background-color: #f0f0f0;
+}
+
+*{
+  font-family: var(--title-font) !important;
 }
 
