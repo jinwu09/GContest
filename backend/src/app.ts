@@ -4,7 +4,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 
-import * as quizindex from "./routes/quiz/quizindex";
+import * as quizindex from "./routes/quiz/QuizIndex";
 import { Socket } from "dgram";
 
 const app: Express = express();
@@ -18,7 +18,7 @@ const io = new Server(httpServer, {
   },
 });
 
-const port = 2323;
+const port = 8080;
 app.use(express.json());
 
 // test socket
@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
 });
 
 // Socket route
-io.on("connection", quizindex.socketlistener);
+io.on("connection", quizindex.SocketListener);
 
 // routes
 app.use("/user", usersRouter);
