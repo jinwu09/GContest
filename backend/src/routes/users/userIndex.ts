@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { Code, sendTemplate } from "../../methods/template";
 import { body } from "express-validator/src/middlewares/validation-chain-builders";
 import { validationResult } from "express-validator";
-
+import * as crypto from "crypto";
 export const usersRouter: Router = Router();
 
 const prisma = new PrismaClient();
@@ -39,7 +39,7 @@ usersRouter.post(
         }
       });
   },
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next) => {
     const createUser = await prisma.users
 
       .create({
@@ -60,8 +60,27 @@ usersRouter.post(
           .status(Code.S400_Bad_Request)
           .send(sendTemplate("missing credential"));
       })
+      .then((data: any) => {
+        res.locals.userID = data.id;
+        next();
+      });
+  },
+  async (req: Request, res: Response, next) => {
+    const createtoken = await prisma.token
+      .create({
+        data: {
+          usersId: res.locals.userID,
+        },
+      })
+      .catch((e) => {
+        console.log(e);
+        res.status(Code.S400_Bad_Request).send(sendTemplate("bad request"));
+      })
       .then(() => {
         res.send(sendTemplate("successfully created user"));
+      })
+      .finally(() => {
+        prisma.$disconnect();
       });
   }
 );
@@ -70,8 +89,7 @@ usersRouter.post(
   "/login",
   body("email").isString().isEmail(),
   body("password").isString(),
-
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -82,21 +100,49 @@ usersRouter.post(
     const LoginUser = await prisma.users
       .findUnique({
         where: { email: req.body.email },
-        select: { password: true },
+        select: { id: true, password: true },
       })
       .catch((e) => {
-        console.log("from create user");
         console.log(e);
         res.status(Code.S400_Bad_Request).send(sendTemplate("Bad Request"));
       })
-      .then((password) => {
-        if (password?.password == req.body.password) {
-          res.send(sendTemplate("successfully logged-in user"));
+      .then((data) => {
+        if (data?.password == req.body.password) {
+          res.locals.userID = data?.id;
+          next();
         } else {
           res
             .status(Code.s401_Unauthorized)
             .send(sendTemplate("Wrong email or password"));
         }
+      })
+      .finally(() => {
+        prisma.$disconnect();
+      });
+  },
+  async (req: Request, res: Response) => {
+    const gentoken = crypto.randomUUID();
+    const updateToken = await prisma.token
+      .update({
+        where: {
+          usersId: res.locals.userID,
+        },
+        data: { token: gentoken },
+      })
+      .catch((e) => {
+        console.log(e);
+        res.status(Code.S400_Bad_Request).send(sendTemplate("bad request "));
+      })
+      .then(() => {
+        res.send(
+          sendTemplate({
+            message: "successfully logged-in user",
+            token: gentoken,
+          })
+        );
+      })
+      .finally(() => {
+        prisma.$disconnect();
       });
   }
 );
