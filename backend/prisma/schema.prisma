@@ -20,20 +20,27 @@ model Users {
   password   String
   Answer     Answer[]
   Quiz       Quiz[]
-  Token      String? 
+  token      Token[]
+}
+
+model Token {
+  id      String @id @default(uuid())
+  Users   Users  @relation(fields: [usersId], references: [id])
+  usersId String @unique
+  token   String @unique @default(uuid())
 }
 
 model Answer {
-  id          String    @id @default(uuid())
-  Quiz        Quiz?     @relation(fields: [quizId], references: [id])
-  quizId      String?
-  Question    Question? @relation(fields: [questionId], references: [id])
-  questionId  String?
-  choice      choice?   @relation(fields: [choiceId], references: [id])
+  id          String   @id @default(uuid())
+  Quiz        Quiz     @relation(fields: [quizId], references: [id])
+  quizId      String
+  Question    Question @relation(fields: [questionId], references: [id])
+  questionId  String
+  choice      Choice?  @relation(fields: [choiceId], references: [id])
   choiceId    String?
-  Users       Users?    @relation(fields: [usersId], references: [id])
-  usersId     String?
-  answered_at DateTime  @default(now())
+  Users       Users    @relation(fields: [usersId], references: [id])
+  usersId     String
+  answered_at DateTime @default(now())
 }
 
 model Quiz {
@@ -52,20 +59,20 @@ model Quiz {
 }
 
 model Question {
-  id       String   @id @default(uuid())
-  content  String
-  score    Int
-  choice   choice?  @relation(fields: [choiceId], references: [id])
-  choiceId String?
-  answer   Answer[]
-  Quiz     Quiz     @relation(fields: [quizId], references: [id])
-  quizId   String
+  id      String   @id @default(uuid())
+  content String
+  score   Int
+  choice  Choice[]
+  answer  Answer[]
+  Quiz    Quiz     @relation(fields: [quizId], references: [id])
+  quizId  String
 }
 
-model choice {
-  id         String     @id @default(uuid())
-  question   Question[]
+model Choice {
+  id         String    @id @default(uuid())
   content    String
   is_correct Boolean
   answer     Answer[]
+  Question   Question? @relation(fields: [questionId], references: [id])
+  questionId String?
 }
