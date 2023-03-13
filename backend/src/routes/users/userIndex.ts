@@ -4,9 +4,13 @@ import { Code, sendTemplate } from "../../methods/template";
 import { body } from "express-validator/src/middlewares/validation-chain-builders";
 import { validationResult } from "express-validator";
 import * as crypto from "crypto";
+const jwt = require('jsonwebtoken')
 export const usersRouter: Router = Router();
 
 const prisma = new PrismaClient();
+
+var CryptoJS = require("crypto-js");
+
 
 usersRouter.get("/test", async (req: Request, res: Response) => {
   res.send("testing users/test");
@@ -49,7 +53,7 @@ usersRouter.post(
           username: req.body.username,
           school: req.body.school == null ? req.body.school : null,
           email: req.body.email,
-          password: req.body.password,
+          password: CryptoJS.AES.encrypt(req.body.password, process.env.API_KEY).toString(),
         },
       })
 
@@ -107,7 +111,8 @@ usersRouter.post(
         res.status(Code.S400_Bad_Request).send(sendTemplate("Bad Request"));
       })
       .then((data) => {
-        if (data?.password == req.body.password) {
+        if (CryptoJS.AES.decrypt(data?.password, process.env.API_KEY).toString(CryptoJS.enc.Utf8) == req.body.password) {
+          
           res.locals.userID = data?.id;
           next();
         } else {
@@ -121,7 +126,7 @@ usersRouter.post(
       });
   },
   async (req: Request, res: Response) => {
-    const gentoken = crypto.randomUUID();
+    const gentoken = jwt.sign({ email: req.body.student_number, password: req.body.password }, process.env.API_KEY);
     const updateToken = await prisma.token
       .update({
         where: {
