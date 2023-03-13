@@ -17,7 +17,6 @@ QuizAuthRouter.use(
         .status(Code.S400_Bad_Request)
         .send(sendTemplate({ errors: errors.array() }));
     }
-
     const creatorID = await prisma.token
       .findUnique({
         where: {
