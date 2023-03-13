@@ -47,7 +47,7 @@ Response:
 ### Login or auth
 Link:
 ```
-http://localhost:8080/user/register
+http://localhost:8080/user/login
 ```
 Request:
 ```JSON
