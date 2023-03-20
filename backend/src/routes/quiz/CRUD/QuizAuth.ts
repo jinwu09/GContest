@@ -4,6 +4,7 @@ import { sendTemplate, Code } from "../../../methods/template";
 import { body } from "express-validator/src/middlewares/validation-chain-builders";
 import * as crypto from "crypto";
 import { validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 export const QuizAuthRouter: Router = Router();
@@ -17,10 +18,20 @@ QuizAuthRouter.use(
         .status(Code.S400_Bad_Request)
         .send(sendTemplate({ errors: errors.array() }));
     }
+    const API_KEY: string = process.env.API_KEY || "secret";
+
+    try {
+      res.locals.checktoken = jwt.verify(req.body.token, API_KEY);
+      next();
+    } catch (error) {
+      res.status(Code.S400_Bad_Request).send(sendTemplate("invalid token"));
+    }
+  },
+  async (req: Request, res: Response, next) => {
     const creatorID = await prisma.token
       .findUnique({
         where: {
-          token: req.body.token,
+          token: res.locals.checktoken.token,
         },
         select: {
           usersId: true,
