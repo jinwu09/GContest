@@ -1,178 +1,153 @@
 <script setup lang="ts">
+import QuestionBox from '@/components/Dashboard/QuestionBox.vue';
 import NavBar from '@/components/NavBar.vue'
+import { ref } from 'vue';
+
+const questions = [
+  {
+    question_id: 1,
+    question_content: "What is Albert?",
+    choice_a: "Igop",
+    choice_b: "Pogi",
+    choice_c: "Gwapogi",
+    choice_d: "None of the above"
+  },
+  {
+    question_id: 2,
+    question_content: "What is Hancelet?",
+    choice_a: "Igop",
+    choice_b: "Pogi",
+    choice_c: "Gwapogi",
+    choice_d: "None of the above"
+  },
+  {
+    question_id: 3,
+    question_content: "What is Dabid?",
+    choice_a: "Igop",
+    choice_b: "Pogi",
+    choice_c: "Gwapogi",
+    choice_d: "None of the above"
+  },
+];
+
+const status = ref('');
+
 </script>
 
 <template>
   <NavBar />
-  <div class="mt-1">
+  <div class="mt-2 quiz">
     <div class="container-fluid">
       <div class="row">
-        <div></div>
-        <div class="col-lg-7">
-          <div class="col-lg-9 p-2 m-5 outer_box">
-            <div class="col-md-12 px-3">
-              <div class="row d-flex justify-content-around">
+        <div class="col-md-1">
 
-                <!-- question number -->
-                <div class="col-10">
-                  <textarea
-                  class="col-lg-12 border rounded title w-100"
-                  placeholder="Question No."
-                ></textarea>
-                </div>
-
-                <!-- delete button -->
-                <div class="col-2 py-2 ">
-                  <button class="delete" type="submit">
-                    <span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
-                        fill="currentColor"
-                        class="bi bi-trash-fill"
-                        viewBox="0 0 16 16"
-                        color = "white"
-                      >
-                        <path
-                          d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
-                        />
-                      </svg>
-                    </span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- input question textarea -->
-              <div class="row d-flex justify-content-center">
-                <textarea
-                  class="col-lg-12 border rounded m-1 pt-3 pb-5 questions"
-                  placeholder="Input Question Here.."
-                ></textarea>
-              </div>
-
-              <div class="row d-flex justify-content-between">
-                <!-- choice 1 -->
-                <div class="col-6 py-2 choices">
-                  <div class="form-check w-50">
-                    <input class="form-check-input my-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <textarea class="textarea w-100 h-100 choice1" id="exampleFormControlTextarea1" placeholder="choice 1" rows="1"></textarea>
+        </div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-4 ">
+              <div class="row p-3 border rounded-3 border-dark">
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-control" autocomplete="off">
                   </div>
-                </div>
-                <!-- choice 2 -->
-                <div class="col-6 py-2 choices">
-                  <div class="form-check w-50">
-                    <input class="form-check-input my-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <textarea class="textarea w-100 h-100 choice1" id="exampleFormControlTextarea1" placeholder="choice 2" rows="1"></textarea>
+                  <div class="mb-3">
+                    <label class="form-label">Room Number</label>
+                    <input type="text" class="form-control" autocomplete="off">
                   </div>
-                </div>
-              </div>
+                  <div class="mb-3">
+                    <label class="form-label">Room Status</label>
+                    <select class="form-select" aria-label=".form-select-lg example" v-model="status">
+                      <option selected>Public</option>
+                      <option >Private</option>
+                    </select>
+                  </div>
 
-              <div class="row my-1">
-                <!-- choice 3 -->
-                <div class="col-6 py-2 choices">
-                  <div class="form-check w-50">
-                    <input class="form-check-input my-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <textarea class="textarea w-100 h-100 choice1" id="exampleFormControlTextarea1" placeholder="choice 3" rows="1"></textarea>
+                  <div class="mb-3">
+                    <label class="form-label">Room Password</label>
+                    <input type="password" class="form-control" autocomplete="off" :disabled="status == 'Private'">
                   </div>
-                </div>
-                <!-- choice 4 -->
-                <div class="col-6 py-2 choices">
-                  <div class="form-check w-50">
-                    <input class="form-check-input my-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <textarea class="textarea w-100 h-100 choice1" id="exampleFormControlTextarea1" placeholder="choice 4" rows="1"></textarea>
+
+                  <div class="mb-3">
+                    <div class="container-fluid">
+                      <div class="row gx-2">
+                        <div class="col">
+                          <div class="d-grid gap-2">
+                            <button class="btn button-update" type="button">Update Quiz</button>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="d-grid gap-2">
+                            <button class="btn button-delete" type="button">Delete Quiz</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
 
               </div>
             </div>
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-7">
+              <!-- Questions here -->
+              <div :class="index == 0 ? ('row') : ('row pt-3')" v-for="(value, index) in questions"
+                :key="value.question_id">
+                <QuestionBox :question_number='index + 1' :question_content="value.question_content"
+                  :choice_a="value.choice_a" :choice_b="value.choice_b" :choice_c="value.choice_c"
+                  :choice_d="value.choice_d" />
+              </div>
+
+              <div class="row py-3">
+                <div class="container-fluid add-new-background p-3">
+                  <p class="h5 text-center">Add New Question</p>
+                </div>
+
+              </div>
+
+            </div>
+
+
           </div>
         </div>
+        <div class="col-md-1">
 
-        <div class="col-lg-5">
-            <!-- second collumn form -->
-            <div class="border gx-5 gy-2 mt-5 d-flex align-items-stretch">
-              <div class="col-12">
-                <form class="p-3">
-                <div class="form-group">
-                  <label for="formGroup1">Title</label>
-                  <input type="text" class="form-control" id="formGroupExampleInput">
-                </div>
-                <div class="form-group">
-                  <label for="formGroup2">Room Number</label>
-                  <input type="text" class="form-control" id="formGroupExampleInput2">
-                </div>
-                <div class="form-group">
-                  <label for="formGroup2">Status</label>
-                  <input type="text" class="form-control" id="formGroupExampleInput2">
-                </div>
-                <div class="form-group">
-                  <label for="formGroup2">Room Password</label>
-                  <input type="text" class="form-control" id="formGroupExampleInput2">
-                </div>
-                <div class="d-flex justify-content-around">
-                  <button class="btn btn-success pt-2 mt-2 mx-1 w-50" type="submit">Update Quiz</button>
-                  <button class="btn btn-danger pt-2 mt-2 mx-1 w-50" type="submit">Delete Quiz</button>
-                </div>
-              </form>
-              </div>
-            </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <style scoped>
-.delete {
-  border: none !important;
-  cursor: pointer !important;
-  appearance: none !important;
-  background-color: inherit !important;
-  transition: transform 0.7s ease-in-out !important;
+.add-new-background {
+  background: var(--main-color);
+  color: #fff;
 }
-.delete:hover {
-  transform: rotate(360deg) !important;
+
+.add-new-background:hover {
+  background: var(--hover-color);
+  cursor: pointer;
 }
-.outer_box {
-  background-color: #3c2a2f;
-  border-radius: 25px !important;
+
+.button-update {
+  background: #5D6A59;
+  color: #fff;
 }
-.title {
-  background-color: #ffffff;
-  border-radius: 10px !important;
-  padding-top: 25px;
+
+.button-delete {
+  background: #BB4545;
+  color: #fff;
+
 }
-.radio1 {
-  background-color: #ffffff;
-  border-radius: 10px !important;
+
+.quiz{
+  background: #f0f0f0;
 }
-.radio2 {
-  background-color: #ffffff;
-  border-radius: 10px !important;
-}
-.radio3 {
-  background-color: #ffffff;
-  border-radius: 10px !important;
-}
-.radio4 {
-  background-color: #ffffff;
-  border-radius: 10px !important;
-}
-.questions {
-  background-color: #ffffff;
-  border-radius: 10px !important;
-}
-.choices {
-  background-color: #ffffff !important;
-  border-radius: 10px !important;
-}
-.textarea{
-  resize: none !important;
-  box-sizing: border-box !important;
-  border-radius: 10px !important;
-  border: none !important;
-}
-.choice1{
-  padding-top: 13px;
+
+.form-control, .form-select{
+  border: 1px solid black
 }
 </style>
