@@ -5,7 +5,7 @@ import { QuizUpdateRouter } from "./CRUD/QuizUpdate";
 import { QuizAuthRouter } from "./CRUD/QuizAuth";
 import { QuizReadRouter } from "./CRUD/QuizRead";
 import { QuizCreateRouter } from "./CRUD/QuizCreate";
-export { SocketListener } from "./QuizSocket";
+export { SocketListener } from "./QuizSocketIndex";
 
 const prisma = new PrismaClient();
 export const QuizRouter: Router = Router();
