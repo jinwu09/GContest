@@ -5,11 +5,10 @@ import { Server } from "socket.io";
 import cors from "cors";
 
 import * as quizindex from "./routes/quiz/QuizIndex";
-import { Socket } from "dgram";
 
 const app: Express = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer, {
+export const io = new Server(httpServer, {
   cors: {
     origin: "http://localhost:8080",
     methods: ["GET", "POST"],
@@ -23,16 +22,10 @@ app.use(express.json());
 
 // test socket
 io.on("connection", (socket) => {
-  app.set("socketio", socket);
   console.log(socket.id + " user connected");
-  socket.on("message", (message) => {
-    console.log(message);
-  });
+
+  quizindex.SocketListener(socket, io);
 });
-
-// Socket route
-io.on("connection", quizindex.SocketListener);
-
 // routes
 app.use("/user", usersRouter);
 app.use("/quiz", quizindex.QuizRouter);

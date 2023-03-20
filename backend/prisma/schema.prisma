@@ -11,16 +11,17 @@ datasource db {
 }
 
 model Users {
-  id         String   @id @default(uuid())
+  id         String       @id @default(uuid())
   first_name String
   last_name  String
   username   String
   school     String?
-  email      String   @unique
+  email      String       @unique
   password   String
   Answer     Answer[]
   Quiz       Quiz[]
   token      Token[]
+  totalScore TotalScore[]
 }
 
 model Token {
@@ -31,31 +32,45 @@ model Token {
 }
 
 model Answer {
-  id          String   @id @default(uuid())
-  Quiz        Quiz     @relation(fields: [quizId], references: [id])
-  quizId      String
-  Question    Question @relation(fields: [questionId], references: [id])
-  questionId  String
-  choice      Choice?  @relation(fields: [choiceId], references: [id])
-  choiceId    String?
-  Users       Users    @relation(fields: [usersId], references: [id])
-  usersId     String
-  answered_at DateTime @default(now())
+  id           String      @id @default(uuid())
+  Quiz         Quiz        @relation(fields: [quizId], references: [id])
+  quizId       String
+  Question     Question    @relation(fields: [questionId], references: [id])
+  questionId   String
+  choice       Choice?     @relation(fields: [choiceId], references: [id])
+  choiceId     String?
+  Users        Users       @relation(fields: [usersId], references: [id])
+  usersId      String
+  answered_at  DateTime    @default(now())
+  TotalScore   TotalScore? @relation(fields: [totalScoreId], references: [id])
+  totalScoreId String?
 }
 
 model Quiz {
-  id         String     @id @default(uuid())
+  id         String       @id @default(uuid())
   title      String
   password   String?
-  room       String?    @unique
+  room       String?      @unique
   status     String
-  creator    Users      @relation(fields: [creator_id], references: [id])
+  creator    Users        @relation(fields: [creator_id], references: [id])
   creator_id String
-  created_at DateTime   @default(now())
+  created_at DateTime     @default(now())
   start_at   DateTime
   ends_at    DateTime
   question   Question[]
   answer     Answer[]
+  totalScore TotalScore[]
+}
+
+model TotalScore {
+  id         String   @id @default(uuid())
+  Score      Int
+  created_at DateTime @default(now())
+  Quiz       Quiz?    @relation(fields: [quizId], references: [id])
+  quizId     String?
+  answer     Answer[]
+  Users      Users?   @relation(fields: [usersId], references: [id])
+  usersId    String?
 }
 
 model Question {
