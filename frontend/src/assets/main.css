@@ -11,11 +11,12 @@
 
 :root{
   --main-color: #653780;
+  --hover-color: #352042;
   --title-font: 'Josefin Sans', sans-serif;
 }
 
 .body{
-  background-color: #DED3D3;
+  background-color: #DED3D3 !important;
 }
 
 *{
