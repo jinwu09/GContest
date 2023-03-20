@@ -1,14 +1,17 @@
 - [quiz](#quiz)
   - [Create](#create)
   - [Read](#read)
+    - [Bryne](#bryne)
   - [Update](#update)
   - [Delete](#delete)
+  - [Socket](#socket)
 - [user](#user)
   - [Create](#create-1)
   - [Read](#read-1)
-    - [Bryne](#bryne)
   - [Update](#update-1)
+    - [Bryne](#bryne-1)
   - [Delete](#delete-1)
+
 
 
 # quiz
@@ -17,39 +20,49 @@
 - [x] create quiz endpoint 
 - [x] create question endpoint
 - [x] create choice endpoint
-- [ ] create answer on socket
 - [ ] 
 ## Read
-- [ ] quiz recent endpoint
 - [x] show all quiz
 - [x] show quiz details
+### Bryne
 - [ ] show all user created quiz
+- [ ] quiz recent endpoint
 
-<!-- ASSIGNE TO BRYNE -->
 ## Update
 - [ ] edit question details
   - feilds that are edtiable
-  - [ ] score 
-  - [ ] content
+  - [x] score 
+  - [x] content
+  - [ ] check code
+    - [ ] validation if everything is good without crash
 - [ ] edit quiz details
   - feilds that are edtiable
-  - [ ] room
-  - [ ] password
-  - [ ] status
-  - [ ] ends_at
-  - [ ] start_at
-  - [ ] title
+  - [x] room
+  - [x] password
+  - [x] status
+  - [x] ends_at
+  - [x] start_at
+  - [x] title
+  - [ ] check code
+    - [ ] validation if everything is good without crash
 ## Delete
 - [ ] delete quiz
 - [ ] delete question
-
+## Socket
+- [x] check token
+- [ ] start quiz
+  - [x] it is almost finish
+  - [ ] few little tweaks left
+- [ ] quizSubmit by answering from the student or the user
+- [ ] 
 # user
 ## Create
 - [x] register endpoint
 ## Read
-### Bryne
-- [ ] encryption password endpoint
+- [x] encryption password endpoint
 ## Update
 - [x] login endpoint
+### Bryne
+- [ ] update password credential
 ## Delete
 

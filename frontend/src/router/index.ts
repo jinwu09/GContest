@@ -1,14 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '@/views/Auth/LoginView.vue';
-import RegisterView from '@/views/Auth/RegisterView.vue';
-import HomeDashboard from '@/views/Dashboard/HomeDashboard.vue';
+import LoginView from '@/views/Auth/LoginView.vue'
+import RegisterView from '@/views/Auth/RegisterView.vue'
+import HomeDashboard from '@/views/Dashboard/HomeDashboard.vue'
 import CreateQuiz from '@/views/Dashboard/CreateQuiz.vue'
 import PathNotFound from '@/views/PathNotFound.vue'
-
+import Playground from '@/views/Quiz/PlaygroundView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/testPlayground',
+      name: 'testPlayground',
+      component: Playground
+    },
     {
       path: '/login',
       name: 'login',
@@ -30,12 +35,11 @@ const router = createRouter({
       component: CreateQuiz
     },
     {
-      path:'/',
+      path: '/',
       redirect: 'login'
-    }
-    ,
+    },
     {
-      path:'/:pathMatch(.*)*',
+      path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: PathNotFound
     }
