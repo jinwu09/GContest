@@ -10,12 +10,13 @@
 }
 
 :root{
-  --main-color: #3C2A2F;
+  --main-color: #653780;
+  --hover-color: #352042;
   --title-font: 'Josefin Sans', sans-serif;
 }
 
 .body{
-  background-color: #f0f0f0;
+  background-color: #DED3D3 !important;
 }
 
 *{
