@@ -54,33 +54,33 @@ import NavBar from '@/components/NavBar.vue'
             
             <div class="row">
                 <div class="col-12 d-flex">
-                    <div class="w-25 p-2 questionBox rounded m-2" action="#" method="post">
+                    <div class="w-25 p-2 questionBox1 rounded m-2" action="#" method="post">
                         <label class="switch w-100 mb-3">
                             <input type="checkbox">
                             <span class="slider rounded"></span>
                         </label>    
-                        <textarea name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' class="rounded text-center hvr-radial-out noBorder questionBox w-100" id="questionBoxColor1" placeholder="Edit Answer"></textarea>
+                        <textarea name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' class="rounded text-center noBorder w-100 questionBoxColor1" placeholder="Edit Answer"></textarea>
                     </div>
-                    <div class=" w-25 p-2 questionBox rounded m-2">
+                    <div class=" w-25 p-2 questionBox2 rounded m-2">
                         <label class="switch w-100 mb-3">
                             <input type="checkbox">
                             <span class="slider rounded"></span>
                         </label>    
-                        <textarea name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' class="rounded text-center noBorder questionBox w-100" id="questionBoxColor2" placeholder="Edit Answer"></textarea>
+                        <textarea name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' class="rounded text-center noBorder w-100 questionBoxColor2" placeholder="Edit Answer"></textarea>
                     </div>
-                    <div class="w-25 p-2 questionBox rounded m-2">
+                    <div class="w-25 p-2 questionBox3 rounded m-2">
                         <label class="switch w-100 mb-3">
                             <input type="checkbox">
                             <span class="slider rounded"></span>
                         </label>    
-                        <textarea name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' class="rounded text-center noBorder questionBox w-100" id="questionBoxColor3" placeholder="Edit Answer"></textarea>
+                        <textarea name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' class="rounded text-center noBorder w-100 questionBoxColor3" placeholder="Edit Answer"></textarea>
                     </div>
-                    <div class="w-25 p-2 questionBox rounded m-2">
+                    <div class="w-25 p-2 questionBox4 rounded m-2">
                         <label class="switch w-100 mb-3">
                             <input type="checkbox">
                             <span class="slider rounded"></span>
                         </label>    
-                        <textarea name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' class="rounded text-center noBorder questionBox w-100" id="questionBoxColor4" placeholder="Edit Answer"></textarea>
+                        <textarea name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' class="rounded text-center questionBoxColor4 noBorder w-100" placeholder="Edit Answer"></textarea>
                     </div>
                 </div>
 
@@ -212,27 +212,44 @@ import NavBar from '@/components/NavBar.vue'
     }
     ::placeholder {
         text-align: center !important; 
+        color: white !important;
     }
     .bigTextbox{
         font-size: 30px !important;
         color: white !important;
+        background-color: #D9D9D9 !important;
     }
-    .questionBox{
+    .questionBox1{
         font-size: 20px !important;
-        background-color: var(--main-color) !important;
+        background-color: #7E549E !important;
         color: white !important;
     }
-    #questionBoxColor1{
+    .questionBox2{
+        font-size: 20px !important;
+        background-color: #C2549D !important;
         color: white !important;
     }
-    #questionBoxColor2{
+    .questionBox3{
+        font-size: 20px !important;
+        background-color: #FC8370 !important;
         color: white !important;
     }
-    #questionBoxColor3{
+    .questionBox4{
+        font-size: 20px !important;
+        background-color: #FECB3E !important;
         color: white !important;
     }
-    #questionBoxColor4{
-        color: white !important;
+    .questionBoxColor1{
+        background-color: #7E549E !important;
+    }
+    .questionBoxColor2{
+        background-color: #C2549D !important;
+    }
+    .questionBoxColor3{
+        background-color: #FC8370 !important;
+    }
+    .questionBoxColor4{
+        background-color: #FECB3E !important;
     }
     .bt1{
         padding: 10px !important;
