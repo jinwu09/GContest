@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { onMounted } from 'vue';
+
+
+    onMounted(()=>{
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+    })
+</script>
+
 <template>
     <nav class="navbar bg-body-tertiary sticky-top bar-design">
         <div class="container-fluid">
@@ -28,7 +38,8 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <router-link class="nav-link m-2 p-3" aria-current="page" href="#" :to="{name: 'dashboard'}"><span class="pe-4">
+                            <router-link class="nav-link m-2 p-3" aria-current="page" 
+                                :to="{ name: 'dashboard' }"><span class="pe-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                                         class="bi bi-house-door-fill" viewBox="0 0 16 16">
                                         <path
@@ -37,7 +48,7 @@
                                 </span> Home</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link m-2 p-3" aria-current="page" href="#" :to="{name: 'create-quiz'}">
+                            <router-link class="nav-link m-2 p-3" aria-current="page" :to="{ name: 'create-quiz' }">
                                 <span class="pe-4"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                                         fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
                                         <path
@@ -80,14 +91,14 @@
 .title {
     font-family: var(--title-font);
     color: var(--main-color);
-    
+
 }
 
-.title span{
+.title span {
     animation: waviy 1s infinite;
     animation-delay: calc(.1s * var(--i));
     position: relative;
-  display: inline-block;
+    display: inline-block;
 }
 
 .bar-design {

@@ -1,34 +1,43 @@
 <script setup lang="ts">
 import QuestionBox from '@/components/Dashboard/QuestionBox.vue';
 import NavBar from '@/components/NavBar.vue'
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-const questions = [
-  {
-    question_id: 1,
-    question_content: "What is Albert?",
-    choice_a: "Igop",
-    choice_b: "Pogi",
-    choice_c: "Gwapogi",
-    choice_d: "None of the above"
-  },
-  {
-    question_id: 2,
-    question_content: "What is Hancelet?",
-    choice_a: "Igop",
-    choice_b: "Pogi",
-    choice_c: "Gwapogi",
-    choice_d: "None of the above"
-  },
-  {
-    question_id: 3,
-    question_content: "What is Dabid?",
-    choice_a: "Igop",
-    choice_b: "Pogi",
-    choice_c: "Gwapogi",
-    choice_d: "None of the above"
-  },
+
+const questions :any = [
+  // {
+  //   question_id: 1,
+  //   points: 3,
+  //   question_content: "What is Albert?",
+  //   choice_a: "Igop",
+  //   choice_b: "Pogi",
+  //   choice_c: "Gwapogi",
+  //   choice_d: "None of the above"
+  // },
+  // {
+  //   question_id: 2,
+  //   points: 3,
+
+  //   question_content: "What is Hancelet?",
+  //   choice_a: "Igop",
+  //   choice_b: "Pogi",
+  //   choice_c: "Gwapogi",
+  //   choice_d: "None of the above"
+  // },
+  // {
+  //   question_id: 3,
+  //   points: 10,
+
+  //   question_content: "What is Dabid?",
+  //   choice_a: "Igop",
+  //   choice_b: "Pogi",
+  //   choice_c: "Gwapogi",
+  //   choice_d: "None of the above"
+  // },
 ];
+
+
 
 const status = ref('');
 
@@ -36,7 +45,7 @@ const status = ref('');
 
 <template>
   <NavBar />
-  <div class="mt-2 quiz">
+  <div class="mt-2">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-1">
@@ -59,7 +68,7 @@ const status = ref('');
                     <label class="form-label">Room Status</label>
                     <select class="form-select" aria-label=".form-select-lg example" v-model="status">
                       <option selected>Public</option>
-                      <option >Private</option>
+                      <option>Private</option>
                     </select>
                   </div>
 
@@ -96,9 +105,8 @@ const status = ref('');
               <!-- Questions here -->
               <div :class="index == 0 ? ('row') : ('row pt-3')" v-for="(value, index) in questions"
                 :key="value.question_id">
-                <QuestionBox :question_number='index + 1' :question_content="value.question_content"
-                  :choice_a="value.choice_a" :choice_b="value.choice_b" :choice_c="value.choice_c"
-                  :choice_d="value.choice_d" />
+                <QuestionBox :points='value.points' :question_content="value.question_content" :choice_a="value.choice_a"
+                  :choice_b="value.choice_b" :choice_c="value.choice_c" :choice_d="value.choice_d" />
               </div>
 
               <div class="row py-3">
@@ -143,11 +151,12 @@ const status = ref('');
 
 }
 
-.quiz{
+.quiz {
   background: #f0f0f0;
 }
 
-.form-control, .form-select{
+.form-control,
+.form-select {
   border: 1px solid black
 }
 </style>
