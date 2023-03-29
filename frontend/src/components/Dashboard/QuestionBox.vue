@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Question {
-    question_number?: Number,
+    points?: Number,
     question_content?: String,
     choice_a?: String,
     choice_b?: String,
@@ -19,7 +19,7 @@ const props = defineProps<Question>();
                 <div class="row question-background">
                     <div class="d-flex justify-content-between p-4">
                         <div>
-                            <p class="h5 text-center text">Question Number {{ props.question_number }}</p>
+                            <p class="h5 text-center text">{{ props.points }} point question</p>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="px-3"><span class="text-center icon"><svg xmlns="http://www.w3.org/2000/svg"
