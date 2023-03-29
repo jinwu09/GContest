@@ -44,6 +44,14 @@ async function main(
       console.log(e);
     });
 
+  const createAnsweredQuiz = await prisma.answeredQuiz.create({
+    data: {
+      Score: 20,
+      quizId: createquiz.id,
+      usersId: createUser.id,
+    },
+  });
+
   for (let index = 0; index < 3; index++) {
     const createQuestion = await prisma.question.create({
       data: {
@@ -71,7 +79,28 @@ async function main(
         },
       ],
     });
+    const readChoice: any = await prisma.choice
+      .findMany({
+        where: {
+          questionId: createQuestion.id,
+        },
+      })
+      .then((datas) => {
+        return datas[Math.floor(Math.random() * datas.length)];
+      });
+    console.log(readChoice);
+    console.log("end");
+    const createAnswer = await prisma.answer.create({
+      data: {
+        quizId: createquiz.id,
+        questionId: createQuestion.id,
+        choiceId: readChoice.id,
+        usersId: createUser.id,
+        answeredQuizId: createAnsweredQuiz.id,
+      },
+    });
   }
+
   console.log("data initilized");
 }
 main()
