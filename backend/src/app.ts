@@ -6,7 +6,7 @@ import cors from "cors";
 
 import * as quizindex from "./routes/quiz/QuizIndex";
 
-const app: Express = express();
+export const app: Express = express();
 const httpServer = createServer(app);
 export const io = new Server(httpServer, {
   cors: {
