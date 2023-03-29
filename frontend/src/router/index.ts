@@ -9,6 +9,7 @@ const HomeDashboard =()=> import('@/views/Dashboard/HomeDashboard.vue');
 
 //Creator
 const CreateQuiz =()=> import('@/views/Quiz/Creator/CreateQuiz.vue');
+const EditQuiz = ()=> import('@/views/Quiz/Creator/EditQuiz.vue');
 const UpdateQuiz = ()=> import('@/views/Quiz/Creator/UpdateQuiz.vue');
 const Playground =()=> import('@/views/Quiz/PlaygroundView.vue');
 
@@ -53,6 +54,11 @@ const router = createRouter({
       path: '/creator/create',
       name: 'create-quiz',
       component: CreateQuiz
+    },
+    {
+      path: '/creator/:id/edit',
+      name: 'edit-quiz',
+      component: EditQuiz
     },
     {
       path: '/creator/update',
