@@ -1,10 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '@/views/Auth/LoginView.vue'
-import RegisterView from '@/views/Auth/RegisterView.vue'
-import HomeDashboard from '@/views/Dashboard/HomeDashboard.vue'
-import CreateQuiz from '@/views/Dashboard/CreateQuiz.vue'
-import PathNotFound from '@/views/PathNotFound.vue'
-import Playground from '@/views/Quiz/PlaygroundView.vue'
+
+//Auth
+import LoginView from '@/views/Auth/LoginView.vue';
+const RegisterView = ()=> import('@/views/Auth/RegisterView.vue');
+
+//Dashboard
+const HomeDashboard =()=> import('@/views/Dashboard/HomeDashboard.vue');
+
+//Creator
+const CreateQuiz =()=> import('@/views/Quiz/Creator/CreateQuiz.vue');
+const EditQuiz = ()=> import('@/views/Quiz/Creator/EditQuiz.vue');
+const UpdateQuiz = ()=> import('@/views/Quiz/Creator/UpdateQuiz.vue');
+const Playground =()=> import('@/views/Quiz/PlaygroundView.vue');
+
+//Joiner
+const QuizView = ()=> import('@/views/Quiz/Joiner/QuizView.vue');
+
+//Redirectors
+const PathNotFound = ()=>import('@/views/PathNotFound.vue');
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +29,8 @@ const router = createRouter({
       name: 'testPlayground',
       component: Playground
     },
+
+    //Authentication
     {
       path: '/login',
       name: 'login',
@@ -24,16 +41,39 @@ const router = createRouter({
       name: 'register',
       component: RegisterView
     },
+
+    //Dashboard
     {
       path: '/dashboard/',
       name: 'dashboard',
       component: HomeDashboard
     },
+
+    //Creator
     {
-      path: '/dashboard/create',
+      path: '/creator/create',
       name: 'create-quiz',
       component: CreateQuiz
     },
+    {
+      path: '/creator/:id/edit',
+      name: 'edit-quiz',
+      component: EditQuiz
+    },
+    {
+      path: '/creator/update',
+      name: 'update-quiz',
+      component: UpdateQuiz
+    },
+
+    //Joiners
+    {
+      path: "/quiz/:room_number",
+      name: 'quiz-join',
+      component: QuizView
+    },
+
+    //Redirections
     {
       path: '/',
       redirect: 'login'
