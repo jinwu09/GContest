@@ -22,7 +22,7 @@
 - [x] create choice endpoint
 - [ ] 
 ## Read
-- [x] show all quiz
+- [x] show all quiz1
 - [x] show quiz details
 ### Bryne
 - [ ] show all user created quiz

@@ -62,3 +62,59 @@ QuizReadRouter.post(
       });
   }
 );
+
+QuizReadRouter.get(
+  "/user_created_quiz",
+  async (req: Request, res: Response) => {
+    const user_created_quiz = await prisma.quiz
+      .findMany({
+        where: {
+          creator_id: res.locals.userID,
+        },
+        select: {
+          id: true,
+          room: true,
+          title: true,
+          start_at: true,
+          ends_at: true,
+        },
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .then((data) => {
+        res.send(sendTemplate(data));
+      })
+      .finally(async () => {
+        await prisma.$disconnect;
+      });
+  }
+);
+
+QuizReadRouter.get("/user_recent_quiz", async (req: Request, res: Response) => {
+  const recent_quiz = await prisma.answeredQuiz
+    .findMany({
+      where: {
+        usersId: res.locals.userID,
+      },
+      select: {
+        Score: true,
+        created_at: true,
+        Quiz: {
+          select: {
+            title: true,
+          },
+        },
+      },
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+    .then((data) => {
+      res.send(sendTemplate(data));
+    })
+    .finally(async () => {
+      await prisma.$disconnect;
+    });
+  console.log(recent_quiz);
+});
