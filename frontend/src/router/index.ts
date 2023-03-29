@@ -3,6 +3,7 @@ import LoginView from '@/views/Auth/LoginView.vue'
 import RegisterView from '@/views/Auth/RegisterView.vue'
 import HomeDashboard from '@/views/Dashboard/HomeDashboard.vue'
 import CreateQuiz from '@/views/Dashboard/CreateQuiz.vue'
+import EditQuiz from '@/views/Dashboard/EditQuiz.vue'
 import PathNotFound from '@/views/PathNotFound.vue'
 import Playground from '@/views/Quiz/PlaygroundView.vue'
 
@@ -35,7 +36,12 @@ const router = createRouter({
       component: CreateQuiz
     },
     {
-      path: '/',
+      path: '/dashboard/edit',
+      name: 'create-quiz',
+      component: EditQuiz
+    },
+    {
+      path:'/',
       redirect: 'login'
     },
     {
