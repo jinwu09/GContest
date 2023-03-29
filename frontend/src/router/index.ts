@@ -1,25 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 //Auth
-import LoginView from '@/views/Auth/LoginView.vue';
-const RegisterView = ()=> import('@/views/Auth/RegisterView.vue');
+import LoginView from '@/views/Auth/LoginView.vue'
+const RegisterView = () => import('@/views/Auth/RegisterView.vue')
 
 //Dashboard
-const HomeDashboard =()=> import('@/views/Dashboard/HomeDashboard.vue');
+const HomeDashboard = () => import('@/views/Dashboard/HomeDashboard.vue')
 
 //Creator
-const CreateQuiz =()=> import('@/views/Quiz/Creator/CreateQuiz.vue');
-const EditQuiz = ()=> import('@/views/Quiz/Creator/EditQuiz.vue');
-const UpdateQuiz = ()=> import('@/views/Quiz/Creator/UpdateQuiz.vue');
-const Playground =()=> import('@/views/Quiz/PlaygroundView.vue');
+const CreateQuiz = () => import('@/views/Quiz/Creator/CreateQuiz.vue')
+const EditQuiz = () => import('@/views/Quiz/Creator/EditQuiz.vue')
+const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
+const Playground = () => import('@/views/Quiz/PlaygroundView.vue')
 
 //Joiner
-const QuizView = ()=> import('@/views/Quiz/Joiner/QuizView.vue');
+const QuizView = () => import('@/views/Quiz/Joiner/QuizView.vue')
 
 //Redirectors
-const PathNotFound = ()=>import('@/views/PathNotFound.vue');
-
-
+const PathNotFound = () => import('@/views/PathNotFound.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,7 +66,7 @@ const router = createRouter({
 
     //Joiners
     {
-      path: "/quiz/:room_number",
+      path: '/quiz/:room_number',
       name: 'quiz-join',
       component: QuizView
     },
