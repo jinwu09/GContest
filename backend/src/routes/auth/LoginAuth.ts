@@ -1,15 +1,15 @@
 import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { sendTemplate, Code } from "../../../methods/template";
+import { sendTemplate, Code } from "../../methods/template";
 import { body } from "express-validator/src/middlewares/validation-chain-builders";
 import * as crypto from "crypto";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
-export const QuizAuthRouter: Router = Router();
+export const LoginAuthRouter: Router = Router();
 
-QuizAuthRouter.use(
+LoginAuthRouter.use(
   body("token").isString(),
   async (req: Request, res: Response, next) => {
     const errors = validationResult(req);
