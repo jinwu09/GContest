@@ -14,6 +14,7 @@ const Playground =()=> import('@/views/Quiz/PlaygroundView.vue');
 
 //Joiner
 const QuizView = ()=> import('@/views/Quiz/Joiner/QuizView.vue');
+const Lobby = ()=>import('@/views/Quiz/Joiner/Lobby.vue');
 
 //Redirectors
 const PathNotFound = ()=>import('@/views/PathNotFound.vue');
@@ -65,6 +66,11 @@ const router = createRouter({
       path: "/quiz/:room_number",
       name: 'quiz-join',
       component: QuizView
+    },
+    {
+      path: "/quiz/:room_number/lobby",
+      name: 'quiz-lobby',
+      component: Lobby
     },
 
     //Redirections
