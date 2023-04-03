@@ -104,16 +104,39 @@ main{
     background-color: #7E549E;
 }
 
+.box-1:hover{
+    background-color: #583772;
+    cursor: pointer;
+}
+
 .box-2 {
     background-color: #C2549D;
+}
+
+.box-2:hover {
+    background-color: #8f3972;
+    cursor: pointer;
+    
 }
 
 .box-3 {
     background-color: #FC8370;
 }
 
+.box-3:hover {
+    background-color: #bd5e4f;
+    cursor: pointer;
+
+}
+
 .box-4 {
     background-color: #FECB3E;
+}
+
+.box-4:hover {
+    background-color: #b69028;
+    cursor: pointer;
+
 }
 
 .icon {
