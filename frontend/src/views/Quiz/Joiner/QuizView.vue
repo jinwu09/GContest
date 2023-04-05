@@ -12,7 +12,7 @@ import NavBar from '@/components/NavBar.vue';
             <div class="container-fluid">
                 <div class="row">
                     <div class="d-flex align-items-center justify-content-center vh-100">
-                        HIII
+                        HIII QUIZ
                     </div>
                 </div>
             </div>
