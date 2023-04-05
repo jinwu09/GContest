@@ -23,8 +23,9 @@ const choice_d = ref({
 })
 
 
-function updateQuiz(){
-    //
+function createQuiz(){
+    console.log(question_text.value)
+    console.log(choice_d.value)
 }
 
 </script>
@@ -62,7 +63,7 @@ function updateQuiz(){
                     <div class="w-100 btn btn-danger hvr-wobble-bottom">Cancel</div>
                 </div>
                 <div class="col-3">
-                    <div class="w-100 btn btn-success hvr-wobble-bottom" @click="updateQuiz">Update</div>
+                    <div class="w-100 btn btn-success hvr-wobble-bottom" @click="createQuiz">Create</div>
                 </div>
             </div>
 

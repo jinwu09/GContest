@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 
-const has_submitted = ref(false);
+const has_submitted = ref(true);
 
 const motivational_quotes = [
     '“We cannot solve problems with the kind of thinking we employed when we came up with them.” — Albert Einstein',
@@ -18,7 +18,7 @@ const motivational_quotes = [
     '“Setting goals is the first step in turning the invisible into the visible.” — Tony Robbins'
 ]
 
-function get_motivational_quotes(){
+function get_motivational_quotes() {
     return motivational_quotes[Math.floor(Math.random() * motivational_quotes.length)]
 }
 
@@ -89,12 +89,13 @@ function get_motivational_quotes(){
 </template>
 
 <style scoped>
-main{
+main {
     background-color: #263038;
 }
+
 .box {
     height: 50vh;
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,7 +105,7 @@ main{
     background-color: #7E549E;
 }
 
-.box-1:hover{
+.box-1:hover {
     background-color: #583772;
     cursor: pointer;
 }
@@ -116,7 +117,7 @@ main{
 .box-2:hover {
     background-color: #8f3972;
     cursor: pointer;
-    
+
 }
 
 .box-3 {
@@ -146,62 +147,63 @@ main{
 }
 
 .loader {
-          width: 200px;
-          height: 140px;
-          background: var(--main-color);
-          box-sizing: border-box;
-          position: relative;
-          border-radius:8px;
-          perspective: 1000px;
-        }
+    width: 200px;
+    height: 140px;
+    background: var(--main-color);
+    box-sizing: border-box;
+    position: relative;
+    border-radius: 8px;
+    perspective: 1000px;
+}
 
-        .loader:before{
-          content: '';
-          position: absolute;
-          left: 10px;
-          right: 10px;
-          top: 10px;
-          bottom: 10px;
-          border-radius:8px;
-          background: #f5f5f5  no-repeat;
-          background-size: 60px 10px;
-          background-image: 	linear-gradient(#ddd 100px, transparent 0) ,
-                    linear-gradient(#ddd 100px, transparent 0), 
-                    linear-gradient(#ddd 100px, transparent 0), 
-                    linear-gradient(#ddd 100px, transparent 0), 
-                    linear-gradient(#ddd 100px, transparent 0), 
-                    linear-gradient(#ddd 100px, transparent 0);
-          
-          background-position: 15px 30px , 15px 60px , 15px 90px, 
-                    105px 30px , 105px 60px , 105px 90px;
-          box-shadow: 0 0 10px rgba(0,0,0,0.25);
-        }
-        .loader:after {
-          content: '';
-            position: absolute;
-            width: calc(50% - 10px);
-            right: 10px;
-            top: 10px;
-            bottom: 10px;
-            border-radius: 8px;
-            background: #fff no-repeat;
-            background-size: 60px 10px;
-            background-image: linear-gradient(#ddd 100px, transparent 0), 
-                    linear-gradient(#ddd 100px, transparent 0), 
-                    linear-gradient(#ddd 100px, transparent 0);
-            background-position: 50% 30px ,50% 60px , 50%  90px;
-            transform: rotateY(0deg );
-            transform-origin: left center;
-          animation: paging 1s linear infinite;
-        }
+.loader:before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    bottom: 10px;
+    border-radius: 8px;
+    background: #f5f5f5 no-repeat;
+    background-size: 60px 10px;
+    background-image: linear-gradient(#ddd 100px, transparent 0),
+        linear-gradient(#ddd 100px, transparent 0),
+        linear-gradient(#ddd 100px, transparent 0),
+        linear-gradient(#ddd 100px, transparent 0),
+        linear-gradient(#ddd 100px, transparent 0),
+        linear-gradient(#ddd 100px, transparent 0);
+
+    background-position: 15px 30px, 15px 60px, 15px 90px,
+        105px 30px, 105px 60px, 105px 90px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.loader:after {
+    content: '';
+    position: absolute;
+    width: calc(50% - 10px);
+    right: 10px;
+    top: 10px;
+    bottom: 10px;
+    border-radius: 8px;
+    background: #fff no-repeat;
+    background-size: 60px 10px;
+    background-image: linear-gradient(#ddd 100px, transparent 0),
+        linear-gradient(#ddd 100px, transparent 0),
+        linear-gradient(#ddd 100px, transparent 0);
+    background-position: 50% 30px, 50% 60px, 50% 90px;
+    transform: rotateY(0deg);
+    transform-origin: left center;
+    animation: paging 1s linear infinite;
+}
 
 
-        @keyframes paging {
-          to {
-            transform: rotateY( -180deg );
-          }
-        }
-  
-  .text{
+@keyframes paging {
+    to {
+        transform: rotateY(-180deg);
+    }
+}
+
+.text {
     color: #fff;
-  }</style>
+}</style>
