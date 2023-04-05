@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 import { QuizUpdateRouter } from "./CRUD/QuizUpdate";
-import { LoginAuthRouter } from "../auth/LoginAuth";
+import { LoginAuthRouter } from "../../auth/LoginAuth";
 import { QuizReadRouter } from "./CRUD/QuizRead";
 import { QuizCreateRouter } from "./CRUD/QuizCreate";
 export { SocketListener } from "./QuizSocketIndex";

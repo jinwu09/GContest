@@ -1,7 +1,7 @@
 import { assert, should } from "chai";
 import { describe, it } from "node:test";
 import * as request from "supertest";
-import { app } from "../../app";
+import { app } from "../app";
 
 const server_url = process.env.SERVER_URL;
 
