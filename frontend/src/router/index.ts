@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+//Landing Page
+const LandingPage =()=> import('@/views/Auth/LandingPage.vue');
+
 //Auth
 import LoginView from '@/views/Auth/LoginView.vue'
 const RegisterView = () => import('@/views/Auth/RegisterView.vue')
@@ -14,6 +17,7 @@ const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
 const Playground = () => import('@/views/Quiz/PlaygroundView.vue')
 
 //Joiner
+const LobbyView = ()=> import('@/views/Quiz/Joiner/LobbyView.vue');
 const QuizView = ()=> import('@/views/Quiz/Joiner/QuizView.vue');
 const Lobby = ()=>import('@/views/Quiz/Joiner/Lobby.vue');
 
@@ -30,6 +34,11 @@ const router = createRouter({
     },
 
     //Authentication
+    {
+      path: '/LandingPage',
+      name: 'LandingPage',
+      component: LandingPage
+    },
     {
       path: '/login',
       name: 'login',
