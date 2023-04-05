@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 import { QuizUpdateRouter } from "./CRUD/QuizUpdate";
-import { QuizAuthRouter } from "./CRUD/QuizAuth";
+import { LoginAuthRouter } from "../auth/LoginAuth";
 import { QuizReadRouter } from "./CRUD/QuizRead";
 import { QuizCreateRouter } from "./CRUD/QuizCreate";
 export { SocketListener } from "./QuizSocketIndex";
@@ -10,7 +10,7 @@ export { SocketListener } from "./QuizSocketIndex";
 const prisma = new PrismaClient();
 export const QuizRouter: Router = Router();
 
-QuizRouter.use(QuizAuthRouter);
+QuizRouter.use(LoginAuthRouter);
 
 QuizRouter.use(QuizCreateRouter);
 QuizRouter.use(QuizReadRouter);
