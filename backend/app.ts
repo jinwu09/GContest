@@ -1,10 +1,12 @@
 import express, { Express, Request, Response } from "express";
-import { usersRouter } from "./routes/users/userIndex";
+import { usersRouter } from "./src/routes/users/userIndex";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 
-import * as quizindex from "./routes/quiz/QuizIndex";
+import * as quizindex from "./src/routes/quiz/QuizIndex";
+import { indexRouter } from "./src";
+
 
 export const app: Express = express();
 const httpServer = createServer(app);
@@ -27,6 +29,7 @@ io.on("connection", (socket) => {
   quizindex.SocketListener(socket, io);
 });
 // routes
+app.use('/api', indexRouter)
 app.use("/user", usersRouter);
 app.use("/quiz", quizindex.QuizRouter);
 
