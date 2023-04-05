@@ -4,7 +4,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 
-import * as quizindex from "./src/routes/quiz/QuizIndex";
+// import * as quizindex from "./src/routes/quiz/QuizIndex";
 import { indexRouter } from "./src";
 
 
@@ -23,19 +23,19 @@ const port = 8080;
 app.use(express.json());
 
 // test socket
-io.on("connection", (socket) => {
-  console.log(socket.id + " user connected");
+// io.on("connection", (socket) => {
+//   console.log(socket.id + " user connected");
 
-  quizindex.SocketListener(socket, io);
-});
+//   quizindex.SocketListener(socket, io);
+// });
 // routes
 app.use('/api', indexRouter)
-app.use("/user", usersRouter);
-app.use("/quiz", quizindex.QuizRouter);
+// app.use("/user", usersRouter);
+// app.use("/quiz", quizindex.QuizRouter);
 
-app.get("/test", (req: Request, res: Response) => {
-  res.send("the typescript express get method is working");
-});
+// app.get("/test", (req: Request, res: Response) => {
+//   res.send("the typescript express get method is working");
+// });
 
 httpServer.listen(port, () => {
   console.log("The server is running in port " + port);

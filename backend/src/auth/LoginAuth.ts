@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { sendTemplate, Code } from "../../methods/template";
+import { sendTemplate, Code } from "../methods/template";
 import { body } from "express-validator/src/middlewares/validation-chain-builders";
 import * as crypto from "crypto";
 import { validationResult } from "express-validator";
