@@ -54,7 +54,7 @@ model Quiz {
   status     String
   creator    Users          @relation(fields: [creator_id], references: [id])
   creator_id String
-  created_at DateTime       @default(now())
+  created_at DateTime       @default(dbgenerated("current_timestamp(3)"))
   start_at   DateTime
   ends_at    DateTime
   question   Question[]

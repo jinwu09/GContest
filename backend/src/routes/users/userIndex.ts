@@ -148,6 +148,7 @@ usersRouter.post(
         res.status(Code.S400_Bad_Request).send(sendTemplate("bad request "));
       })
       .then(() => {
+        console.log(jwtoken);
         res.send(
           sendTemplate({
             message: "successfully logged-in user",

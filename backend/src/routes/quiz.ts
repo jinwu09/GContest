@@ -4,93 +4,85 @@ import { PrismaClient } from "@prisma/client";
 import { validationResult } from "express-validator";
 import { sendTemplate, Code } from "../methods/template";
 
-
 const prisma = new PrismaClient();
-const router = Router()
+const router = Router();
 
 //Get all Quizzes
-router.get('/',
-  async (req: Request, res: Response, next) => {
-    const showQuiz: any = await prisma.quiz
-      .findMany({
-        include: {
-          question: {
-            include: {
-              choice: true
-            }
-          }
-        }
-      })
-      .catch((e: any) => {
-        console.log(e)
-      })
-      .finally(async () => {
-        await prisma.$disconnect();
-      });
+router.get("/", async (req: Request, res: Response, next) => {
+  const showQuiz: any = await prisma.quiz
+    .findMany({
+      include: {
+        question: {
+          include: {
+            choice: true,
+          },
+        },
+      },
+    })
+    .catch((e: any) => {
+      console.log(e);
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
 
-    res.status(Code.s200_OK).send(sendTemplate(showQuiz))
-  }
-)
+  res.status(Code.s200_OK).send(sendTemplate(showQuiz));
+});
 
 //Get Specific
-router.get('/:quiz_id',
-  async (req: Request, res: Response, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(Code.S400_Bad_Request)
-        .send(sendTemplate({ errors: errors.array() }));
-    }
-
-    const quiz_detail = await prisma.quiz
-      .findUnique({
-        where: {
-          id: req.params.quiz_id
-        },
-        include: {
-          question: true,
-        },
-      })
-      .catch((e: any) => {
-        console.log(e);
-      })
-      .then((data: any) => {
-        res.send(sendTemplate(data));
-      })
-      .finally(async () => {
-        await prisma.$disconnect;
-      });
+router.get("/:quiz_id", async (req: Request, res: Response, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(Code.S400_Bad_Request)
+      .send(sendTemplate({ errors: errors.array() }));
   }
-)
 
+  const quiz_detail = await prisma.quiz
+    .findUnique({
+      where: {
+        id: req.params.quiz_id,
+      },
+      include: {
+        question: true,
+      },
+    })
+    .catch((e: any) => {
+      console.log(e);
+    })
+    .then((data: any) => {
+      res.send(sendTemplate(data));
+    })
+    .finally(async () => {
+      await prisma.$disconnect;
+    });
+});
 
 //Get all user created
-router.get('/created/:user_id/',
-  async (req: Request, res: Response) => {
-    const user_created_quiz = await prisma.quiz
-      .findMany({
-        where: {
-          creator_id: req.params.user_id,
-        },
-        select: {
-          id: true,
-          room: true,
-          title: true,
-          start_at: true,
-          ends_at: true,
-        },
-      })
-      .catch((e: any) => {
-        console.log(e);
-      })
-      .then((data: any) => {
-        res.send(sendTemplate(data));
-      })
-      .finally(async () => {
-        await prisma.$disconnect;
-      });
-  }
-)
+router.get("/created/:user_id/", async (req: Request, res: Response) => {
+  const user_created_quiz = await prisma.quiz
+    .findMany({
+      where: {
+        creator_id: req.params.user_id,
+      },
+      select: {
+        id: true,
+        room: true,
+        title: true,
+        start_at: true,
+        ends_at: true,
+      },
+    })
+    .catch((e: any) => {
+      console.log(e);
+    })
+    .then((data: any) => {
+      res.send(sendTemplate(data));
+    })
+    .finally(async () => {
+      await prisma.$disconnect;
+    });
+});
 
 // router.get("/recent/:user_id", async (req: Request, res: Response) => {
 //   const recent_quiz: any = await prisma.quiz
@@ -120,9 +112,9 @@ router.get('/created/:user_id/',
 //   console.log(recent_quiz);
 // });
 
-
 //Create Quiz
-router.post('/',
+router.post(
+  "/",
   body("title").isString().isLength({ min: 1 }),
   body("status").isString(),
   body("room").isString(),
@@ -206,54 +198,50 @@ router.post('/',
           .send(sendTemplate("quiz created", Code.s201_Created));
       });
   }
-)
+);
 
-router.put('/:quiz_id',
-  async (req: Request, res: Response, next) => {
-    const updateQuiz = await prisma.quiz
-      .update({
-        where: {
-          id: req.params.quiz_id,
-        },
-        data: {
-          room: req.body.room,
-          password: req.body.password,
-          status: req.body.status,
-          ends_at: req.body.ends_at,
-          start_at: req.body.start_at,
-          title: req.body.title,
-        },
-      })
-      .catch((e:any) => {
-        console.log(e);
-      })
-      .then((data:any) => {
-        res.send(sendTemplate("Successfully Updated"));
-      })
-      .finally(async () => {
-        await prisma.$disconnect;
-      });
-  }
-)
+router.put("/:quiz_id", async (req: Request, res: Response, next) => {
+  const updateQuiz = await prisma.quiz
+    .update({
+      where: {
+        id: req.params.quiz_id,
+      },
+      data: {
+        room: req.body.room,
+        password: req.body.password,
+        status: req.body.status,
+        ends_at: req.body.ends_at,
+        start_at: req.body.start_at,
+        title: req.body.title,
+      },
+    })
+    .catch((e: any) => {
+      console.log(e);
+    })
+    .then((data: any) => {
+      res.send(sendTemplate("Successfully Updated"));
+    })
+    .finally(async () => {
+      await prisma.$disconnect;
+    });
+});
 
-router.delete('/:quiz_id',
-  async (req: Request, res: Response)=>{
-    const deleteQuiz = await prisma.quiz
+router.delete("/:quiz_id", async (req: Request, res: Response) => {
+  const deleteQuiz = await prisma.quiz
     .delete({
       where: {
-        id: req.params.quiz_id
-      }
+        id: req.params.quiz_id,
+      },
     })
-    .catch((e: any)=>{
-      console.log(e)
+    .catch((e: any) => {
+      console.log(e);
     })
-    .then((data:any)=>{
-      res.send(sendTemplate("Successfully Deleted"))
+    .then((data: any) => {
+      res.send(sendTemplate("Successfully Deleted"));
     })
-    .finally(async ()=>{
+    .finally(async () => {
       await prisma.$disconnect;
-    })
-  }
-)
+    });
+});
 
-export const QuizRouter: Router = router
+export const QuizRouter: Router = router;

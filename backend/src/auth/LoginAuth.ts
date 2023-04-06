@@ -14,6 +14,7 @@ LoginAuthRouter.use(
   async (req: Request, res: Response, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log(errors.array());
       return res
         .status(Code.S400_Bad_Request)
         .send(sendTemplate({ errors: errors.array() }));
