@@ -106,12 +106,11 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
         },
       })
       .then((datas) => {
-        return datas.forEach((data, index) => {
+        return datas.forEach((data: any, index) => {
           if (data.id == dataIO.questionId) {
-            // unstable code
-            // if (data[index + 1] != null) {
-            //   return data[index + 1];
-            // }
+            if (data[index + 1] != null) {
+              return data[index + 1];
+            }
           }
         });
       })

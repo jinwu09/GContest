@@ -5,7 +5,7 @@ import { body } from "express-validator/src/middlewares/validation-chain-builder
 import { validationResult } from "express-validator";
 import * as crypto from "crypto";
 
-const prisma = new PrismaClient();
+const prisma:any = new PrismaClient();
 export const QuizReadRouter: Router = Router();
 
 QuizReadRouter.get(
@@ -21,7 +21,7 @@ QuizReadRouter.get(
           },
         },
       })
-      .catch((e) => {
+      .catch((e:any) => {
         console.log(e);
       })
       .finally(async () => {
@@ -51,10 +51,10 @@ QuizReadRouter.post(
           question: true,
         },
       })
-      .catch((e) => {
+      .catch((e:any) => {
         console.log(e);
       })
-      .then((data) => {
+      .then((data:any) => {
         res.send(sendTemplate(data));
       })
       .finally(async () => {
@@ -79,10 +79,10 @@ QuizReadRouter.get(
           ends_at: true,
         },
       })
-      .catch((e) => {
+      .catch((e:any) => {
         console.log(e);
       })
-      .then((data) => {
+      .then((data:any) => {
         res.send(sendTemplate(data));
       })
       .finally(async () => {
@@ -92,7 +92,7 @@ QuizReadRouter.get(
 );
 
 QuizReadRouter.get("/user_recent_quiz", async (req: Request, res: Response) => {
-  const recent_quiz = await prisma.answeredQuiz
+  const recent_quiz : any = await prisma.answeredQuiz
     .findMany({
       where: {
         usersId: res.locals.userID,
@@ -107,10 +107,10 @@ QuizReadRouter.get("/user_recent_quiz", async (req: Request, res: Response) => {
         },
       },
     })
-    .catch((e) => {
+    .catch((e :any) => {
       console.log(e);
     })
-    .then((data) => {
+    .then((data:any) => {
       res.send(sendTemplate(data));
     })
     .finally(async () => {
