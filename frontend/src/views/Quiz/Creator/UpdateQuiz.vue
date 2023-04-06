@@ -2,10 +2,21 @@
 import QuestionBox from '@/components/Dashboard/QuestionBox.vue';
 import NavBar from '@/components/NavBar.vue'
 import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
+const router = useRouter();
 
-const questions :any = [
+interface Question {
+  question_id? : Number,
+  points: Number,
+  question_content: String,
+  choice_a: String,
+  choice_b: String,
+  choice_c: String,
+  choice_d: String
+}
+
+let questions: any  = [
   // {
   //   question_id: 1,
   //   points: 3,
@@ -36,6 +47,20 @@ const questions :any = [
   //   choice_d: "None of the above"
   // },
 ];
+
+function addNewQuestion(){
+
+  questions.push({
+    points: 0,
+    question_content: '',
+    choice_a: '',
+    choice_b: '',
+    choice_c: '',
+    choice_d: ''
+  })
+
+  router.push({})
+}
 
 
 
@@ -78,20 +103,25 @@ const status = ref('');
                   </div>
 
                   <div class="mb-3">
-                    <div class="container-fluid">
-                      <div class="row gx-2">
-                        <div class="col">
-                          <div class="d-grid gap-2">
-                            <button class="btn button-update" type="button">Update Quiz</button>
-                          </div>
+
+                    <div class="row gx-2">
+                      <div class="col">
+                        <div class="d-grid gap-2">
+                          <button class="btn button-update" type="button">Update Quiz</button>
                         </div>
-                        <div class="col">
-                          <div class="d-grid gap-2">
-                            <button class="btn button-delete" type="button">Delete Quiz</button>
-                          </div>
+                      </div>
+                      <div class="col">
+                        <div class="d-grid gap-2">
+                          <button class="btn button-delete" type="button">Delete Quiz</button>
                         </div>
                       </div>
                     </div>
+                    <div class="row mt-2">
+                      <div class="d-grid gap-2">
+                        <button class="btn button-lobby" type="button">Go to Lobby</button>
+                      </div>
+                    </div>
+
 
                   </div>
                 </div>
@@ -111,7 +141,7 @@ const status = ref('');
 
               <div class="row py-3">
                 <div class="container-fluid add-new-background p-3">
-                  <p class="h5 text-center">Add New Question</p>
+                  <p class="h5 text-center" @click="addNewQuestion">Add New Question</p>
                 </div>
 
               </div>
@@ -145,10 +175,29 @@ const status = ref('');
   color: #fff;
 }
 
+.button-update:hover {
+  background: #2c3629;
+  color: #fff;
+}
+
 .button-delete {
   background: #BB4545;
   color: #fff;
+}
 
+.button-delete:hover {
+  background: #8a2f2f;
+  color: #fff;
+}
+
+.button-lobby {
+  background: var(--main-color);
+  color: #fff;
+}
+
+.button-lobby:hover {
+  background: var(--hover-color);
+  color: #fff;
 }
 
 .quiz {

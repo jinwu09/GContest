@@ -13,7 +13,10 @@ const HomeDashboard = () => import('@/views/Dashboard/HomeDashboard.vue')
 //Creator
 const CreateQuiz = () => import('@/views/Quiz/Creator/CreateQuiz.vue')
 const EditQuiz = () => import('@/views/Quiz/Creator/EditQuiz.vue')
+const BlankQuiz = () => import('@/views/Quiz/Creator/BlankQuiz.vue')
 const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
+const CreatorLobby = ()=>import('@/views/Quiz/Creator/CreatorLobby.vue')
+
 const Playground = () => import('@/views/Quiz/PlaygroundView.vue')
 
 //Joiner
@@ -59,19 +62,29 @@ const router = createRouter({
 
     //Creator
     {
-      path: '/creator/create',
+      path: '/creator/quiz/create',
       name: 'create-quiz',
       component: CreateQuiz
     },
     {
-      path: '/creator/:id/edit',
+      path: '/creator/quiz/create/blank',
+      name: 'blank-quiz',
+      component: BlankQuiz
+    },
+    {
+      path: '/creator/quiz/:quiz_id/edit',
       name: 'edit-quiz',
       component: EditQuiz
     },
     {
-      path: '/creator/update',
+      path: '/creator/quiz/:room_number/update',
       name: 'update-quiz',
       component: UpdateQuiz
+    },
+    {
+      path: '/creator/quiz/:room_number/lobby',
+      name: 'creator-lobby',
+      component: CreatorLobby
     },
 
     //Joiners

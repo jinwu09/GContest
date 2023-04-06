@@ -22,8 +22,13 @@ const joiners : any = [
             <div class="row">
                 <div class="col-lg-1"></div>
                 <div class="col-lg-10">
-                    <div class="row">
-                        <h1>In Lobby:</h1>
+                    <div class="row g-2">
+                        <div class="col">Albert</div>
+                        <div class="col">Albert</div>
+                        <div class="col">Albert</div>
+                    </div>
+                    <div class="row mt-4">
+                        <h3>In Lobby:</h3>
                     </div>
                     <div class="row">
                         <div v-for="user in joiners" :key="user.id" class="col-md-3 pt-2">
