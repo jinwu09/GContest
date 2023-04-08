@@ -1,27 +1,28 @@
 import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { Code, sendTemplate } from "../../methods/template";
+import { Code, sendTemplate } from "../methods/template";
 import { body } from "express-validator/src/middlewares/validation-chain-builders";
 import { validationResult } from "express-validator";
 import * as crypto from "crypto";
 // import * as jwt from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 
-export const usersRouter: Router = Router();
+const router = Router()
+
+export const AuthRouter: Router = router;
 
 const prisma = new PrismaClient();
 
 var CryptoJS = require("crypto-js");
 
-usersRouter.get("/test", async (req: Request, res: Response) => {
+router.get("/test", async (req: Request, res: Response) => {
   res.send("testing users/test");
 });
 
-usersRouter.post(
+router.post(
   "/register",
   body("first_name").isString(),
   body("last_name").isString(),
-  body("username").isString(),
   body("email").isString().isEmail(),
   body("password").isString(),
 
@@ -51,7 +52,6 @@ usersRouter.post(
         data: {
           first_name: req.body.first_name,
           last_name: req.body.last_name,
-          username: req.body.username,
           school: req.body.school == null ? req.body.school : null,
           email: req.body.email,
           password: CryptoJS.AES.encrypt(
@@ -66,34 +66,18 @@ usersRouter.post(
         console.log(e);
         res
           .status(Code.S400_Bad_Request)
-          .send(sendTemplate("missing credential"));
+          .send(sendTemplate("Error in user creation"));
       })
       .then((data: any) => {
         res.locals.userID = data.id;
-        next();
-      });
-  },
-  async (req: Request, res: Response, next) => {
-    const createtoken = await prisma.token
-      .create({
-        data: {
-          usersId: res.locals.userID,
-        },
-      })
-      .catch((e) => {
-        console.log(e);
-        res.status(Code.S400_Bad_Request).send(sendTemplate("bad request"));
-      })
-      .then(() => {
-        res.send(sendTemplate("successfully created user"));
-      })
-      .finally(() => {
-        prisma.$disconnect();
+        res
+        .status(Code.s200_OK)
+        .send(sendTemplate("User succesfully registered! Login to continute"));
       });
   }
 );
 
-usersRouter.post(
+router.post(
   "/login",
   body("email").isString().isEmail(),
   body("password").isString(),

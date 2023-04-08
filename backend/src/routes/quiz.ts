@@ -92,34 +92,6 @@ router.get('/created/:user_id/',
   }
 )
 
-// router.get("/recent/:user_id", async (req: Request, res: Response) => {
-//   const recent_quiz: any = await prisma.quiz
-//     .findMany({
-//       where: {
-//         usersId: res.locals.userID,
-//       },
-//       select: {
-//         Score: true,
-//         created_at: true,
-//         Quiz: {
-//           select: {
-//             title: true,
-//           },
-//         },
-//       },
-//     })
-//     .catch((e: any) => {
-//       console.log(e);
-//     })
-//     .then((data: any) => {
-//       res.send(sendTemplate(data));
-//     })
-//     .finally(async () => {
-//       await prisma.$disconnect;
-//     });
-//   console.log(recent_quiz);
-// });
-
 
 //Create Quiz
 router.post('/',
