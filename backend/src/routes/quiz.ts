@@ -224,10 +224,10 @@ router.put('/:quiz_id',
           title: req.body.title,
         },
       })
-      .catch((e:any) => {
+      .catch((e: any) => {
         console.log(e);
       })
-      .then((data:any) => {
+      .then((data: any) => {
         res.send(sendTemplate("Successfully Updated"));
       })
       .finally(async () => {
@@ -237,22 +237,22 @@ router.put('/:quiz_id',
 )
 
 router.delete('/:quiz_id',
-  async (req: Request, res: Response)=>{
+  async (req: Request, res: Response) => {
     const deleteQuiz = await prisma.quiz
-    .delete({
-      where: {
-        id: req.params.quiz_id
-      }
-    })
-    .catch((e: any)=>{
-      console.log(e)
-    })
-    .then((data:any)=>{
-      res.send(sendTemplate("Successfully Deleted"))
-    })
-    .finally(async ()=>{
-      await prisma.$disconnect;
-    })
+      .delete({
+        where: {
+          id: req.params.quiz_id
+        }
+      })
+      .catch((e: any) => {
+        console.log(e)
+      })
+      .then((data: any) => {
+        res.send(sendTemplate("Successfully Deleted"))
+      })
+      .finally(async () => {
+        await prisma.$disconnect;
+      })
   }
 )
 
