@@ -20,7 +20,6 @@ const CreatorLobby = ()=>import('@/views/Quiz/Creator/CreatorLobby.vue')
 const Playground = () => import('@/views/Quiz/PlaygroundView.vue')
 
 //Joiner
-const LobbyView = ()=> import('@/views/Quiz/Joiner/LobbyView.vue');
 const QuizView = ()=> import('@/views/Quiz/Joiner/QuizView.vue');
 const Lobby = ()=>import('@/views/Quiz/Joiner/Lobby.vue');
 

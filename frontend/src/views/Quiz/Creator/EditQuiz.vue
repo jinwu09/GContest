@@ -79,7 +79,7 @@ function updateQuiz(){
             <!-- second main column third row -->
 
             <div class="row">
-                <div class="col-12 d-flex">
+                <div class="col-12 d-flex align-items-baseline">
                     <div class="w-25 p-2 questionBox1 rounded m-2" action="#" method="post">
                         <label class="switch w-100 mb-3">
                             <input type="checkbox" v-model="choice_a.isCorrect">
@@ -133,7 +133,6 @@ function updateQuiz(){
 .topSpace {
     margin: 2% !important;
 }
-
 /* Dropdown */
 .hvr-grow-rotate {
     display: inline-block;
@@ -152,7 +151,7 @@ function updateQuiz(){
 .hvr-grow-rotate:active {
     -webkit-transform: scale(1.1) rotate(4deg);
     transform: scale(1.1) rotate(4deg);
-    background-color: blue;
+    background-color: #0E86D4;
     color: white;
     border-radius: 10px;
 }
@@ -265,7 +264,7 @@ function updateQuiz(){
     border-style: none !important;
     border-color: Transparent !important;
     background-color: var(--main-color) !important;
-
+    color: white;
 }
 
 ::placeholder {
@@ -330,6 +329,7 @@ function updateQuiz(){
     display: inline-block;
     width: 60px;
     height: 34px;
+    box-shadow: #7E549E 10px;
 }
 
 /* Hide default HTML checkbox */
@@ -354,7 +354,6 @@ function updateQuiz(){
 
 .slider:before {
     position: absolute;
-    color: white;
     height: 26px;
     width: 100px;
     left: 80px;
@@ -362,24 +361,28 @@ function updateQuiz(){
     background-color: None;
     -webkit-transition: .4s;
     transition: .4s;
+
 }
 
 input:checked+.slider {
     content: "Correct";
     background-color: green !important;
+
 }
 
 input:checked+.slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
+    background-color: darkgreen !important;
 }
 
 .slider:hover {
-    color: #fdec6e;
+    background-color: rgb(189, 0, 0) !important;
     text-shadow: 0px 0px 30px #fdec6e;
     -moz-transition: all 0.2s ease-in;
     -o-transition: all 0.2s ease-in;
     -webkit-transition: all 0.2s ease-in;
     transition: all 0.2s ease-in;
+    box-shadow: 0px 0px 10px 5px white !important;
 }</style>
