@@ -9,14 +9,17 @@ const choice_a = ref({
     input: '',
     isCorrect : false
 })
+
 const choice_b = ref({
     input: '',
     isCorrect : false
 })
+
 const choice_c = ref({
     input: '',
     isCorrect : false
 })
+
 const choice_d = ref({
     input: '',
     isCorrect : false

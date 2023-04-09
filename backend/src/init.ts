@@ -20,7 +20,6 @@ async function main(
         inpassword,
         process.env.API_KEY
       ).toString(),
-      username: "Jinwusan",
     },
   });
   const createToken = await prisma.token.create({

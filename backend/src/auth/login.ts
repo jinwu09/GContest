@@ -15,10 +15,6 @@ const prisma = new PrismaClient();
 
 var CryptoJS = require("crypto-js");
 
-router.get("/test", async (req: Request, res: Response) => {
-  res.send("testing users/test");
-});
-
 router.post(
   "/register",
   body("first_name").isString(),
