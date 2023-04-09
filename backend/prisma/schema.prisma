@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://gr8s5tl9_markm:207350manuel@cloud276.hostgator.com:2083/gr8s5tl9_gcontest"
+  url      = env("DATABASE_URL")
 }
 
 model Users {
