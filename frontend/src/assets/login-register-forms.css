@@ -1,47 +1,34 @@
-.site{
-    height: 100vh;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url(@/assets/gordon-college-1.jpg);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    overflow: hidden;
+.title {
+  font-family: var(--title-font);
+  color: var(--main-color);
+  font-size: 8rem;
 }
 
-.white-background{
-    background-color: #f0f0f0;
-    height: 100%;
+.form-control {
+  border: 3px solid var(--main-color);
+  border-radius: 40px;
 }
 
-.title{
-    font-family: var(--title-font);
-    color: var(--main-color);
-    font-size: 8rem;
+.btn-primary {
+  background: var(--main-color);
+  border-radius: 40px;
 }
 
-.form-control{
-    border: 3px solid var(--main-color);
-    border-radius: 40px;
+.btn-primary:hover {
+  background: #3f1651;
 }
 
-.btn-primary{
-    background: var(--main-color);
-    border-radius: 40px;
+.btn-primary:focus,
+.btn-primary {
+  border: none;
 }
-
-.btn-primary:hover{
-    background: #3F1651;
-}
-
-.btn-primary:focus,.btn-primary{
-    border: none;
-}
-
 
 @media screen and (max-width: 720px) {
-    .filler{
-        visibility:hidden;
-    }
+  .filler {
+    visibility: hidden;
+  }
 
-    .title{
-        font-size: 6rem;
-    }
+  .title {
+    font-size: 6rem;
+  }
 }

@@ -1,12 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import {useAuthStore} from '@/store/AuthStore'
-
+import { useAuthStore } from '@/store/AuthStore'
 
 //Landing Page
-import LandingPage from '@/views/Auth/LandingPage.vue';
+import LandingPage from '@/views/LandingPage.vue'
 
 //Auth
-const LoginView =()=> import('@/views/Auth/LoginView.vue');
+const LoginView = () => import('@/views/Auth/LoginView.vue')
 const RegisterView = () => import('@/views/Auth/RegisterView.vue')
 
 //Dashboard
@@ -17,14 +16,14 @@ const CreateQuiz = () => import('@/views/Quiz/Creator/CreateQuiz.vue')
 const EditQuestion = () => import('@/views/Quiz/Creator/EditQuestion.vue')
 const BlankQuestion = () => import('@/views/Quiz/Creator/BlankQuestion.vue')
 const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
-const CreatorLobby = ()=>import('@/views/Quiz/Creator/CreatorLobby.vue')
+const CreatorLobby = () => import('@/views/Quiz/Creator/CreatorLobby.vue')
 
 const Playground = () => import('@/views/Quiz/PlaygroundView.vue')
 
 //Joiner
 // const LobbyView = ()=> import('@/views/Quiz/Joiner/LobbyView.vue');
-const QuizView = ()=> import('@/views/Quiz/Joiner/QuizView.vue');
-const Lobby = ()=>import('@/views/Quiz/Joiner/Lobby.vue');
+const QuizView = () => import('@/views/Quiz/Joiner/QuizView.vue')
+const Lobby = () => import('@/views/Quiz/Joiner/Lobby.vue')
 
 //Redirectors
 const PathNotFound = () => import('@/views/PathNotFound.vue')
@@ -98,7 +97,7 @@ const router = createRouter({
       component: QuizView
     },
     {
-      path: "/join/quiz/:room_number/lobby",
+      path: '/join/quiz/:room_number/lobby',
       name: 'quiz-lobby',
       component: Lobby
     },
@@ -116,15 +115,14 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next)=>{
+router.beforeEach((to, from, next) => {
   const store = useAuthStore()
 
-
-  if(to.name !== 'login' && to.name !== 'register' && !store.isAuthenticated){
+  if (to.name !== 'login' && to.name !== 'register' && !store.isAuthenticated) {
     next({ name: 'login' })
-  }else if(store.isAuthenticated && (to.name=== 'login' || to.name==='register')){
-    next({name:'dashboard'})
-  }else next()
+  } else if (store.isAuthenticated && (to.name === 'login' || to.name === 'register')) {
+    next({ name: 'dashboard' })
+  } else next()
 })
 
 export default router
