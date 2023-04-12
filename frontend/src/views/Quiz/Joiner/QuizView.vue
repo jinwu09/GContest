@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 
-const has_submitted = ref(true);
+const has_submitted = ref(false);
 
 const motivational_quotes = [
     '“We cannot solve problems with the kind of thinking we employed when we came up with them.” — Albert Einstein',

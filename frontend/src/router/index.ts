@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import {useAuthStore} from '@/store/AuthStore'
+
 
 //Landing Page
 const LandingPage =()=> import('@/views/Auth/LandingPage.vue');
@@ -110,6 +112,17 @@ const router = createRouter({
       component: PathNotFound
     }
   ]
+})
+
+router.beforeEach((to, from, next)=>{
+  const store = useAuthStore()
+
+
+  if(to.name !== 'login' && to.name !== 'register' && !store.isAuthenticated){
+    next({ name: 'login' })
+  }else if(store.isAuthenticated && (to.name=== 'login' || to.name==='register')){
+    next({name:'dashboard'})
+  }else next()
 })
 
 export default router
