@@ -139,7 +139,7 @@ function navToLogin() {
 .title {
   font-family: var(--title-font);
   color: var(--main-color);
-  font-size: clamp(1rem, 5vw + 5rem, 15rem);
+  font-size: clamp(1rem, 5vw + 4rem, 15rem);
 }
 .title span {
   animation: waviy 1s infinite;
