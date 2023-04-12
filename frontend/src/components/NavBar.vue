@@ -101,9 +101,7 @@ onMounted(() => {
 .title {
     font-family: var(--title-font);
     color: var(--main-color);
-
 }
-
 .title span {
     animation: waviy 1s infinite;
     animation-delay: calc(.1s * var(--i));

@@ -3,10 +3,10 @@ import {useAuthStore} from '@/store/AuthStore'
 
 
 //Landing Page
-const LandingPage =()=> import('@/views/Auth/LandingPage.vue');
+import LandingPage from '@/views/Auth/LandingPage.vue';
 
 //Auth
-import LoginView from '@/views/Auth/LoginView.vue'
+const LoginView =()=> import('@/views/Auth/LoginView.vue');
 const RegisterView = () => import('@/views/Auth/RegisterView.vue')
 
 //Dashboard
@@ -38,12 +38,14 @@ const router = createRouter({
       component: Playground
     },
 
-    //Authentication
+    //Landing Page
     {
       path: '/LandingPage',
       name: 'LandingPage',
       component: LandingPage
     },
+
+    //Authentication
     {
       path: '/login',
       name: 'login',
