@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import {useAuthStore} from '@/store/AuthStore'
+
 
 //Landing Page
 import LandingPage from '@/views/Auth/LandingPage.vue';
@@ -12,14 +14,15 @@ const HomeDashboard = () => import('@/views/Dashboard/HomeDashboard.vue')
 
 //Creator
 const CreateQuiz = () => import('@/views/Quiz/Creator/CreateQuiz.vue')
-const EditQuiz = () => import('@/views/Quiz/Creator/EditQuiz.vue')
-const BlankQuiz = () => import('@/views/Quiz/Creator/BlankQuiz.vue')
+const EditQuestion = () => import('@/views/Quiz/Creator/EditQuestion.vue')
+const BlankQuestion = () => import('@/views/Quiz/Creator/BlankQuestion.vue')
 const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
 const CreatorLobby = ()=>import('@/views/Quiz/Creator/CreatorLobby.vue')
 
 const Playground = () => import('@/views/Quiz/PlaygroundView.vue')
 
 //Joiner
+// const LobbyView = ()=> import('@/views/Quiz/Joiner/LobbyView.vue');
 const QuizView = ()=> import('@/views/Quiz/Joiner/QuizView.vue');
 const Lobby = ()=>import('@/views/Quiz/Joiner/Lobby.vue');
 
@@ -68,17 +71,17 @@ const router = createRouter({
       component: CreateQuiz
     },
     {
-      path: '/creator/quiz/create/blank',
-      name: 'blank-quiz',
-      component: BlankQuiz
+      path: '/creator/quiz/create/:quiz_id/blank',
+      name: 'blank-question',
+      component: BlankQuestion
     },
     {
-      path: '/creator/quiz/:quiz_id/edit',
-      name: 'edit-quiz',
-      component: EditQuiz
+      path: '/creator/quiz/:quiz_id/:question_id/edit',
+      name: 'edit-question',
+      component: EditQuestion
     },
     {
-      path: '/creator/quiz/:room_number/update',
+      path: '/creator/quiz/:quiz_id/update',
       name: 'update-quiz',
       component: UpdateQuiz
     },
@@ -111,6 +114,17 @@ const router = createRouter({
       component: PathNotFound
     }
   ]
+})
+
+router.beforeEach((to, from, next)=>{
+  const store = useAuthStore()
+
+
+  if(to.name !== 'login' && to.name !== 'register' && !store.isAuthenticated){
+    next({ name: 'login' })
+  }else if(store.isAuthenticated && (to.name=== 'login' || to.name==='register')){
+    next({name:'dashboard'})
+  }else next()
 })
 
 export default router

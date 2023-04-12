@@ -1,6 +1,35 @@
 <script setup lang="ts">
 import NavBar from '@/components/NavBar.vue';
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+import { useAuthStore } from '@/store/AuthStore'
+import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
+const store = useAuthStore()
 
+const quizzes: any = ref({})
+
+const router = useRouter()
+
+const title = ref('')
+
+onMounted(() => {
+    axios.get('/quiz', {
+        headers: {
+            Authorization: 'Bearer ' + store.token
+        }
+    })
+        .then((res) => {
+            quizzes.value = res.data.data
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+})
+
+function navToCreateTest() {
+    router.push({name: 'create-quiz'})
+}
 
 </script>
 
@@ -13,7 +42,7 @@ import NavBar from '@/components/NavBar.vue';
 
                 </div>
                 <div class="col-lg-6">
-                    <div class="row room-background m-2">
+                    <div class="row room-background mt-2">
                         <div class="d-flex align-items-center justify-content-center ">
                             <div class="row w-75">
                                 <div class="col-md-8 mt-2">
@@ -33,7 +62,7 @@ import NavBar from '@/components/NavBar.vue';
 
                 </div>
                 <div class="col-lg-3">
-                    <div class="row test-background m-2">
+                    <div class="row test-background mt-2" @click="navToCreateTest">
                         <div class="d-flex align-items-center justify-content-center ">
                             <div class="row w-75">
                                 <div class="col-md-12 mt-2 text-center test-color">
@@ -45,6 +74,31 @@ import NavBar from '@/components/NavBar.vue';
                                             </svg></span>Create a Test</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+
+                </div>
+                <div class="col-lg-10">
+                    <div class="row row-cols-1 row-cols-md-2 g-4 mt-2">
+                        <div v-for="quiz in quizzes" :key="quiz.id" class="col mt-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">{{ quiz.title }}</h4>
+                                    <h5 class="card-subtitle mb-2 text-muted">{{ quiz.description }}</h5>
+                                    <p class="text-muted">Room Status: {{ quiz.status }}</p>
+                                    <p class="text-muted">Created by: {{ quiz.creator.firstName + ' ' +
+                                        quiz.creator.lastName }}</p>
+                                    <button class="btn btn-primary px-4">Join</button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -116,4 +170,5 @@ import NavBar from '@/components/NavBar.vue';
 .test-background:hover {
     border: var(--main-color) 3px solid;
     animation: bounce .2s;
-}</style>
+}
+</style>
