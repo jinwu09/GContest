@@ -52,22 +52,23 @@
     height: 100%;
 }
 
-.form-control{
-    border: 3px solid var(--main-color);
-    border-radius: 40px;
+.form-control {
+  border: 3px solid var(--main-color);
+  border-radius: 40px;
 }
 
-.btn-primary{
-    background: var(--main-color);
-    border-radius: 40px;
+.btn-primary {
+  background: var(--main-color);
+  border-radius: 40px;
 }
 
-.btn-primary:hover{
-    background: #3F1651;
+.btn-primary:hover {
+  background: #3f1651;
 }
 
-.btn-primary:focus,.btn-primary{
-    border: none;
+.btn-primary:focus,
+.btn-primary {
+  border: none;
 }
 
 .accountSwitch {
@@ -100,11 +101,11 @@
   }
 
 @media screen and (max-width: 720px) {
-    .filler{
-        visibility:hidden;
-    }
+  .filler {
+    visibility: hidden;
+  }
 
-    .title{
-        font-size: 6rem;
-    }
+  .title {
+    font-size: 6rem;
+  }
 }

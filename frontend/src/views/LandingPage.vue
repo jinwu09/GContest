@@ -47,10 +47,12 @@ function navToLogin() {
               <button class="submit hvr-glow" type="button">Enter</button>
             </div>
           </div>
+          <!-- <input class="text input" placeholder="Quiz Code" />
+            <button class="submit hvr-glow" type="submit">Submit</button> -->
         </div>
         <div class="row">
-          <div class="text text-center accountSwitch mb-5">
-            Have An Account?<u @click="navToLogin" class="btn accountSwitch accountSwitchLink"
+          <div class="text text-center accountLogin mb-5">
+            Have An Account?<u @click="navToLogin" class="btn accountLogin accountLoginLink"
               >LOGIN</u
             >
           </div>
@@ -134,6 +136,21 @@ function navToLogin() {
     transform: translateX(100%);
   }
 }
+.title {
+  font-family: var(--title-font);
+  color: var(--main-color);
+  font-size: clamp(1rem, 5vw + 4rem, 15rem);
+}
+.title span {
+  animation: waviy 1s infinite;
+  animation-delay: calc(0.1s * var(--i));
+  position: relative;
+  display: inline-block;
+}
+.title:hover {
+  color: #fff;
+  text-shadow: 0 0 5px #b27cc5, 0 0 25px #b27cc5, 0 0 50px #b27cc5, 0 0 100px #b27cc5;
+}
 .tag {
   font-size: clamp(0.5rem, 5vw + 1rem, 2rem);
 }
@@ -186,16 +203,16 @@ input::placeholder {
 .hvr-glow:active {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 }
-.accountSwitch {
+.accountLogin {
   color: #c2549d !important;
   font-size: clamp(0.1rem, 5vw + 1rem, 1.2rem);
 }
-.accountSwitchLink {
+.accountLoginLink {
   position: relative;
   text-decoration: none;
   font-style: italic;
 }
-.accountSwitchLink::before {
+.accountLoginLink::before {
   content: '';
   position: absolute;
   width: 100%;
@@ -210,7 +227,7 @@ input::placeholder {
   transition: transform 0.3s ease-in-out;
 }
 
-.accountSwitchLink:hover::before {
+.accountLoginLink:hover::before {
   transform-origin: left;
   transform: scaleX(1);
 }
