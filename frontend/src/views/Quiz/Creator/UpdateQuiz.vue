@@ -17,6 +17,9 @@ const status = ref('');
 const password = ref('')
 const quiz_id = ref('')
 
+const questions: any  = ref([])
+
+
 onMounted(()=>{
   axios.all([
     axios.get('/quiz/' + route.params.quiz_id,{
@@ -35,40 +38,11 @@ onMounted(()=>{
     room_passcode.value = quiz_res.data.data.name
     description.value = quiz_res.data.data.description
     status.value = quiz_res.data.data.status
+
+    questions.value = question_res.data.data
   }))
 })
 
-let questions: any  = [
-  // {
-  //   question_id: 1,
-  //   points: 3,
-  //   question_content: "What is Albert?",
-  //   choice_a: "Igop",
-  //   choice_b: "Pogi",
-  //   choice_c: "Gwapogi",
-  //   choice_d: "None of the above"
-  // },
-  // {
-  //   question_id: 2,
-  //   points: 3,
-
-  //   question_content: "What is Hancelet?",
-  //   choice_a: "Igop",
-  //   choice_b: "Pogi",
-  //   choice_c: "Gwapogi",
-  //   choice_d: "None of the above"
-  // },
-  // {
-  //   question_id: 3,
-  //   points: 10,
-
-  //   question_content: "What is Dabid?",
-  //   choice_a: "Igop",
-  //   choice_b: "Pogi",
-  //   choice_c: "Gwapogi",
-  //   choice_d: "None of the above"
-  // },
-];
 
 function addNewQuestion(){
   router.push({
@@ -152,8 +126,8 @@ function addNewQuestion(){
               <!-- Questions here -->
               <div :class="index == 0 ? ('row') : ('row pt-3')" v-for="(value, index) in questions"
                 :key="value.question_id">
-                <QuestionBox :points='value.points' :question_content="value.question_content" :choice_a="value.choice_a"
-                  :choice_b="value.choice_b" :choice_c="value.choice_c" :choice_d="value.choice_d" />
+                <QuestionBox :points='value.score' :question_content="value.content" :choice_a="value.choices[0].content"
+                  :choice_b="value.choices[1].content" :choice_c="value.choices[2].content" :choice_d="value.choices[3].content" />
               </div>
 
               <div class="row py-3">

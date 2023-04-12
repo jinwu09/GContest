@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import NavBar from '@/components/NavBar.vue'
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 // import Vue from "vue";
+
+const router = useRouter()
 
 const points = ref(0)
 const question_text = ref('')
@@ -59,7 +62,7 @@ function updateQuiz(){
                     <div class="w-100"></div>
                 </div>
                 <div class="col-3">
-                    <div class="w-100 btn btn-danger hvr-wobble-bottom">Cancel</div>
+                    <div class="w-100 btn btn-danger hvr-wobble-bottom" @click="router.push({})">Cancel</div>
                 </div>
                 <div class="col-3">
                     <div class="w-100 btn btn-success hvr-wobble-bottom" @click="updateQuiz">Update</div>
