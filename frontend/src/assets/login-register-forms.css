@@ -4,17 +4,52 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
     overflow: hidden;
+    animation: site 15s infinite linear;
+    
+}
+
+@keyframes site {
+    /* 1st view */
+    0%{
+        background-position: 40% 45%;
+        background-size: 150%;
+    } 20% {
+        background-position: 10% 25%;
+        background-size: 150%;
+    /* 2nd view */
+    } 20.0001% { 
+        background-position: 0% 45%;
+        background-size: 120%;
+    } 40%{
+        background-position: 55% 20%;
+        background-size: 110%;
+    /* 3rd view */
+    } 40.0001% {
+        background-position: 75% 75%;
+        background-size: 120%; 
+    } 60% {
+        background-position: 55% 40%;
+        background-size: 105%;
+    /* 4th view */
+    } 60.0001% {
+        background-position: 0% 50% ;
+        background-size: 120%; 
+    } 80% {
+        background-position: 70% 45%;
+        background-size: 110%;
+    /* 5th view */
+    } 80.0001% {
+        background-position: 65% 25%;
+        background-size: 120%; 
+    }100% {
+        background-position: 55% 40%;
+        background-size: 105%;
+    }
 }
 
 .white-background{
     background-color: #f0f0f0;
     height: 100%;
-}
-
-.title{
-    font-family: var(--title-font);
-    color: var(--main-color);
-    font-size: 8rem;
 }
 
 .form-control{
@@ -35,6 +70,34 @@
     border: none;
 }
 
+.accountSwitch {
+    color: #c2549d !important;
+    font-size: clamp(0.1rem, 5vw + 1rem, 1.2rem);
+  }
+  .accountSwitchLink {
+    position: relative;
+    text-decoration: none;
+    font-style: italic;
+  }
+  .accountSwitchLink::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    border-radius: 4px;
+    background-color: #c2549d !important;
+    color: #c2549d !important;
+    bottom: 0;
+    left: 0;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .accountSwitchLink:hover::before {
+    transform-origin: left;
+    transform: scaleX(1);
+  }
 
 @media screen and (max-width: 720px) {
     .filler{
