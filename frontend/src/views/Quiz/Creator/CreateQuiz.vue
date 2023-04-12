@@ -1,44 +1,46 @@
 <script setup lang="ts">
 import QuestionBox from '@/components/Dashboard/QuestionBox.vue';
 import NavBar from '@/components/NavBar.vue'
+import { useAuthStore } from '@/store/AuthStore';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 
-const questions :any = [
-  // {
-  //   question_id: 1,
-  //   points: 3,
-  //   question_content: "What is Albert?",
-  //   choice_a: "Igop",
-  //   choice_b: "Pogi",
-  //   choice_c: "Gwapogi",
-  //   choice_d: "None of the above"
-  // },
-  // {
-  //   question_id: 2,
-  //   points: 3,
+const store = useAuthStore()
 
-  //   question_content: "What is Hancelet?",
-  //   choice_a: "Igop",
-  //   choice_b: "Pogi",
-  //   choice_c: "Gwapogi",
-  //   choice_d: "None of the above"
-  // },
-  // {
-  //   question_id: 3,
-  //   points: 10,
+const router = useRouter()
 
-  //   question_content: "What is Dabid?",
-  //   choice_a: "Igop",
-  //   choice_b: "Pogi",
-  //   choice_c: "Gwapogi",
-  //   choice_d: "None of the above"
-  // },
-];
+const title = ref('')
+const room_passcode = ref('')
+const description = ref('')
+const status = ref('')
+const password = ref('')
 
+function createQuiz(){
+  axios.post('/quiz/',{
+    title: title.value,
+    name: room_passcode.value,
+    description: description.value,
+    status: status.value,
+    password: password.value
+  },{
+    headers: {
+      Authorization: 'Bearer '+ store.token
+    }
+  }).then((res)=>{
+    Swal.fire({
+      icon: 'success',
+      title: res.data.message
+    })
 
-
-const status = ref('');
+    router.push({name: 'update-quiz', state:{
+      quiz_id: res.data.quiz_id
+    }})
+  }).catch((err)=>{
+    console.log(err)
+  })
+}
 
 </script>
 
@@ -52,72 +54,61 @@ const status = ref('');
         </div>
         <div class="col-md-10">
           <div class="row">
-            <div class="col-md-4 ">
+            <div class="col-md-12 ">
               <div class="row p-3 border rounded-3 border-dark">
                 <div class="col-md-12">
-                  <div class="mb-3">
-                    <label class="form-label">Title</label>
-                    <input type="text" class="form-control" autocomplete="off">
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label">Room Number</label>
-                    <input type="text" class="form-control" autocomplete="off">
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label">Room Status</label>
-                    <select class="form-select" aria-label=".form-select-lg example" v-model="status">
-                      <option selected>Public</option>
-                      <option>Private</option>
-                    </select>
-                  </div>
-
-                  <div class="mb-3">
-                    <label class="form-label">Room Password</label>
-                    <input type="password" class="form-control" autocomplete="off" :disabled="status == 'Private'">
-                  </div>
-
-                  <div class="mb-3">
-                    <div class="container-fluid">
-                      <div class="row gx-2">
-                        <div class="col">
-                          <div class="d-grid gap-2">
-                            <button class="btn button-update" type="button">Create Quiz</button>
-                          </div>
-                        </div>
-                        <div class="col">
-                          <div class="d-grid gap-2">
-                            <button class="btn button-delete" type="button">Delete Quiz</button>
-                          </div>
-                        </div>
-                      </div>
+                  <form @submit.prevent="createQuiz">
+                    <div class="mb-3">
+                      <h1>Create your Quiz:</h1>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Title <span class="text-muted">(The main idea of your quiz)</span></label>
+                      <input type="text" v-model="title" class="form-control" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Room Number <span class="text-muted">(Unique code to be easily distinguishable from other quiz)</span></label>
+                      <input type="text" v-model="room_passcode" class="form-control" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Description <span class="text-muted">(A short and brief description of your quiz)</span></label>
+                      <textarea type="text" v-model="description" class="form-control" autocomplete="off" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Room Status <span class="text-muted">(Public means every user of this application can join your quiz)</span></label>
+                      <select class="form-select" aria-label=".form-select-lg example" v-model="status" required>
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                      </select>
                     </div>
 
-                  </div>
+                    <div class="mb-3">
+                      <label class="form-label">Room Password <span class="text-muted">(So that only users authorized by you can join your quiz)</span></label>
+                      <input type="password" v-model="password" class="form-control" autocomplete="off" :disabled="status == 'public'" :required="status == 'private'">
+                    </div>
+
+                    <div class="mb-3">
+                      <div class="container-fluid">
+                        <div class="row gx-2">
+                          <div class="col">
+                            <div class="d-grid gap-2">
+                              <button class="btn button-update" type="submit">Create Quiz</button>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="d-grid gap-2">
+                              <button class="btn button-delete" type="button" @click="router.push({name: 'dashboard'})">Cancel</button>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </form>
                 </div>
 
               </div>
             </div>
-            <div class="col-md-1">
-
-            </div>
-            <div class="col-md-7">
-              <!-- Questions here -->
-              <div :class="index == 0 ? ('row') : ('row pt-3')" v-for="(value, index) in questions"
-                :key="value.question_id">
-                <QuestionBox :points='value.points' :question_content="value.question_content" :choice_a="value.choice_a"
-                  :choice_b="value.choice_b" :choice_c="value.choice_c" :choice_d="value.choice_d" />
-              </div>
-
-              <div class="row py-3">
-                <div class="container-fluid add-new-background p-3">
-                  <p class="h5 text-center">Add New Question</p>
-                </div>
-
-              </div>
-
-            </div>
-
-
           </div>
         </div>
         <div class="col-md-1">

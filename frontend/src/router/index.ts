@@ -14,8 +14,8 @@ const HomeDashboard = () => import('@/views/Dashboard/HomeDashboard.vue')
 
 //Creator
 const CreateQuiz = () => import('@/views/Quiz/Creator/CreateQuiz.vue')
-const EditQuiz = () => import('@/views/Quiz/Creator/EditQuiz.vue')
-const BlankQuiz = () => import('@/views/Quiz/Creator/BlankQuiz.vue')
+const EditQuestion = () => import('@/views/Quiz/Creator/EditQuestion.vue')
+const BlankQuestion = () => import('@/views/Quiz/Creator/BlankQuestion.vue')
 const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
 const CreatorLobby = ()=>import('@/views/Quiz/Creator/CreatorLobby.vue')
 
@@ -69,17 +69,17 @@ const router = createRouter({
       component: CreateQuiz
     },
     {
-      path: '/creator/quiz/create/blank',
-      name: 'blank-quiz',
-      component: BlankQuiz
+      path: '/creator/quiz/create/:quiz_id/blank',
+      name: 'blank-question',
+      component: BlankQuestion
     },
     {
-      path: '/creator/quiz/:quiz_id/edit',
-      name: 'edit-quiz',
-      component: EditQuiz
+      path: '/creator/quiz/:quiz_id/:question_id/edit',
+      name: 'edit-question',
+      component: EditQuestion
     },
     {
-      path: '/creator/quiz/:room_number/update',
+      path: '/creator/quiz/:quiz_id/update',
       name: 'update-quiz',
       component: UpdateQuiz
     },

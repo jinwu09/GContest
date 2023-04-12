@@ -2,10 +2,10 @@
 import { onMounted } from 'vue';
 
 
-    onMounted(()=>{
-        document.body.style.overflow = "";
-        document.body.style.paddingRight = "";
-    })
+onMounted(() => {
+    document.body.style.overflow = "";
+    document.body.style.paddingRight = "";
+})
 </script>
 
 <template>
@@ -38,8 +38,8 @@ import { onMounted } from 'vue';
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <router-link class="nav-link m-2 p-3" aria-current="page" 
-                                :to="{ name: 'dashboard' }"><span class="pe-4">
+                            <router-link class="nav-link m-2 p-3" aria-current="page" :to="{ name: 'dashboard' }"><span
+                                    class="pe-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                                         class="bi bi-house-door-fill" viewBox="0 0 16 16">
                                         <path
@@ -55,6 +55,16 @@ import { onMounted } from 'vue';
                                             d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z" />
                                     </svg>
                                 </span> Create a Test</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link m-2 p-3" aria-current="page" href="#"><span class="pe-4"><svg
+                                        xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                        class="bi bi-tags-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2zm3.5 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                                        <path
+                                            d="M1.293 7.793A1 1 0 0 1 1 7.086V2a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l.043-.043-7.457-7.457z" />
+                                    </svg></span>My Tests</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link m-2 p-3" aria-current="page" href="#"><span class="pe-4"><svg
@@ -119,5 +129,4 @@ import { onMounted } from 'vue';
     -webkit-transform: scale(1.1) rotate(4deg);
     transform: scale(1.1) rotate(4deg);
     /* transition: all 1s ease; */
-}
-</style>
+}</style>

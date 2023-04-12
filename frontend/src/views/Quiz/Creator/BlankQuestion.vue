@@ -1,27 +1,31 @@
 <script setup lang="ts">
 import NavBar from '@/components/NavBar.vue'
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 // import Vue from "vue";
+const route = useRoute()
 
-const points = ref(0)
 const question_text = ref('')
+const content = ref('')
+const score = ref(0)
+
 const choice_a = ref({
-    input: '',
+    content: '',
     isCorrect : false
 })
 
 const choice_b = ref({
-    input: '',
+    content: '',
     isCorrect : false
 })
 
 const choice_c = ref({
-    input: '',
+    content: '',
     isCorrect : false
 })
 
 const choice_d = ref({
-    input: '',
+    content: '',
     isCorrect : false
 })
 
@@ -29,6 +33,7 @@ const choice_d = ref({
 function createQuiz(){
     console.log(question_text.value)
     console.log(choice_d.value)
+    console.log(route.params.quiz_id)
 }
 
 </script>
@@ -49,7 +54,7 @@ function createQuiz(){
             <div class="row my-3">
                 <div class="col-3">
                     <div class="btn-group w-100">
-                    <select class="form-select hvr-grow-rotate" aria-label="Default select example" v-model="points">
+                    <select class="form-select hvr-grow-rotate" aria-label="Default select example" v-model="score">
                         <option disabled value="" class="hvr-grow-rotate" selected>Select Quiz Points</option>
                         <option >0</option>
                         <option >5</option>
@@ -89,7 +94,7 @@ function createQuiz(){
                             <input type="checkbox" v-model="choice_a.isCorrect">
                             <span class="slider rounded"></span>
                         </label>
-                        <textarea name="text" v-model="choice_a.input" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                        <textarea name="text" v-model="choice_a.content" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center noBorder w-100 questionBoxColor1"
                             placeholder="Edit Answer"></textarea>
                     </div>
@@ -98,7 +103,7 @@ function createQuiz(){
                             <input type="checkbox" v-model="choice_b.isCorrect">
                             <span class="slider rounded"></span>
                         </label>
-                        <textarea name="text" v-model="choice_b.input" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                        <textarea name="text" v-model="choice_b.content" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center noBorder w-100 questionBoxColor2"
                             placeholder="Edit Answer"></textarea>
                     </div>
@@ -107,7 +112,7 @@ function createQuiz(){
                             <input type="checkbox" v-model="choice_c.isCorrect">
                             <span class="slider rounded"></span>
                         </label>
-                        <textarea name="text" v-model="choice_c.input" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                        <textarea name="text" v-model="choice_c.content" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center noBorder w-100 questionBoxColor3"
                             placeholder="Edit Answer"></textarea>
                     </div>
@@ -116,7 +121,7 @@ function createQuiz(){
                             <input type="checkbox" v-model="choice_d.isCorrect">
                             <span class="slider rounded"></span>
                         </label>
-                        <textarea name="text" v-model="choice_d.input" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                        <textarea name="text" v-model="choice_d.content" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center questionBoxColor4 noBorder w-100"
                             placeholder="Edit Answer"></textarea>
                     </div>

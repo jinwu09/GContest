@@ -1,20 +1,42 @@
 <script setup lang="ts">
 import QuestionBox from '@/components/Dashboard/QuestionBox.vue';
 import NavBar from '@/components/NavBar.vue'
-import { ref, computed } from 'vue';
+import { useAuthStore } from '@/store/AuthStore';
+import axios from 'axios';
+import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+const route = useRoute()
 const router = useRouter();
+const store = useAuthStore()
 
-interface Question {
-  question_id? : Number,
-  points: Number,
-  question_content: String,
-  choice_a: String,
-  choice_b: String,
-  choice_c: String,
-  choice_d: String
-}
+const title = ref('')
+const room_passcode = ref('')
+const description = ref('')
+const status = ref('');
+const password = ref('')
+const quiz_id = ref('')
+
+onMounted(()=>{
+  axios.all([
+    axios.get('/quiz/' + route.params.quiz_id,{
+      headers: {
+        Authorization: 'Bearer '+store.token
+      }
+    }),
+    axios.get('/question/all/' + route.params.quiz_id,{
+      headers: {
+        Authorization: 'Bearer '+store.token
+      }
+    }),
+  ]).then(axios.spread((quiz_res, question_res)=>{
+    quiz_id.value = quiz_res.data.data.id
+    title.value = quiz_res.data.data.title
+    room_passcode.value = quiz_res.data.data.name
+    description.value = quiz_res.data.data.description
+    status.value = quiz_res.data.data.status
+  }))
+})
 
 let questions: any  = [
   // {
@@ -49,22 +71,17 @@ let questions: any  = [
 ];
 
 function addNewQuestion(){
-
-  questions.push({
-    points: 0,
-    question_content: '',
-    choice_a: '',
-    choice_b: '',
-    choice_c: '',
-    choice_d: ''
+  router.push({
+    name: 'blank-question',
+    params:{
+      quiz_id: quiz_id.value
+    }
   })
-
-  router.push({})
 }
 
 
 
-const status = ref('');
+
 
 </script>
 
@@ -83,23 +100,23 @@ const status = ref('');
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label class="form-label">Title</label>
-                    <input type="text" class="form-control" autocomplete="off">
+                    <input type="text" v-model="title" class="form-control" autocomplete="off">
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Room Number</label>
-                    <input type="text" class="form-control" autocomplete="off">
+                    <input type="text" v-model="room_passcode" class="form-control" autocomplete="off">
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Room Status</label>
                     <select class="form-select" aria-label=".form-select-lg example" v-model="status">
-                      <option selected>Public</option>
-                      <option>Private</option>
+                      <option selected value="public">Public</option>
+                      <option value="private">Private</option>
                     </select>
                   </div>
 
                   <div class="mb-3">
                     <label class="form-label">Room Password</label>
-                    <input type="password" class="form-control" autocomplete="off" :disabled="status == 'Private'">
+                    <input type="password" v-model="password" class="form-control" autocomplete="off" :disabled="status == 'Private'">
                   </div>
 
                   <div class="mb-3">
@@ -140,8 +157,8 @@ const status = ref('');
               </div>
 
               <div class="row py-3">
-                <div class="container-fluid add-new-background p-3">
-                  <p class="h5 text-center" @click="addNewQuestion">Add New Question</p>
+                <div class="container-fluid add-new-background p-3" @click="addNewQuestion">
+                  <p class="h5 text-center" >Add New Question</p>
                 </div>
 
               </div>

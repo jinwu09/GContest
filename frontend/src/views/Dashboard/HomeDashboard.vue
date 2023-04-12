@@ -3,9 +3,15 @@ import NavBar from '@/components/NavBar.vue';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useAuthStore } from '@/store/AuthStore'
+import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 const store = useAuthStore()
 
 const quizzes: any = ref({})
+
+const router = useRouter()
+
+const title = ref('')
 
 onMounted(() => {
     axios.get('/quiz', {
@@ -21,6 +27,9 @@ onMounted(() => {
         })
 })
 
+function navToCreateTest() {
+    router.push({name: 'create-quiz'})
+}
 
 </script>
 
@@ -53,7 +62,7 @@ onMounted(() => {
 
                 </div>
                 <div class="col-lg-3">
-                    <div class="row test-background mt-2">
+                    <div class="row test-background mt-2" @click="navToCreateTest">
                         <div class="d-flex align-items-center justify-content-center ">
                             <div class="row w-75">
                                 <div class="col-md-12 mt-2 text-center test-color">
