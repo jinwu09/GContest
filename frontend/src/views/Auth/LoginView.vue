@@ -38,9 +38,6 @@ function login(e: any) {
 function navToRegister() {
   router.push({ name: 'register' })
 }
-function navToRegister() {
-  router.push({ name: 'register' })
-}
 </script>
 
 <template>
@@ -95,8 +92,8 @@ function navToRegister() {
               </div>
             </div>
             <div class="row mt-3">
-              <p class="text-center">
-                Dont have an account? <u @click="navToRegister">REGISTER</u>
+              <p class="text-center accountSwitch">
+                Dont have an account? <u class="accountSwitchLink" @click="navToRegister">REGISTER</u>
               </p>
             </div>
           </form>
