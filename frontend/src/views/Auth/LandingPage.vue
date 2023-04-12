@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-const router = useRouter();
+const router = useRouter()
 
 function navToLogin() {
-    router.push({ name: 'login' })
+  router.push({ name: 'login' })
 }
 </script>
 
 <template>
   <div
-    class="container-fluid page-background d-flex justify-content-center align-items-center align-contents-center"
+    class="container-fluid page-background d-flex justify-content-center align-items-center align-contents-center pt-4"
   >
-    <div class="row gx-5 align-items-center mt-5 pt-5">
+    <div class="row align-items-center mt-5 pt-5">
       <div class="background-animation skew1">
         <div class="moving-div-1"></div>
         <div class="moving-div-1"></div>
@@ -31,16 +31,30 @@ function navToLogin() {
             <span style="--i: 6">r</span>
           </span>
         </div>
-        <div class="row lead text-center justify-content-center">A Real-time Interactive Quiz Game</div>
+        <div class="row text-center justify-content-center tag">
+          A Real-time Interactive Quiz Game
+        </div>
         <div class="row text text-center mt-5">
-          <div>
-            <input class="text tex-center input btn" placeholder="Quiz Code" />
-            <button class="button submit hvr-glow px-4" type="submit">Submit</button>
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control input"
+              placeholder="Quiz Code"
+              aria-label="Quiz Code"
+              aria-describedby="Quiz Code"
+            />
+            <div class="input-group-append">
+              <button class="submit hvr-glow" type="button">Enter</button>
+            </div>
           </div>
+          <!-- <input class="text input" placeholder="Quiz Code" />
+            <button class="submit hvr-glow" type="submit">Submit</button> -->
         </div>
         <div class="row">
           <div class="text text-center accountLogin mb-5">
-            Have An Account?<u @click="navToLogin" class="btn accountLogin accountLoginLink">LOGIN</u>
+            Have An Account?<u @click="navToLogin" class="btn accountLogin accountLoginLink"
+              >LOGIN</u
+            >
           </div>
         </div>
       </div>
@@ -63,7 +77,7 @@ function navToLogin() {
 .page-background {
   background-color: #f2edeb;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: fixed;
   top: 0;
   left: 0;
@@ -125,7 +139,7 @@ function navToLogin() {
 .title {
   font-family: var(--title-font);
   color: var(--main-color);
-  font-size: 90px;
+  font-size: clamp(1rem, 5vw + 5rem, 15rem);
 }
 .title span {
   animation: waviy 1s infinite;
@@ -133,30 +147,48 @@ function navToLogin() {
   position: relative;
   display: inline-block;
 }
+.title:hover {
+  color: #fff;
+  text-shadow: 0 0 5px #B27CC5,
+              0 0 25px #B27CC5,
+              0 0 50px #B27CC5,
+              0 0 100px #B27CC5;
+}
+.tag {
+  font-size: clamp(0.5rem, 5vw + 1rem, 2rem);
+}
 .input {
-  border: solid #653780;
-  border-radius: 25px 0px 0px 25px;
-  border-width: 3px 0px 3px 3px;
-  height: 40px;
-  width: 60%;
-  margin-left: 30px;
+  border: solid #653780 !important;
+  border-radius: 5rem;
+  border-width: 3px !important;
+  background: none !important;
+  bottom: 0.5px !important;
+  box-shadow: none !important;
   text-align: center;
+  margin-left: 2rem;
+}
+input,
+input::placeholder {
+  font: clamp(0.1rem, 5vw + 1rem, 1.3rem) sans-serif;
 }
 ::-webkit-input-placeholder {
   text-align: center;
+  font-size: 30px;
 }
 :-moz-placeholder {
   text-align: center;
+  font-size: 30px;
 }
 .submit {
-  border-radius: 25px;
+  border-radius: 5rem;
   border-color: #653780;
   background-color: #653780;
   color: white;
-  height: 40px;
-  left: -8%;
-
+  min-height: 41px;
+  padding: 0px 3rem;
   position: relative;
+  left: -20%;
+  font-size: 20px;
 }
 .hvr-glow {
   display: inline-block;
@@ -169,31 +201,34 @@ function navToLogin() {
   -webkit-transition-property: box-shadow;
   transition-property: box-shadow;
 }
-.hvr-glow:hover, .hvr-glow:focus, .hvr-glow:active {
+.hvr-glow:hover,
+.hvr-glow:focus,
+.hvr-glow:active {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 }
 .accountLogin {
   color: #c2549d !important;
+  font-size: clamp(0.1rem, 5vw + 1rem, 1.2rem);
 }
-.accountLoginLink{
+.accountLoginLink {
   position: relative;
   text-decoration: none;
-  font-style:italic;
+  font-style: italic;
 }
 .accountLoginLink::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 4px;
-    border-radius: 4px;
-    background-color: #c2549d !important;
-    color: #c2549d!important;
-    bottom: 0;
-    left: 0;
-    transform-origin: right;
-    transform: scaleX(0);
-    transition: transform .3s ease-in-out;
-  }
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background-color: #c2549d !important;
+  color: #c2549d !important;
+  bottom: 0;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
 
 .accountLoginLink:hover::before {
   transform-origin: left;
@@ -201,8 +236,8 @@ function navToLogin() {
 }
 .LandPagePic {
   position: relative;
-  animation: picAnimate 0.5s infinite;
-  animation-direction: alternate;
+  animation: picAnimate 0.5s infinite alternate linear;
+  width: 65svh;
 }
 @keyframes picAnimate {
   0% {
