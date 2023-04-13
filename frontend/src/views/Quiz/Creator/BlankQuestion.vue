@@ -119,7 +119,7 @@ function createQuiz(){
                    
                     <textarea v-model="content" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                         class="rounded align-center text-center noBorder bigTextbox w-100 px-3 py-5"
-                        placeholder="Edit Question" ></textarea>
+                        placeholder="Insert your Question here" ></textarea>
                 </div>
             </div>
 
@@ -134,7 +134,7 @@ function createQuiz(){
                         </label>
                         <textarea name="text" v-model="choice_a.content" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center noBorder w-100 questionBoxColor1"
-                            placeholder="Edit Answer"></textarea>
+                            placeholder="Insert answer"></textarea>
                     </div>
                     <div class=" w-25 p-2 questionBox2 rounded m-2">
                         <label class="switch w-100 mb-3">
@@ -143,7 +143,7 @@ function createQuiz(){
                         </label>
                         <textarea name="text" v-model="choice_b.content" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center noBorder w-100 questionBoxColor2"
-                            placeholder="Edit Answer"></textarea>
+                            placeholder="Insert answer"></textarea>
                     </div>
                     <div class="w-25 p-2 questionBox3 rounded m-2">
                         <label class="switch w-100 mb-3">
@@ -152,7 +152,7 @@ function createQuiz(){
                         </label>
                         <textarea name="text" v-model="choice_c.content" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center noBorder w-100 questionBoxColor3"
-                            placeholder="Edit Answer"></textarea>
+                            placeholder="Insert answer"></textarea>
                     </div>
                     <div class="w-25 p-2 questionBox4 rounded m-2">
                         <label class="switch w-100 mb-3">
@@ -161,7 +161,7 @@ function createQuiz(){
                         </label>
                         <textarea name="text" v-model="choice_d.content" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center questionBoxColor4 noBorder w-100"
-                            placeholder="Edit Answer"></textarea>
+                            placeholder="Insert answer"></textarea>
                     </div>
                 </div>
 

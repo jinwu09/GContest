@@ -1,34 +1,115 @@
 <script setup lang="ts">
 import NavBar from '@/components/NavBar.vue'
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/store/AuthStore';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 // import Vue from "vue";
-
+const route = useRoute()
 const router = useRouter()
 
-const points = ref(0)
-const question_text = ref('')
+const store = useAuthStore()
+
+const content = ref('')
+const score = ref(0)
+
 const choice_a = ref({
-    input: '',
-    isCorrect : false
+    id: '',
+    content: '',
+    isCorrect: false
 })
+
 const choice_b = ref({
-    input: '',
-    isCorrect : false
+    id: '',
+    content: '',
+    isCorrect: false
 })
+
 const choice_c = ref({
-    input: '',
-    isCorrect : false
+    id: '',
+
+    content: '',
+    isCorrect: false
 })
+
 const choice_d = ref({
-    input: '',
-    isCorrect : false
+    id: '',
+
+    content: '',
+    isCorrect: false
 })
 
 
-function updateQuiz(){
-    //
+function updateQuiz() {
+    // console.log(route.params.question_id)
+    axios.put('/question/' + route.params.question_id, {
+        content: content.value,
+        score: score.value,
+        choices: [
+            {
+                id: choice_a.value.id,
+                content: choice_a.value.content,
+                isCorrect: choice_a.value.isCorrect
+            },
+            {
+                id: choice_b.value.id,
+                content: choice_b.value.content,
+                isCorrect: choice_b.value.isCorrect
+            },
+            {
+                id: choice_c.value.id,
+                content: choice_c.value.content,
+                isCorrect: choice_c.value.isCorrect
+            },
+            {
+                id: choice_d.value.id,
+                content: choice_d.value.content,
+                isCorrect: choice_d.value.isCorrect
+            },
+        ]
+    }, {
+        headers: {
+            Authorization: 'Bearer ' + store.token
+        }
+    }).then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.message,
+        })
+
+        router.push({ name: 'update-quiz', params: { quiz_id: route.params.quiz_id } })
+    }).catch((err) => {
+        console.log(err)
+    })
 }
+
+onMounted(() => {
+    axios.get('/question/' + route.params.question_id, {
+        headers: {
+            Authorization: 'Bearer ' + store.token
+        }
+    }).then((res) => {
+        content.value = res.data.data.content
+        score.value = res.data.data.score
+
+        choice_a.value.id = res.data.data.choices[0].id
+        choice_a.value.content = res.data.data.choices[0].content
+        choice_a.value.isCorrect = res.data.data.choices[0].isCorrect
+
+        choice_b.value.id = res.data.data.choices[1].id
+        choice_b.value.content = res.data.data.choices[1].content
+        choice_b.value.isCorrect = res.data.data.choices[1].isCorrect
+
+        choice_c.value.id = res.data.data.choices[2].id
+        choice_c.value.content = res.data.data.choices[2].content
+        choice_c.value.isCorrect = res.data.data.choices[2].isCorrect
+
+        choice_d.value.id = res.data.data.choices[3].id
+        choice_d.value.content = res.data.data.choices[3].content
+        choice_d.value.isCorrect = res.data.data.choices[3].isCorrect
+    })
+})
 
 </script>
 
@@ -48,13 +129,13 @@ function updateQuiz(){
             <div class="row my-3">
                 <div class="col-3">
                     <div class="btn-group w-100">
-                    <select class="form-select hvr-grow-rotate" aria-label="Default select example" v-model="points">
-                        <option disabled value="" class="hvr-grow-rotate" selected>Select Quiz Points</option>
-                        <option >0</option>
-                        <option >5</option>
-                        <option >10</option>
-                        <option >15</option>
-                        <option >20</option>
+                        <select class="form-select hvr-grow-rotate" aria-label="Default select example" v-model="score">
+                            <option disabled value="" class="hvr-grow-rotate" selected>Select Quiz Points</option>
+                            <option>0</option>
+                            <option>5</option>
+                            <option>10</option>
+                            <option>15</option>
+                            <option>20</option>
                         </select>
                     </div>
                 </div>
@@ -62,7 +143,8 @@ function updateQuiz(){
                     <div class="w-100"></div>
                 </div>
                 <div class="col-3">
-                    <div class="w-100 btn btn-danger hvr-wobble-bottom" @click="router.push({})">Cancel</div>
+                    <div class="w-100 btn btn-danger hvr-wobble-bottom"
+                        @click="router.push({ name: 'update-quiz', params: { quiz_id: route.params.quiz_id } })">Cancel</div>
                 </div>
                 <div class="col-3">
                     <div class="w-100 btn btn-success hvr-wobble-bottom" @click="updateQuiz">Update</div>
@@ -72,52 +154,58 @@ function updateQuiz(){
             <!-- second main column second row -->
             <div row="row mt-3">
                 <div class="col-12">
-                   
-                    <textarea v-model="question_text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+
+                    <textarea v-model="content"
+                        oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                         class="rounded align-center text-center noBorder bigTextbox w-100 px-3 py-5"
-                        placeholder="Edit Question" ></textarea>
+                        placeholder="Insert your Question here"></textarea>
                 </div>
             </div>
 
             <!-- second main column third row -->
 
             <div class="row">
-                <div class="col-12 d-flex align-items-baseline">
-                    <div class="w-25 p-2 questionBox1 rounded m-2" action="#" method="post">
+                <div class="col-12 d-flex">
+                    <div class="w-25 p-2 questionBox1 rounded m-2">
                         <label class="switch w-100 mb-3">
+                            {{ choice_a.isCorrect }}
                             <input type="checkbox" v-model="choice_a.isCorrect">
                             <span class="slider rounded"></span>
                         </label>
-                        <textarea name="text" v-model="choice_a.input" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                        <textarea name="text" v-model="choice_a.content"
+                            oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center noBorder w-100 questionBoxColor1"
-                            placeholder="Edit Answer"></textarea>
+                            placeholder="Insert answer"></textarea>
                     </div>
                     <div class=" w-25 p-2 questionBox2 rounded m-2">
                         <label class="switch w-100 mb-3">
                             <input type="checkbox" v-model="choice_b.isCorrect">
                             <span class="slider rounded"></span>
                         </label>
-                        <textarea name="text" v-model="choice_b.input" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                        <textarea name="text" v-model="choice_b.content"
+                            oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center noBorder w-100 questionBoxColor2"
-                            placeholder="Edit Answer"></textarea>
+                            placeholder="Insert answer"></textarea>
                     </div>
                     <div class="w-25 p-2 questionBox3 rounded m-2">
                         <label class="switch w-100 mb-3">
                             <input type="checkbox" v-model="choice_c.isCorrect">
                             <span class="slider rounded"></span>
                         </label>
-                        <textarea name="text" v-model="choice_c.input" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                        <textarea name="text" v-model="choice_c.content"
+                            oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center noBorder w-100 questionBoxColor3"
-                            placeholder="Edit Answer"></textarea>
+                            placeholder="Insert answer"></textarea>
                     </div>
                     <div class="w-25 p-2 questionBox4 rounded m-2">
                         <label class="switch w-100 mb-3">
                             <input type="checkbox" v-model="choice_d.isCorrect">
                             <span class="slider rounded"></span>
                         </label>
-                        <textarea name="text" v-model="choice_d.input" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                        <textarea name="text" v-model="choice_d.content"
+                            oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                             class="rounded text-center questionBoxColor4 noBorder w-100"
-                            placeholder="Edit Answer"></textarea>
+                            placeholder="Insert answer"></textarea>
                     </div>
                 </div>
 
@@ -136,6 +224,7 @@ function updateQuiz(){
 .topSpace {
     margin: 2% !important;
 }
+
 /* Dropdown */
 .hvr-grow-rotate {
     display: inline-block;
@@ -154,9 +243,13 @@ function updateQuiz(){
 .hvr-grow-rotate:active {
     -webkit-transform: scale(1.1) rotate(4deg);
     transform: scale(1.1) rotate(4deg);
-    background-color: #0E86D4;
+    background-color: blue;
     color: white;
     border-radius: 10px;
+}
+
+textarea {
+    color: white;
 }
 
 @-webkit-keyframes hvr-pulse-grow {
@@ -267,12 +360,12 @@ function updateQuiz(){
     border-style: none !important;
     border-color: Transparent !important;
     background-color: var(--main-color) !important;
-    color: white;
+
 }
 
 ::placeholder {
     text-align: center !important;
-    color: white !important;
+    color: rgb(199, 198, 198) !important;
 }
 
 .bigTextbox {
@@ -332,7 +425,6 @@ function updateQuiz(){
     display: inline-block;
     width: 60px;
     height: 34px;
-    box-shadow: #7E549E 10px;
 }
 
 /* Hide default HTML checkbox */
@@ -357,6 +449,7 @@ function updateQuiz(){
 
 .slider:before {
     position: absolute;
+    color: white;
     height: 26px;
     width: 100px;
     left: 80px;
@@ -364,28 +457,24 @@ function updateQuiz(){
     background-color: None;
     -webkit-transition: .4s;
     transition: .4s;
-
 }
 
 input:checked+.slider {
     content: "Correct";
     background-color: green !important;
-
 }
 
 input:checked+.slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
-    background-color: darkgreen !important;
 }
 
 .slider:hover {
-    background-color: rgb(189, 0, 0) !important;
+    color: #fdec6e;
     text-shadow: 0px 0px 30px #fdec6e;
     -moz-transition: all 0.2s ease-in;
     -o-transition: all 0.2s ease-in;
     -webkit-transition: all 0.2s ease-in;
     transition: all 0.2s ease-in;
-    box-shadow: 0px 0px 10px 5px white !important;
 }</style>
