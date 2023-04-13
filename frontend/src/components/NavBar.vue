@@ -1,6 +1,33 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import { useAuthStore } from '@/store/AuthStore';
 
+const store = useAuthStore()
+
+function logOut() {
+    console.log('clicked')
+    axios.post('/logout/', {
+        
+    },{
+        headers:{
+            Authorization: 'Bearer '+store.token
+        }
+    }).then((res) => {
+        store.removeTokenValue()
+
+        Swal.fire({
+            icon: 'success',
+            title: res.data.message
+        })
+    }).catch((err) => {
+        Swal.fire({
+            icon: 'error',
+            title: err.response.data.message
+        })
+    })
+}
 
 onMounted(() => {
     document.body.style.overflow = "";
@@ -82,13 +109,13 @@ onMounted(() => {
                                             d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
                                     </svg></span>Settings</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link m-2 p-3" aria-current="page" href="#"><span class="pe-4"><svg
+                        <li class="nav-item" @click="logOut">
+                            <div class="nav-link m-2 p-3" aria-current="page" ><span class="pe-4"><svg
                                         xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                                         class="bi bi-door-open-fill" viewBox="0 0 16 16">
                                         <path
                                             d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />
-                                    </svg></span> Log Out</a>
+                                    </svg></span> Log Out</div>
                         </li>
 
                     </ul>
@@ -102,6 +129,7 @@ onMounted(() => {
     font-family: var(--title-font);
     color: var(--main-color);
 }
+
 .title span {
     animation: waviy 1s infinite;
     animation-delay: calc(.1s * var(--i));
@@ -127,4 +155,5 @@ onMounted(() => {
     -webkit-transform: scale(1.1) rotate(4deg);
     transform: scale(1.1) rotate(4deg);
     /* transition: all 1s ease; */
-}</style>
+}
+</style>

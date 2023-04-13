@@ -80,7 +80,7 @@ function deleteQuiz(){
           title: res.data.message
         })
 
-        password.value = ''
+        router.push({name:'dashboard'})
       }).catch((err) => {
         Swal.fire({
           icon: 'question',

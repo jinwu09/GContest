@@ -11,8 +11,6 @@ const quizzes: any = ref({})
 
 const router = useRouter()
 
-const title = ref('')
-
 onMounted(() => {
     axios.get('/quiz', {
         headers: {
@@ -29,6 +27,12 @@ onMounted(() => {
 
 function navToCreateTest() {
     router.push({name: 'create-quiz'})
+}
+
+function editQuiz(id:any){
+    router.push({name: 'update-quiz',params:{
+        quiz_id:id
+    }})
 }
 
 </script>
@@ -86,7 +90,7 @@ function navToCreateTest() {
 
                 </div>
                 <div class="col-lg-10">
-                    <div class="row row-cols-1 row-cols-md-2 g-4 mt-2">
+                    <div class="row row-cols-1 row-cols-md-2 g-4 my-3">
                         <div v-for="quiz in quizzes" :key="quiz.id" class="col mt-4">
                             <div class="card">
                                 <div class="card-body">
@@ -95,7 +99,8 @@ function navToCreateTest() {
                                     <p class="text-muted">Room Status: {{ quiz.status }}</p>
                                     <p class="text-muted">Created by: {{ quiz.creator.firstName + ' ' +
                                         quiz.creator.lastName }}</p>
-                                    <button class="btn btn-primary px-4">Join</button>
+                                    <button class="btn btn-primary px-4 me-2">Join</button>
+                                    <button v-show="quiz.admin" class="btn btn-primary px-4" @click="editQuiz(quiz.id)">Edit</button>
                                 </div>
                             </div>
 

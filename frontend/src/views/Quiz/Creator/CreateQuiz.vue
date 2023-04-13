@@ -34,7 +34,7 @@ function createQuiz(){
       title: res.data.message
     })
 
-    router.push({name: 'update-quiz', state:{
+    router.push({name: 'update-quiz', params:{
       quiz_id: res.data.quiz_id
     }})
   }).catch((err)=>{
