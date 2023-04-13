@@ -92,7 +92,7 @@ function navToLogin() {
               </div>
             </div>
             <div class="row mt-5">
-              <p class="text-center">Already have an account? <u @click="navToLogin">LOGIN</u></p>
+              <p class="text-center accountSwitch">Already have an account? <u class="accountSwitchLink" @click="navToLogin">LOGIN</u></p>
             </div>
           </form>
         </div>
