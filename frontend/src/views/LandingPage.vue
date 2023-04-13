@@ -149,10 +149,7 @@ function navToLogin() {
 }
 .title:hover {
   color: #fff;
-  text-shadow: 0 0 5px #B27CC5,
-              0 0 25px #B27CC5,
-              0 0 50px #B27CC5,
-              0 0 100px #B27CC5;
+  text-shadow: 0 0 5px #b27cc5, 0 0 25px #b27cc5, 0 0 50px #b27cc5, 0 0 100px #b27cc5;
 }
 .tag {
   font-size: clamp(0.5rem, 5vw + 1rem, 2rem);
