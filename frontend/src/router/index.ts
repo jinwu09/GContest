@@ -39,7 +39,7 @@ const router = createRouter({
 
     //Landing Page
     {
-      path: '/LandingPage',
+      path: '/',
       name: 'LandingPage',
       component: LandingPage
     },
@@ -104,10 +104,6 @@ const router = createRouter({
 
     //Redirections
     {
-      path: '/',
-      redirect: 'login'
-    },
-    {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: PathNotFound
@@ -125,7 +121,7 @@ router.beforeEach((to, from, next) => {
     !store.isAuthenticated
   ) {
     next({ name: 'login' })
-  } else if (store.isAuthenticated && (to.name === 'login' || to.name === 'register')) {
+  } else if (store.isAuthenticated && (to.name === 'login' || to.name === 'register' || to.name === 'LandingPage')) {
     next({ name: 'dashboard' })
   } else next()
 })
