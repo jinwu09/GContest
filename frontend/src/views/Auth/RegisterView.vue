@@ -1,7 +1,40 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/store/AuthStore';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const store = useAuthStore()
+
+const fname = ref()
+const lname = ref()
+const email = ref()
+const password = ref()
+const cpassword = ref()
+
+function register(){
+  axios.post('/register',{
+    firstName: fname.value,
+    lastName: lname.value,
+    email: email.value,
+    password: password.value,
+    password_confirmation: cpassword.value,
+  }).then((res)=>{
+    Swal.fire({
+      title: res.data.message
+    })
+
+    store.setTokenValue(res.data.token)
+
+    router.push({name: 'dashboard'})
+  }).catch((err)=>{
+    Swal.fire({
+      title: err.data.message,
+    })
+  })
+}
 
 function navToLogin() {
   router.push({ name: 'login' })
@@ -27,20 +60,25 @@ function navToLogin() {
           <div class="row">
             <h1 class="title text-center">Quiger</h1>
           </div>
-          <form>
+          <form @submit.prevent="register">
             <div class="row mt-3">
               <div class="col-md-6 mt-3">
                 <input
+                v-model="fname"
+
                   class="form-control form-control-lg"
                   type="text"
                   placeholder="First Name"
                   aria-label=".form-control-lg example"
                   autocomplete="off"
                   required
+
                 />
               </div>
               <div class="col-md-6 mt-3">
                 <input
+                v-model="lname"
+
                   class="form-control form-control-lg"
                   type="text"
                   placeholder="Last Name"
@@ -53,6 +91,8 @@ function navToLogin() {
             <div class="row mt-3">
               <div class="col-md-12">
                 <input
+                v-model="email"
+                
                   class="form-control form-control-lg"
                   type="email"
                   placeholder="Email"
@@ -65,6 +105,8 @@ function navToLogin() {
             <div class="row mt-3">
               <div class="col-md-12">
                 <input
+                v-model="password"
+
                   class="form-control form-control-lg"
                   type="password"
                   placeholder="Password"
@@ -77,6 +119,8 @@ function navToLogin() {
             <div class="row mt-3">
               <div class="col-md-12">
                 <input
+                v-model="cpassword"
+
                   class="form-control form-control-lg"
                   type="password"
                   placeholder="Confirm Password"

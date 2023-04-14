@@ -3,14 +3,15 @@ import { onMounted } from 'vue';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useAuthStore } from '@/store/AuthStore';
+import { useRouter } from 'vue-router';
+
 
 const store = useAuthStore()
+const router = useRouter()
 
 function logOut() {
     console.log('clicked')
-    axios.post('/logout/', {
-        
-    },{
+    axios.post('/logout/', null,{
         headers:{
             Authorization: 'Bearer '+store.token
         }
@@ -21,6 +22,8 @@ function logOut() {
             icon: 'success',
             title: res.data.message
         })
+
+        router.push({name:'LandingPage'})
     }).catch((err) => {
         Swal.fire({
             icon: 'error',
@@ -38,7 +41,7 @@ onMounted(() => {
 <template>
     <nav class="navbar bg-body-tertiary sticky-top bar-design">
         <div class="container-fluid">
-            <span class="mb-0 h1 title">
+            <span class="mb-0 h1 title" @click="router.push({name : 'dashboard'})">
                 <span style="--i:1">Q</span>
                 <span style="--i:2">u</span>
                 <span style="--i:3">i</span>
@@ -128,6 +131,7 @@ onMounted(() => {
 .title {
     font-family: var(--title-font);
     color: var(--main-color);
+    cursor: pointer;
 }
 
 .title span {

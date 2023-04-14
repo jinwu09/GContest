@@ -44,7 +44,7 @@ function navToLogin() {
               aria-describedby="Quiz Code"
             />
             <div class="input-group-append">
-              <button class="submit hvr-glow" type="button">Enter</button>
+              <button class="submit hvr-glow" type="button" @click="navToLogin">Enter</button>
             </div>
           </div>
           <!-- <input class="text input" placeholder="Quiz Code" />
@@ -62,7 +62,7 @@ function navToLogin() {
         <div class="text-center">
           <div class="text-center">
             <img
-              src="src/assets/pic.png"
+              src="/src/assets/pic.png"
               class="img-fluid LandPagePic hvr-bounce-in"
               alt="resposive image"
             />
