@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import NavBar from '@/components/NavBar.vue';
 import LobbyJoiner from '@/components/Joiner/LobbyJoiner.vue'
+import { onMounted } from 'vue';
 
 const joiners : any = [
-    {   
-        'id': 0,
-        'username': 'Albert'
-    },
-    {
-        'id': 1,
-        'username': 'Oten'
-    },
+
 ]
+
+onMounted(()=>{
+    // window.Echo.channel('albert')
+    // .listen('Hello',(e:any)=>{
+    //     console.log(e)
+    // })
+})
 
 </script>
 
@@ -22,11 +23,6 @@ const joiners : any = [
             <div class="row">
                 <div class="col-lg-1"></div>
                 <div class="col-lg-10">
-                    <div class="row g-2">
-                        <div class="col">Albert</div>
-                        <div class="col">Albert</div>
-                        <div class="col">Albert</div>
-                    </div>
                     <div class="row mt-4">
                         <h3>In Lobby:</h3>
                     </div>

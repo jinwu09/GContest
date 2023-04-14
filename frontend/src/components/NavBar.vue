@@ -52,7 +52,7 @@ onMounted(() => {
             </button>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title title h1 m-2" id="offcanvasNavbarLabel">
+                    <h5 class="offcanvas-title title h1  m-2" id="offcanvasNavbarLabel">
                         <span style="--i:1">Q</span>
                         <span style="--i:2">u</span>
                         <span style="--i:3">i</span>
