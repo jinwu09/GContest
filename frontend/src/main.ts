@@ -1,3 +1,10 @@
+declare global {
+    interface Window {
+        Pusher: any;
+        Echo: any;
+    }
+}
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -13,7 +20,12 @@ import axios from 'axios';
 
 import './assets/main.css';
 
+
+
+
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
+// axios.defaults.withCredentials = true;
+// axios.defaults.baseURL = 'http://api.quiger.com:8000/api'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)

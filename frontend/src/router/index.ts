@@ -92,12 +92,12 @@ const router = createRouter({
 
     //Joiners
     {
-      path: '/join/quiz/:room_number/start',
+      path: '/join/quiz/:quiz_id/start',
       name: 'quiz-join',
       component: QuizView
     },
     {
-      path: '/join/quiz/:room_number/lobby',
+      path: '/join/quiz/:quiz_id/lobby',
       name: 'quiz-lobby',
       component: Lobby
     },

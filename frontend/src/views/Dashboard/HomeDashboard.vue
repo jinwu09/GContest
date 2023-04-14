@@ -35,6 +35,12 @@ function editQuiz(id:any){
     }})
 }
 
+function joinLobbyAsJoiner(id: any){
+    router.push({name: 'quiz-lobby',params:{
+        quiz_id:id
+    }})
+}
+
 </script>
 
 <template>
@@ -99,7 +105,7 @@ function editQuiz(id:any){
                                     <p class="text-muted">Room Status: {{ quiz.status }}</p>
                                     <p class="text-muted">Created by: {{ quiz.creator.firstName + ' ' +
                                         quiz.creator.lastName }}</p>
-                                    <button class="btn btn-primary px-4 me-2">Join</button>
+                                    <button class="btn btn-primary px-4 me-2" @click="joinLobbyAsJoiner(quiz.id)">Join</button>
                                     <button v-show="quiz.admin" class="btn btn-primary px-4" @click="editQuiz(quiz.id)">Edit</button>
                                 </div>
                             </div>

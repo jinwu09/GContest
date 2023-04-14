@@ -18,6 +18,7 @@ function login(e: any) {
       password: password.value
     })
     .then((res) => {
+
       store.setTokenValue(res.data.token)
       Swal.fire({
         icon: 'success',
@@ -30,7 +31,7 @@ function login(e: any) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: err.response.data.message
+        text: err.data.message
       })
     })
 }
