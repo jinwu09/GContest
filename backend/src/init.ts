@@ -11,7 +11,7 @@ async function main(
   inquestion: string = "question "
 ) {
   var userID = "";
-  const createUser = await prisma.users.create({
+  const createUser = await prisma.user.create({
     data: {
       email: name + "@gmail.com",
       first_name: name + " John",
@@ -19,37 +19,35 @@ async function main(
       password: CryptoJS.AES.encrypt(
         inpassword,
         process.env.API_KEY
-      ).toString(),
+      ).toString()
     },
   });
-  const createToken = await prisma.token.create({
-    data: {
-      usersId: createUser.id,
-    },
-  });
+  // const createToken = await prisma.token.create({
+  //   data: {
+  //     usersId: createUser.id,
+  //   },
+  // });
   const createquiz: any = await prisma.quiz
     .create({
       data: {
         title: "all about me",
         password: "",
         room: inRoom,
-        status: "closed",
-        creator_id: createUser.id,
-        start_at: new Date(),
-        ends_at: new Date(),
+        status: 'PUBLIC',
+        creator_id: createUser.id
       },
     })
     .catch((e) => {
       console.log(e);
     });
 
-  const createAnsweredQuiz = await prisma.answeredQuiz.create({
-    data: {
-      Score: 20,
-      quizId: createquiz.id,
-      usersId: createUser.id,
-    },
-  });
+  // const createAnsweredQuiz = await prisma.answeredQuiz.create({
+  //   data: {
+  //     Score: 20,
+  //     quizId: createquiz.id,
+  //     usersId: createUser.id,
+  //   },
+  // });
 
   for (let index = 0; index < 3; index++) {
     const createQuestion = await prisma.question.create({
@@ -89,15 +87,15 @@ async function main(
       });
     console.log(readChoice);
     console.log("end");
-    const createAnswer = await prisma.answer.create({
-      data: {
-        quizId: createquiz.id,
-        questionId: createQuestion.id,
-        choiceId: readChoice.id,
-        usersId: createUser.id,
-        answeredQuizId: createAnsweredQuiz.id,
-      },
-    });
+    // const createAnswer = await prisma.answer.create({
+    //   data: {
+    //     quizId: createquiz.id,
+    //     questionId: createQuestion.id,
+    //     choiceId: readChoice.id,
+    //     usersId: createUser.id,
+    //     answeredQuizId: createAnsweredQuiz.id,
+    //   },
+    // });
   }
 
   console.log("data initilized");

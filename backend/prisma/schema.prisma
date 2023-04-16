@@ -10,67 +10,70 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
-  id           String         @id @default(uuid())
-  first_name   String
-  last_name    String
-  school       String?
-  email        String         @unique
-  password     String
-  Answer       Answer[]
-  Quiz         Quiz[]
-  token        Token[]
-  answeredQuiz AnsweredQuiz[]
+enum QuizType {
+  PRIVATE
+  PUBLIC
+}
+
+model User {
+  id         BigInt   @id @default(autoincrement())
+  first_name String
+  last_name  String
+  school     String?
+  email      String   @unique
+  password   String
+  Answer     Answer[]
+  Quiz       Quiz[]
+  Token      Token?
+  // answeredQuiz AnsweredQuiz[]
 }
 
 model Token {
   id      String @id @default(uuid())
-  Users   Users  @relation(fields: [usersId], references: [id])
-  usersId String @unique
-  token   String @unique @default(uuid())
+  Users   User   @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  usersId BigInt @unique
+  token   String @default(uuid()) @unique
 }
 
 model Answer {
-  id             String        @id @default(uuid())
-  Quiz           Quiz          @relation(fields: [quizId], references: [id])
-  quizId         String
-  Question       Question      @relation(fields: [questionId], references: [id])
-  questionId     String
-  choice         Choice?       @relation(fields: [choiceId], references: [id])
-  choiceId       String?
-  Users          Users         @relation(fields: [usersId], references: [id])
-  usersId        String
-  answered_at    DateTime      @default(now())
-  AnsweredQuiz   AnsweredQuiz? @relation(fields: [answeredQuizId], references: [id])
-  answeredQuizId String?
+  id          String   @id @default(uuid())
+  Quiz        Quiz     @relation(fields: [quizId], references: [id] ,onDelete: Cascade)
+  quizId      String
+  Question    Question @relation(fields: [questionId], references: [id] , onDelete: Cascade)
+  questionId  String
+  choice      Choice?  @relation(fields: [choiceId], references: [id] ,onDelete: Cascade)
+  choiceId    String?
+  Users       User     @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  usersId     BigInt
+  answered_at DateTime @default(now())
+  // AnsweredQuiz   AnsweredQuiz? @relation(fields: [answeredQuizId], references: [id])
+  // answeredQuizId String?
 }
 
 model Quiz {
-  id         String         @id @default(uuid())
+  id         String     @id @default(uuid())
   title      String
   password   String?
-  room       String?        @unique
-  status     String
-  creator    Users          @relation(fields: [creator_id], references: [id])
-  creator_id String
-  created_at DateTime       @default(now())
-  start_at   DateTime
-  ends_at    DateTime
+  room       String?    @unique
+  status     QuizType   @default(PUBLIC)
+  creator    User       @relation(fields: [creator_id], references: [id], onDelete: Cascade)
+  creator_id BigInt
+  created_at DateTime   @default(now())
   question   Question[]
   answer     Answer[]
-  totalScore AnsweredQuiz[]
+  // totalScore AnsweredQuiz[]
 }
 
-model AnsweredQuiz {
-  id         String   @id @default(uuid())
-  Score      Int
-  created_at DateTime @default(now())
-  Quiz       Quiz?    @relation(fields: [quizId], references: [id])
-  quizId     String?
-  answer     Answer[]
-  Users      Users?   @relation(fields: [usersId], references: [id])
-  usersId    String?
-}
+// model AnsweredQuiz {
+//   id         String   @id @default(uuid())
+//   Score      Int
+//   created_at DateTime @default(now())
+//   Quiz       Quiz?    @relation(fields: [quizId], references: [id])
+//   quizId     String?
+//   answer     Answer[]
+//   Users      Users?   @relation(fields: [usersId], references: [id])
+//   usersId    String?
+// }
 
 model Question {
   id      String   @id @default(uuid())
@@ -78,7 +81,7 @@ model Question {
   score   Int
   choice  Choice[]
   answer  Answer[]
-  Quiz    Quiz     @relation(fields: [quizId], references: [id])
+  Quiz    Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   quizId  String
 }
 
@@ -87,6 +90,6 @@ model Choice {
   content    String
   is_correct Boolean
   answer     Answer[]
-  Question   Question? @relation(fields: [questionId], references: [id])
+  Question   Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId String?
 }

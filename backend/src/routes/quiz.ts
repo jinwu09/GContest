@@ -70,14 +70,12 @@ router.get('/created/:user_id/',
     const user_created_quiz = await prisma.quiz
       .findMany({
         where: {
-          creator_id: req.params.user_id,
+          creator_id: req.params.user_id as any,
         },
         select: {
           id: true,
           room: true,
           title: true,
-          start_at: true,
-          ends_at: true,
         },
       })
       .catch((e: any) => {
@@ -98,9 +96,6 @@ router.post('/',
   body("title").isString().isLength({ min: 1 }),
   body("status").isString(),
   body("room").isString(),
-  body("start_at").isString(),
-  body("ends_at").isString(),
-
   async (req: Request, res: Response, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -130,7 +125,7 @@ router.post('/',
   },
   async (req: Request, res: Response, next) => {
     console.log(res.locals.userID);
-    const checkCreator = prisma.users
+    const checkCreator = prisma.user
       .findUnique({
         where: {
           id: res.locals.userID,
@@ -159,8 +154,6 @@ router.post('/',
           room: req.body.room || crypto.randomUUID(),
           status: req.body.status,
           creator_id: res.locals.userID,
-          start_at: new Date(req.body.start_at),
-          ends_at: new Date(req.body.ends_at),
         },
       })
       .catch((e) => {
@@ -191,8 +184,6 @@ router.put('/:quiz_id',
           room: req.body.room,
           password: req.body.password,
           status: req.body.status,
-          ends_at: req.body.ends_at,
-          start_at: req.body.start_at,
           title: req.body.title,
         },
       })
