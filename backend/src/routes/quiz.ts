@@ -41,12 +41,7 @@ router.get('/',
 //Get Specific
 router.get('/:quiz_id',
   async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(Code.S400_Bad_Request)
-        .send(sendTemplate({ errors: errors.array() }));
-    }
+    
 
     const quiz_detail = await prisma.quiz
       .findUnique({
@@ -169,7 +164,7 @@ router.put('/:quiz_id',
     const updateQuiz = await prisma.quiz
       .update({
         where: {
-          id: req.params.quiz_id as any,
+          id: parseInt(req.params.quiz_id),
         },
         data: {
           room: req.body.room,
@@ -180,6 +175,7 @@ router.put('/:quiz_id',
       })
       .catch((e: any) => {
         console.log(e);
+        res.status(Code.S400_Bad_Request).send(sendTemplate("Failure in updating"));
       })
       .then((data: any) => {
         res.send(sendTemplate("Successfully Updated"));
@@ -195,7 +191,7 @@ router.delete('/:quiz_id',
     const deleteQuiz = await prisma.quiz
       .delete({
         where: {
-          id: req.params.quiz_id as any
+          id: parseInt(req.params.quiz_id)
         }
       })
       .catch((e: any) => {
