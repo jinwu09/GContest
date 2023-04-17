@@ -77,8 +77,8 @@ model Attendees {
   id     Int   @id @default(autoincrement())
   Room   Room? @relation(fields: [roomId], references: [id])
   roomId Int?
-  User   User? @relation(fields: [userId], references: [id])
-  userId Int?
+  User   User? @relation(fields: [userId], references: [id]) 
+  userId Int? @unique
 }
 
 // model AnsweredQuiz {

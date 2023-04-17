@@ -86,6 +86,7 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
           select: {
             User: {
               select: {
+                id: true,
                 first_name: true,
                 last_name: true,
               },
@@ -105,7 +106,7 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
       // who just joined
       socket.emit("JoinRoom", {
         data: RoomData,
-        message: `successfuly join`,
+        message: `Successfully joined!`,
       });
       // emits to all in the room except who just join
       socket.to(dataIO.Roomname).emit("JoinRoom", {
