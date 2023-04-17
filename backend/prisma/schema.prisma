@@ -24,14 +24,14 @@ model User {
   password   String
   Answer     Answer[]
   Quiz       Quiz[]
-  Token      Token?
+  Token      Token[]
   // answeredQuiz AnsweredQuiz[]
 }
 
 model Token {
   id      Int    @id @default(autoincrement())
   Users   User   @relation(fields: [usersId], references: [id], onDelete: Cascade)
-  usersId Int    @unique
+  usersId Int
   token   String @unique @default(uuid())
 }
 
@@ -51,7 +51,7 @@ model Answer {
 }
 
 model Quiz {
-  id         Int     @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   title      String
   password   String?
   room       String?    @unique
@@ -76,7 +76,7 @@ model Quiz {
 // }
 
 model Question {
-  id      Int   @id @default(autoincrement())
+  id      Int      @id @default(autoincrement())
   content String
   score   Int
   choice  Choice[]
@@ -86,7 +86,7 @@ model Question {
 }
 
 model Choice {
-  id         Int    @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   content    String
   is_correct Boolean
   answer     Answer[]
