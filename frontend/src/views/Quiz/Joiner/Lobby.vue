@@ -17,7 +17,14 @@ const route = useRoute()
 const store = useAuthStore()
 const quiz_id = ref()
 
-const joiners: any = ref([])
+const joiners: any = ref([
+//     {
+//         "id":1,
+//         'firstName':'Mark',
+//         'lastName':'Manuel',
+
+// }
+])
 
 window.Pusher = Pusher;
 
@@ -58,7 +65,7 @@ window.Echo = new Echo({
             }
         };
     },
-    encrypted: true,
+    encrypted: false,
     enabledTransports: ['ws', 'wss'],
 });
 

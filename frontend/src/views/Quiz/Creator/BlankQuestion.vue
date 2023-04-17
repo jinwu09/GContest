@@ -65,7 +65,7 @@ function createQuiz(){
     }).then((res)=>{
         Swal.fire({
             icon:'success',
-            title: res.data.message,
+            title: res.data.payload.message,
         })
 
         router.push({name: 'update-quiz', params:{quiz_id: route.params.quiz_id}})
