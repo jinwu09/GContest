@@ -18,7 +18,7 @@ onMounted(() => {
         }
     })
         .then((res) => {
-            quizzes.value = res.data.data
+            quizzes.value = res.data.payload
         })
         .catch((err) => {
             console.log(err)
@@ -103,8 +103,8 @@ function joinLobbyAsJoiner(id: any){
                                     <h4 class="card-title">{{ quiz.title }}</h4>
                                     <h5 class="card-subtitle mb-2 text-muted">{{ quiz.description }}</h5>
                                     <p class="text-muted">Room Status: {{ quiz.status }}</p>
-                                    <p class="text-muted">Created by: {{ quiz.creator.firstName + ' ' +
-                                        quiz.creator.lastName }}</p>
+                                    <p class="text-muted">Created by: {{ quiz.creator.first_name + ' ' +
+                                        quiz.creator.last_name }}</p>
                                     <button class="btn btn-primary px-4 me-2" @click="joinLobbyAsJoiner(quiz.id)">Join</button>
                                     <button v-show="quiz.admin" class="btn btn-primary px-4" @click="editQuiz(quiz.id)">Edit</button>
                                 </div>

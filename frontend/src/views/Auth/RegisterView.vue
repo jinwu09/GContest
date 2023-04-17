@@ -15,18 +15,18 @@ const password = ref()
 const cpassword = ref()
 
 function register(){
-  axios.post('/register',{
+  axios.post('auth/register',{
     firstName: fname.value,
     lastName: lname.value,
     email: email.value,
     password: password.value,
-    password_confirmation: cpassword.value,
+    confirm_password: cpassword.value,
   }).then((res)=>{
     Swal.fire({
-      title: res.data.message
+      title: res.data.payload.message
     })
 
-    store.setTokenValue(res.data.token)
+    store.setTokenValue(res.data.payload.token)
 
     router.push({name: 'dashboard'})
   }).catch((err)=>{

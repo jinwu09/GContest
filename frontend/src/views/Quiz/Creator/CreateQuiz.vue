@@ -20,7 +20,7 @@ const password = ref('')
 function createQuiz(){
   axios.post('/quiz/',{
     title: title.value,
-    name: room_passcode.value,
+    room: room_passcode.value,
     description: description.value,
     status: status.value,
     password: password.value
@@ -35,7 +35,7 @@ function createQuiz(){
     })
 
     router.push({name: 'update-quiz', params:{
-      quiz_id: res.data.quiz_id
+      quiz_id: res.data.payload.quiz_id
     }})
   }).catch((err)=>{
     console.log(err)
@@ -76,14 +76,14 @@ function createQuiz(){
                     <div class="mb-3">
                       <label class="form-label">Room Status <span class="text-muted">(Public means every user of this application can join your quiz)</span></label>
                       <select class="form-select" aria-label=".form-select-lg example" v-model="status" required>
-                        <option value="public">Public</option>
-                        <option value="private">Private</option>
+                        <option value="PUBLIC">Public</option>
+                        <option value="PRIVATE">Private</option>
                       </select>
                     </div>
 
                     <div class="mb-3">
                       <label class="form-label">Room Password <span class="text-muted">(So that only users authorized by you can join your quiz)</span></label>
-                      <input type="password" v-model="password" class="form-control" autocomplete="off" :disabled="status == 'public'" :required="status == 'private'">
+                      <input type="password" v-model="password" class="form-control" autocomplete="off" :disabled="status == 'PUBLIC'" :required="status == 'PRIVATE'">
                     </div>
 
                     <div class="mb-3">

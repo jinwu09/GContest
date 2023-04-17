@@ -11,7 +11,7 @@ const router = useRouter()
 
 function logOut() {
     console.log('clicked')
-    axios.post('/logout/', null,{
+    axios.post('auth/logout/', null,{
         headers:{
             Authorization: 'Bearer '+store.token
         }
@@ -20,14 +20,14 @@ function logOut() {
 
         Swal.fire({
             icon: 'success',
-            title: res.data.message
+            title: res.data.payload
         })
 
         router.push({name:'LandingPage'})
     }).catch((err) => {
         Swal.fire({
             icon: 'error',
-            title: err.response.data.message
+            title: err.response.data.payload
         })
     })
 }

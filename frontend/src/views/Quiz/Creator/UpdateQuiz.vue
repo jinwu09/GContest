@@ -3,7 +3,7 @@ import QuestionBox from '@/components/Dashboard/QuestionBox.vue';
 import NavBar from '@/components/NavBar.vue'
 import { useAuthStore } from '@/store/AuthStore';
 import axios from 'axios';
-import { ref, onMounted} from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 
@@ -33,7 +33,7 @@ function updateQuiz() {
     if (result.isConfirmed) {
       axios.put('/quiz/' + quiz_id.value, {
         title: title.value,
-        name: room_passcode.value,
+        room: room_passcode.value,
         description: description.value,
         status: status.value,
         password: password.value,
@@ -44,14 +44,14 @@ function updateQuiz() {
       }).then((res) => {
         Swal.fire({
           icon: 'success',
-          title: res.data.message
+          title: res.data.payload
         })
 
         password.value = ''
       }).catch((err) => {
         Swal.fire({
-          icon: 'question',
-          title: err.data.message
+          icon: 'error',
+          title: err.data.payload
         })
       })
     }
@@ -60,7 +60,7 @@ function updateQuiz() {
 
 }
 
-function deleteQuiz(){
+function deleteQuiz() {
   Swal.fire({
     title: 'Are you sure you want to delete your quiz?',
     icon: 'warning',
@@ -80,7 +80,7 @@ function deleteQuiz(){
           title: res.data.message
         })
 
-        router.push({name:'dashboard'})
+        router.push({ name: 'dashboard' })
       }).catch((err) => {
         Swal.fire({
           icon: 'question',
@@ -120,27 +120,20 @@ function updateQuestion(e: any) {
 }
 
 onMounted(
-  ()=> {
-    axios.all([
-      axios.get('/quiz/' + route.params.quiz_id, {
-        headers: {
-          Authorization: 'Bearer ' + store.token
-        }
-      }),
-      axios.get('/question/all/' + route.params.quiz_id, {
-        headers: {
-          Authorization: 'Bearer ' + store.token
-        }
-      }),
-    ]).then(axios.spread((quiz_res, question_res) => {
-       quiz_id.value = quiz_res.data.data.id
-      title.value = quiz_res.data.data.title
-      room_passcode.value = quiz_res.data.data.name
-      description.value = quiz_res.data.data.description
-      status.value = quiz_res.data.data.status
+  () => {
+    axios.get('/quiz/' + route.params.quiz_id, {
+      headers: {
+        Authorization: 'Bearer ' + store.token
+      }
+    }).then((res)=>{
+      const payload = res.data.payload
+      title.value = payload.title
+      room_passcode.value = payload.room
+      status.value = payload.status
+      quiz_id.value = payload.id
 
-      questions.value = question_res.data.data
-    }))
+      questions.value = payload.question
+    })
   }
 )
 
@@ -176,15 +169,15 @@ onMounted(
                     <div class="mb-3">
                       <label class="form-label">Room Status</label>
                       <select class="form-select" aria-label=".form-select-lg example" v-model="status">
-                        <option selected value="public">Public</option>
-                        <option value="private">Private</option>
+                        <option selected value="PUBLIC">Public</option>
+                        <option value="PRIVATE">Private</option>
                       </select>
                     </div>
 
                     <div class="mb-3">
                       <label class="form-label">Room Password</label>
                       <input type="password" v-model="password" class="form-control" autocomplete="off"
-                        :disabled="status == 'public'" :required="status == 'private'">
+                        :disabled="status == 'PUBLIC'" :required="status == 'PRIVATE'">
                     </div>
 
                     <div class="mb-3">
@@ -221,10 +214,10 @@ onMounted(
               <!-- Questions here -->
               <div :class="index == 0 ? ('row') : ('row pt-3')" v-for="(value, index) in questions" :key="value.id">
                 <QuestionBox :question_id="value.id" :points='value.score' :question_content="value.content"
-                  :choice_a="value.choices[0].content" :choice_a_is-correct="value.choices[0].isCorrect"
-                  :choice_b="value.choices[1].content" :choice_b_is-correct="value.choices[1].isCorrect"
-                  :choice_c="value.choices[2].content" :choice_c_is-correct="value.choices[2].isCorrect"
-                  :choice_d="value.choices[3].content" :choice_d_is-correct="value.choices[3].isCorrect"
+                  :choice_a="value.choice[0].content" :choice_a_is-correct="value.choice[0].is_correct"
+                  :choice_b="value.choice[1].content" :choice_b_is-correct="value.choice[1].is_correct"
+                  :choice_c="value.choice[2].content" :choice_c_is-correct="value.choice[2].is_correct"
+                  :choice_d="value.choice[3].content" :choice_d_is-correct="value.choice[3].is_correct"
                   @delete="deleteQuestion" @update="updateQuestion" />
               </div>
 

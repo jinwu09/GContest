@@ -13,16 +13,16 @@ const store = useAuthStore()
 
 function login(e: any) {
   axios
-    .post('/login', {
+    .post('auth/login', {
       email: email.value,
       password: password.value
     })
     .then((res) => {
+      store.setTokenValue(res.data.payload.token)
 
-      store.setTokenValue(res.data.token)
       Swal.fire({
         icon: 'success',
-        text: res.data.message
+        text: res.data.payload.message
       })
 
       router.push({ name: 'dashboard' })
@@ -31,7 +31,7 @@ function login(e: any) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: err.data.message
+        text: err.response.data.payload
       })
     })
 }
