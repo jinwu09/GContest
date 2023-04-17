@@ -19,7 +19,8 @@ import axios from 'axios'
 
 import './assets/main.css'
 
-axios.defaults.baseURL = 'http://127.0.0.1:8080/api'
+// axios.defaults.baseURL = 'http://127.0.0.1:8080/api'
+axios.defaults.baseURL = 'http://localhost:8080/api'
 // axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = 'http://api.quiger.com:8000/api'
 

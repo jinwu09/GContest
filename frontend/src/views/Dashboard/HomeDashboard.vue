@@ -19,6 +19,8 @@ onMounted(() => {
     })
         .then((res) => {
             quizzes.value = res.data.payload
+    console.log(quizzes.value)
+
         })
         .catch((err) => {
             console.log(err)
@@ -35,9 +37,9 @@ function editQuiz(id:any){
     }})
 }
 
-function joinLobbyAsJoiner(id: any){
+function joinLobbyAsJoiner(room: any){
     router.push({name: 'quiz-lobby',params:{
-        quiz_id:id
+        room:room
     }})
 }
 
@@ -105,7 +107,7 @@ function joinLobbyAsJoiner(id: any){
                                     <p class="text-muted">Room Status: {{ quiz.status }}</p>
                                     <p class="text-muted">Created by: {{ quiz.creator.first_name + ' ' +
                                         quiz.creator.last_name }}</p>
-                                    <button class="btn btn-primary px-4 me-2" @click="joinLobbyAsJoiner(quiz.id)">Join</button>
+                                    <button class="btn btn-primary px-4 me-2" @click="joinLobbyAsJoiner(quiz.room[0].room)">Join</button>
                                     <button v-show="quiz.admin" class="btn btn-primary px-4" @click="editQuiz(quiz.id)">Edit</button>
                                 </div>
                             </div>

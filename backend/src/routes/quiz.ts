@@ -21,6 +21,7 @@ router.get("/", async (req: Request, res: Response, next) => {
             last_name: true,
           },
         },
+        room: true
       },
     })
     .catch((e: any) => {
