@@ -16,7 +16,7 @@ enum QuizType {
 }
 
 model User {
-  id         BigInt   @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   first_name String
   last_name  String
   school     String?
@@ -29,35 +29,35 @@ model User {
 }
 
 model Token {
-  id      String @id @default(uuid())
+  id      Int    @id @default(autoincrement())
   Users   User   @relation(fields: [usersId], references: [id], onDelete: Cascade)
-  usersId BigInt @unique
-  token   String @default(uuid()) @unique
+  usersId Int    @unique
+  token   String @unique @default(uuid())
 }
 
 model Answer {
-  id          String   @id @default(uuid())
-  Quiz        Quiz     @relation(fields: [quizId], references: [id] ,onDelete: Cascade)
-  quizId      String
-  Question    Question @relation(fields: [questionId], references: [id] , onDelete: Cascade)
-  questionId  String
-  choice      Choice?  @relation(fields: [choiceId], references: [id] ,onDelete: Cascade)
-  choiceId    String?
+  id          Int      @id @default(autoincrement())
+  Quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId      Int
+  Question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId  Int
+  choice      Choice?  @relation(fields: [choiceId], references: [id], onDelete: Cascade)
+  choiceId    Int
   Users       User     @relation(fields: [usersId], references: [id], onDelete: Cascade)
-  usersId     BigInt
+  usersId     Int
   answered_at DateTime @default(now())
   // AnsweredQuiz   AnsweredQuiz? @relation(fields: [answeredQuizId], references: [id])
   // answeredQuizId String?
 }
 
 model Quiz {
-  id         String     @id @default(uuid())
+  id         Int     @id @default(autoincrement())
   title      String
   password   String?
   room       String?    @unique
   status     QuizType   @default(PUBLIC)
   creator    User       @relation(fields: [creator_id], references: [id], onDelete: Cascade)
-  creator_id BigInt
+  creator_id Int
   created_at DateTime   @default(now())
   question   Question[]
   answer     Answer[]
@@ -76,20 +76,20 @@ model Quiz {
 // }
 
 model Question {
-  id      String   @id @default(uuid())
+  id      Int   @id @default(autoincrement())
   content String
   score   Int
   choice  Choice[]
   answer  Answer[]
   Quiz    Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  quizId  String
+  quizId  Int
 }
 
 model Choice {
-  id         String    @id @default(uuid())
+  id         Int    @id @default(autoincrement())
   content    String
   is_correct Boolean
   answer     Answer[]
   Question   Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  questionId String?
+  questionId Int
 }

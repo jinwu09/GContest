@@ -18,6 +18,7 @@ export const tokenChecker = async (req: Request, res: Response, next: NextFuncti
                 }).then((data)=>{
                     if(data != null){
                         res.locals.token = data.token
+                        res.locals.userId = data.usersId
                         next()
                     }else{
                         return res.send(sendTemplate("Invalid Token", Code.s401_Unauthorized))
@@ -27,7 +28,6 @@ export const tokenChecker = async (req: Request, res: Response, next: NextFuncti
                 })
         } else {
             return res.send(sendTemplate("Invalid Token", Code.s401_Unauthorized))
-
         }
 
     } else {

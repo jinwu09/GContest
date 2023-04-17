@@ -1,15 +1,15 @@
 const date = new Date();
 
 export interface data {
-  data: {
-    status?: number;
-    payload: string;
-    date: string;
-  };
+
+  status?: number;
+  payload: string;
+  date: string;
+
 }
 export const sendTemplate = (inPayload: any, inStatus?: number) => {
   const send: data = {
-    data: {
+
       status: inStatus,
       payload: inPayload,
       date:
@@ -20,7 +20,7 @@ export const sendTemplate = (inPayload: any, inStatus?: number) => {
         date.getDate() +
         " " +
         date.toTimeString(),
-    },
+
   };
   return send;
 };

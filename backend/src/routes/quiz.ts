@@ -13,10 +13,14 @@ router.get('/',
   async (req: Request, res: Response, next) => {
     const showQuiz: any = await prisma.quiz
       .findMany({
-        include: {
-          question: {
-            include: {
-              choice: true
+        where:{
+          status: 'PUBLIC'
+        },
+        include:{
+          creator: {
+            select:{
+              first_name:true,
+              last_name:true,
             }
           }
         }
@@ -27,14 +31,16 @@ router.get('/',
       .finally(async () => {
         await prisma.$disconnect();
       });
-
-    res.status(Code.s200_OK).send(sendTemplate(showQuiz))
+    showQuiz.forEach((element :any) => {
+      element.admin = element.creator_id == res.locals.userId ? true:false
+    });
+    return res.send(sendTemplate(showQuiz))
   }
 )
 
 //Get Specific
 router.get('/:quiz_id',
-  async (req: Request, res: Response, next) => {
+  async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -45,10 +51,14 @@ router.get('/:quiz_id',
     const quiz_detail = await prisma.quiz
       .findUnique({
         where: {
-          id: req.params.quiz_id
+          id: parseInt(req.params.quiz_id)
         },
         include: {
-          question: true,
+          question: {
+            include: {
+              choice: true
+            }
+          }
         },
       })
       .catch((e: any) => {
@@ -70,7 +80,7 @@ router.get('/created/:user_id/',
     const user_created_quiz = await prisma.quiz
       .findMany({
         where: {
-          creator_id: req.params.user_id as any,
+          creator_id: parseInt(req.params.user_id),
         },
         select: {
           id: true,
@@ -115,61 +125,42 @@ router.post('/',
       })
       .then((room) => {
         if (room != null) {
-          res
+          return res
             .status(Code.S400_Bad_Request)
             .send(sendTemplate("rooms is already exist"));
-        } else {
-          next();
-        }
+        } 
+        next()
       });
   },
   async (req: Request, res: Response, next) => {
-    console.log(res.locals.userID);
-    const checkCreator = prisma.user
-      .findUnique({
-        where: {
-          id: res.locals.userID,
-        },
-      })
-      .catch((e) => {
-        console.log(e);
-        res.status(Code.S400_Bad_Request).send(sendTemplate("bad request"));
-      })
-      .then((data) => {
-        if (data != null) {
-          next();
-        } else {
-          res
-            .status(Code.s404_Not_Found)
-            .send(sendTemplate("creator doesn't exist"));
-        }
-      });
-  },
-  async (req: Request, res: Response) => {
+    console.log(req.body.status)
     const createquiz = await prisma.quiz
       .create({
         data: {
           title: req.body.title,
           password: req.body.password,
-          room: req.body.room || crypto.randomUUID(),
+          room: req.body.room,
           status: req.body.status,
-          creator_id: res.locals.userID,
+          creator_id: res.locals.userId,
         },
+        select:{
+          id: true
+        }
+      })
+      .then(async (data:any) => {
+        return res.send(sendTemplate({quiz_id: data.id})).status(200)
+        // res.locals.room = req.body.room
+        // next()
       })
       .catch((e) => {
-        console.log(e);
-        res
-          .status(Code.S400_Bad_Request)
-          .send(sendTemplate("Bad Request", Code.S400_Bad_Request));
+        console.log(e)
+        return res.status(400)
+          .send(sendTemplate("Bad Request"),);
       })
       .finally(async () => {
         await prisma.$disconnect();
       })
-      .then(() => {
-        res
-          .status(Code.s201_Created)
-          .send(sendTemplate("quiz created", Code.s201_Created));
-      });
+      
   }
 )
 
@@ -178,7 +169,7 @@ router.put('/:quiz_id',
     const updateQuiz = await prisma.quiz
       .update({
         where: {
-          id: req.params.quiz_id,
+          id: req.params.quiz_id as any,
         },
         data: {
           room: req.body.room,
@@ -204,7 +195,7 @@ router.delete('/:quiz_id',
     const deleteQuiz = await prisma.quiz
       .delete({
         where: {
-          id: req.params.quiz_id
+          id: req.params.quiz_id as any
         }
       })
       .catch((e: any) => {
