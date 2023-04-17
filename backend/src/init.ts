@@ -19,7 +19,7 @@ async function main(
       password: CryptoJS.AES.encrypt(
         inpassword,
         process.env.API_KEY
-      ).toString()
+      ).toString(),
     },
   });
   // const createToken = await prisma.token.create({
@@ -32,9 +32,13 @@ async function main(
       data: {
         title: "all about me",
         password: "",
-        room: inRoom,
-        status: 'PUBLIC',
-        creator_id: createUser.id
+        room: {
+          create: {
+            room: inRoom,
+          },
+        },
+        status: "PUBLIC",
+        creator_id: createUser.id,
       },
     })
     .catch((e) => {

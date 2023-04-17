@@ -1,8 +1,8 @@
 declare global {
-    interface Window {
-        Pusher: any;
-        Echo: any;
-    }
+  interface Window {
+    Pusher: any
+    Echo: any
+  }
 }
 
 import { createApp } from 'vue'
@@ -15,16 +15,11 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import App from './App.vue'
 import router from './router'
 
+import axios from 'axios'
 
-import axios from 'axios';
+import './assets/main.css'
 
-import './assets/main.css';
-
-
-
-
-// axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
-axios.defaults.baseURL = 'http://localhost:8080/api'
+axios.defaults.baseURL = 'http://127.0.0.1:8080/api'
 // axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = 'http://api.quiger.com:8000/api'
 

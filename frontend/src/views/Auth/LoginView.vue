@@ -13,13 +13,12 @@ const store = useAuthStore()
 
 function login(e: any) {
   axios
-    .post('auth/login', {
+    .post('/auth/login', {
       email: email.value,
       password: password.value
     })
     .then((res) => {
       store.setTokenValue(res.data.payload.token)
-
       Swal.fire({
         icon: 'success',
         text: res.data.payload.message
@@ -27,11 +26,11 @@ function login(e: any) {
 
       router.push({ name: 'dashboard' })
     })
-    .catch((err) => {
+    .catch((err: any) => {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: err.response.data.payload
+        text: err.data.payload.message
       })
     })
 }
@@ -94,7 +93,8 @@ function navToRegister() {
             </div>
             <div class="row mt-3">
               <p class="text-center accountSwitch">
-                Dont have an account? <u class="accountSwitchLink" @click="navToRegister">REGISTER</u>
+                Dont have an account?
+                <u class="accountSwitchLink" @click="navToRegister">REGISTER</u>
               </p>
             </div>
           </form>

@@ -1,21 +1,18 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export const useAuthStore = defineStore('auth', {
+export const useProfileStore = defineStore('Profile', {
   state: () => {
     return {
-      token: null,
-      isAuthenticated: false
+      username: 'albertus'
     }
   },
   actions: {
-    setTokenValue(val: any) {
-      this.token = val
-      this.isAuthenticated = true
+    setUsernameValue(val: any) {
+      this.username = val
     },
     removeTokenValue() {
-      this.token = null
-      this.isAuthenticated = false
+      this.username = ''
     }
   },
   persist: true
