@@ -6,7 +6,7 @@ export const TokenToUserID = async (socket: Socket, next: any) => {
   return await prisma.token
     .findUnique({
       where: {
-        token: socket.data.token,
+        token: socket.handshake.auth.token,
       },
     })
     .then((data) => {

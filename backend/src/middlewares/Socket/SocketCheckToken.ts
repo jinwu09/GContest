@@ -27,9 +27,8 @@ export const SocketCheckToken = async (socket: Socket, next: any) => {
         socket.data.first_name = data.Users.first_name;
         socket.data.last_name = data.Users.last_name;
         console.log(
-          `${socket.id} is success auth ${clientToken} username ${socket.data.first_name} ${socket.data.last_name}`
+          `${socket.id} is success auth name ${socket.data.first_name} ${socket.data.last_name}`
         );
-        socket.data.token = data?.token;
         console.count("connected");
         next();
       } else {

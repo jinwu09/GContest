@@ -76,6 +76,7 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
           prisma.$disconnect();
         });
       socket.join(dataIO.Roomname);
+
       const RoomAttendees: any = await prisma.attendees
         .findMany({
           where: {
@@ -116,5 +117,86 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
     } else {
       socket.emit("JoinRoom", "Room Doesn't exist");
     }
+  });
+
+  // interface RoomAttendee {
+  //   [Room: { room: string }];
+  // }
+  socket.on("disconnect", async () => {
+    const RoomAttendee: any = await prisma.attendees
+      .findMany({
+        where: {
+          userId: socket.data.userID,
+        },
+        select: {
+          Room: {
+            select: {
+              room: true,
+            },
+          },
+        },
+      })
+      .then((data: any) => {
+        return data;
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => {
+        prisma.$disconnect();
+      });
+    console.log(RoomAttendee);
+    console.log("disconnect is listening");
+    const deleteAttendee = await prisma.attendees
+      .deleteMany({
+        where: {
+          userId: socket.data.userID,
+        },
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => {
+        prisma.$disconnect();
+      });
+    console.log("delete attendee is done");
+    RoomAttendee.forEach(async (NestedRoom: any) => {
+      const room = NestedRoom.Room.room;
+
+      console.log(`this is room ${room}`);
+      const RoomAttendees: any = await prisma.attendees
+        .findMany({
+          where: {
+            Room: {
+              room: room,
+            },
+          },
+          select: {
+            User: {
+              select: {
+                id: true,
+                first_name: true,
+                last_name: true,
+              },
+            },
+          },
+        })
+        .then((data) => {
+          console.log("this is line 159");
+          return data;
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+        .finally(() => {
+          prisma.$disconnect();
+        });
+      const RoomData = { RoomAttendees };
+      console.log(`this is attendees${RoomAttendees}`);
+      socket.to(room).emit("JoinRoom", {
+        data: RoomData,
+        message: `User Disconnected ${socket.data.first_name} ${socket.data.last_name}`,
+      });
+    });
   });
 };
