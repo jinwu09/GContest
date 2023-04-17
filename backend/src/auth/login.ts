@@ -8,7 +8,7 @@ import { tokenChecker } from "../middlewares/checktoken";
 // import * as jwt from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 
-const router = Router()
+const router = Router();
 
 export const AuthRouter: Router = router;
 
@@ -42,7 +42,6 @@ router.post(
           } else {
             return res.send(sendTemplate("Passwords doesnt match."));
           }
-
         } else {
           return res.send(sendTemplate("Email Already Exist!"));
         }
@@ -75,7 +74,7 @@ router.post(
         // res
         // .status(Code.s200_OK)
         // .send(sendTemplate("User succesfully registered! Login to continute"));
-        next()
+        next();
       });
   },
   async (req: Request, res: Response) => {
@@ -86,16 +85,17 @@ router.post(
       .create({
         data: {
           usersId: res.locals.userID,
-          token: jwtoken
-        }
-      }).then((data: any) => {
+          token: jwtoken,
+        },
+      })
+      .then((data: any) => {
         res.send(
           sendTemplate({
             message: "User succesfully created!",
             token: jwtoken,
           })
         );
-      })
+      });
   }
 );
 
@@ -117,9 +117,11 @@ router.post(
         select: { id: true, password: true },
       })
       .catch((e) => {
-        return res.status(Code.S400_Bad_Request).send(sendTemplate("Bad Request"));
+        return res
+          .status(Code.S400_Bad_Request)
+          .send(sendTemplate("Bad Request"));
       })
-      .then((data:any) => {
+      .then((data: any) => {
         if (
           CryptoJS.AES.decrypt(data?.password, process.env.API_KEY).toString(
             CryptoJS.enc.Utf8
@@ -141,13 +143,13 @@ router.post(
     const gentoken = crypto.randomUUID();
     const API_KEY: string = process.env.API_KEY || "secret";
     const jwtoken = jwt.sign({ token: gentoken }, API_KEY);
-    console.log("Hello "+res.locals.userID);
+    console.log("Hello " + res.locals.userID);
     const createToken = await prisma.token
       .create({
         data: {
           token: jwtoken,
-          usersId: res.locals.userID
-        }
+          usersId: res.locals.userID,
+        },
       })
       .catch((e) => {
         console.log(e);
@@ -167,16 +169,15 @@ router.post(
   }
 );
 
-router.post('/logout',
-  tokenChecker,
-  async (req: Request, res: Response) => {
-    const tokenDelete = await prisma.token
+router.post("/logout", tokenChecker, async (req: Request, res: Response) => {
+  const tokenDelete = await prisma.token
     .delete({
-      where: {token: res.locals.token}
-    }).then((data)=>{
-      return res.send(sendTemplate("Successfully Logged out!"))
-    }).finally(() => {
+      where: { token: res.locals.token },
+    })
+    .then((data) => {
+      return res.send(sendTemplate("Successfully Logged out!"));
+    })
+    .finally(() => {
       prisma.$disconnect();
     });
-  }
-)
+});

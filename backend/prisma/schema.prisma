@@ -16,14 +16,15 @@ enum QuizType {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
+  id         Int         @id @default(autoincrement())
   first_name String
   last_name  String
   school     String?
-  email      String   @unique
+  email      String      @unique
   password   String
   Answer     Answer[]
   Quiz       Quiz[]
+  attendees  Attendees[]
   Token      Token[]
   // answeredQuiz AnsweredQuiz[]
 }
@@ -54,7 +55,7 @@ model Quiz {
   id         Int        @id @default(autoincrement())
   title      String
   password   String?
-  room       String?    @unique
+  room       Room[]
   status     QuizType   @default(PUBLIC)
   creator    User       @relation(fields: [creator_id], references: [id], onDelete: Cascade)
   creator_id Int
@@ -62,6 +63,22 @@ model Quiz {
   question   Question[]
   answer     Answer[]
   // totalScore AnsweredQuiz[]
+}
+
+model Room {
+  id        Int         @id @default(autoincrement())
+  Quiz      Quiz?       @relation(fields: [quizId], references: [id])
+  quizId    Int?        @unique
+  room      String      @unique
+  attendees Attendees[]
+}
+
+model Attendees {
+  id     Int   @id @default(autoincrement())
+  Room   Room? @relation(fields: [roomId], references: [id])
+  roomId Int?
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
 }
 
 // model AnsweredQuiz {

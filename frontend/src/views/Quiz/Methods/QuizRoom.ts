@@ -1,11 +1,16 @@
 import { socket } from './SocketConfig'
+import { useProfileStore } from '@/store/ProfileStore'
 
-export const JoinRoom = (Roomname: string, Username: string = 'testuser') => {
-  const data = { Roomname, Username }
+const profile = useProfileStore()
+
+export const JoinRoom = (Roomname: string) => {
+  const data: any = { Roomname, username: profile.username }
   socket.emit('JoinRoom', data)
 }
-socket.on('JoinRoom', (message) => {
-  console.log(message)
+socket.on('JoinRoom', (response) => {
+  console.log(response)
+  // console.log(response.data.payload.data)
+  // console.log(response.data.status)
 })
 
 export const CheckRoom = () => {
