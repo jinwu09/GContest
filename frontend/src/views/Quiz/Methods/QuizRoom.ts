@@ -1,10 +1,7 @@
 import { socket } from './SocketConfig'
-import { useProfileStore } from '@/store/ProfileStore'
-
-const profile = useProfileStore()
 
 export const JoinRoom = (Roomname: string) => {
-  const data: any = { Roomname, username: profile.username }
+  const data: any = { Roomname }
   socket.emit('JoinRoom', data)
 }
 socket.on('JoinRoom', (response) => {

@@ -1,13 +1,10 @@
 import { io } from 'socket.io-client'
 import { useAuthStore } from '@/store/AuthStore'
-import { useProfileStore } from '@/store/ProfileStore'
 
 const store = useAuthStore()
-const profile = useProfileStore()
 
 export const socket = io('http://localhost:8080', {
   auth: {
-    username: profile.username,
     token: store.token
   },
   withCredentials: true,
