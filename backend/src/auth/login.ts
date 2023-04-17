@@ -142,7 +142,7 @@ router.post(
     const API_KEY: string = process.env.API_KEY || "secret";
     const jwtoken = jwt.sign({ token: gentoken }, API_KEY);
     console.log("Hello "+res.locals.userID);
-    const updateToken = await prisma.token
+    const createToken = await prisma.token
       .create({
         data: {
           token: jwtoken,
@@ -151,13 +151,13 @@ router.post(
       })
       .catch((e) => {
         console.log(e);
-        res.status(Code.S400_Bad_Request).send(sendTemplate("bad request "));
+        return res.send(sendTemplate("bad request "));
       })
       .then(() => {
-        res.send(
+        return res.send(
           sendTemplate({
-            message: "successfully logged-in user",
-            jwtoken: jwtoken,
+            message: "You're logged in!",
+            token: jwtoken,
           })
         );
       })
