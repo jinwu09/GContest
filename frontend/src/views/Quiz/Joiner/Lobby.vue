@@ -28,7 +28,9 @@ onMounted(() => {
   JoinRoom(route.params.room)
 })
 
-onBeforeUnmount(() => {})
+onBeforeUnmount(() => {
+  socket.disconnect()
+})
 </script>
 
 <template>
