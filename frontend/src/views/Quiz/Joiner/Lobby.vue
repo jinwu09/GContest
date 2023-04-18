@@ -34,9 +34,9 @@ socket.on('Room', (res: any) => {
 })
 socket.on('redirect', (res) => {
   if (admin.value == true) {
-    router.push({
-      name
-    })
+    // router.push({
+    //   name:
+    // })
   } else {
     router.push({
       name: 'quiz-join',

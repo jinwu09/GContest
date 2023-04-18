@@ -78,6 +78,11 @@ async function main(
           is_correct: false,
           questionId: createQuestion.id,
         },
+        {
+          content: "meow?",
+          is_correct: false,
+          questionId: createQuestion.id,
+        },
       ],
     });
     const readChoice: any = await prisma.choice

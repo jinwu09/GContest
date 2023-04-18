@@ -27,22 +27,31 @@ export const tokenChecker = async (
           } else {
             return res
               .status(Code.s401_Unauthorized)
-              .send(sendTemplate("Invalid Token", Code.s401_Unauthorized));
+              .send(
+                sendTemplate(
+                  { message: "Invalid Token" },
+                  Code.s401_Unauthorized
+                )
+              );
           }
         })
         .catch((err) => {
           return res
             .status(Code.s401_Unauthorized)
-            .send(sendTemplate("Invalid Token", Code.s401_Unauthorized));
+            .send(
+              sendTemplate({ message: "Invalid Token" }, Code.s401_Unauthorized)
+            );
         });
     } else {
       return res
         .status(Code.s401_Unauthorized)
-        .send(sendTemplate("Invalid Token", Code.s401_Unauthorized));
+        .send(
+          sendTemplate({ message: "Invalid Token" }, Code.s401_Unauthorized)
+        );
     }
   } else {
     return res
       .status(Code.s401_Unauthorized)
-      .send(sendTemplate("Invalid Token", Code.s401_Unauthorized));
+      .send(sendTemplate({ message: "Invalid Token" }, Code.s401_Unauthorized));
   }
 };

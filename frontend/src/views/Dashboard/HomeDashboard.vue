@@ -61,7 +61,7 @@ function joinLobbyAsJoiner(room: any) {
           <div class="row room-background mt-2">
             <div class="d-flex align-items-center justify-content-center">
               <div class="row w-75">
-                <div class="col-md-8 mt-2">
+                <form @submit.prevent="joinLobbyAsJoiner(JoinRoom)" class="col-md-8 mt-2">
                   <input
                     class="form-control form-control-lg"
                     type="text"
@@ -69,7 +69,7 @@ function joinLobbyAsJoiner(room: any) {
                     aria-label=".form-control-lg example"
                     v-model="JoinRoom"
                   />
-                </div>
+                </form>
                 <div class="col-md-4 mt-2">
                   <div class="d-grid mx-auto">
                     <button
@@ -124,7 +124,8 @@ function joinLobbyAsJoiner(room: any) {
                   <h5 class="card-subtitle mb-2 text-muted">{{ quiz.description }}</h5>
                   <p class="text-muted">Room Status: {{ quiz.status }}</p>
                   <p class="text-muted">
-                    Created by: {{ quiz.creator.first_name + ' ' + quiz.creator.last_name }}
+                    Created by:
+                    {{ quiz.creator.first_name + ' ' + quiz.creator.last_name }}
                   </p>
                   <button
                     class="btn btn-primary px-4 me-2"

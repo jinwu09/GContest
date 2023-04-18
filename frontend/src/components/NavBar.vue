@@ -29,8 +29,10 @@ function logOut() {
     .catch((err) => {
       Swal.fire({
         icon: 'error',
-        title: err.response.data.message
+        title: err.response.data.payload.message
       })
+      store.removeTokenValue()
+      router.push({ name: 'login' })
     })
 }
 
