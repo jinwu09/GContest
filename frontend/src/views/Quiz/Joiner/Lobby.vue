@@ -2,17 +2,19 @@
 import NavBar from '@/components/NavBar.vue'
 import LobbyJoiner from '@/components/Joiner/LobbyJoiner.vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/AuthStore'
 
 import { socket } from '../Methods/SocketConfig'
 import axios from 'axios'
 
 const route = useRoute()
+const router = useRouter()
 const store = useAuthStore()
 const quiz_id = ref()
 
 const JoinRoom = (Roomname: any) => {
+  socket.connect()
   const data: any = { Roomname }
   socket.emit('JoinRoom', data)
 }
@@ -20,6 +22,15 @@ const JoinRoom = (Roomname: any) => {
 socket.on('JoinRoom', (res) => {
   joiners.value = res.data.RoomAttendees
   console.log(joiners.value)
+})
+
+socket.on('redirect', (res) => {
+  router.push({
+    name: 'quiz-join',
+    params: {
+      quiz_id: res.quiz_id
+    }
+  })
 })
 
 const joiners: any = ref([])
