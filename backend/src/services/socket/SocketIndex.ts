@@ -16,9 +16,9 @@ export const SocketListener = (socket: Socket, io: Server) => {
     console.log("this is from quiz" + dataIO);
   });
 
-  // socket.on("disconnect", (dataIO) => {
-  //   console.log(socket.rooms);
-  // });
+  socket.on("disconnect", (dataIO) => {
+    console.log(`${socket.data.first_name} leave the quiz`);
+  });
 };
 // import express, { Express, Request, Response } from "express";
 // import { usersRouter } from "./routes/users/userIndex";

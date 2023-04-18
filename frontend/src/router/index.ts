@@ -92,7 +92,7 @@ const router = createRouter({
 
     //Joiners
     {
-      path: '/join/quiz/:quiz_id/start',
+      path: '/join/quiz/:room/:quiz_id/start',
       name: 'quiz-join',
       component: QuizView
     },
@@ -121,7 +121,10 @@ router.beforeEach((to, from, next) => {
     !store.isAuthenticated
   ) {
     next({ name: 'login' })
-  } else if (store.isAuthenticated && (to.name === 'login' || to.name === 'register' || to.name === 'LandingPage')) {
+  } else if (
+    store.isAuthenticated &&
+    (to.name === 'login' || to.name === 'register' || to.name === 'LandingPage')
+  ) {
     next({ name: 'dashboard' })
   } else next()
 })

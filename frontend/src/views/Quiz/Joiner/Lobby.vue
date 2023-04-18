@@ -11,7 +11,9 @@ import axios from 'axios'
 const route = useRoute()
 const router = useRouter()
 const store = useAuthStore()
+
 const quiz_id = ref()
+const admin = ref(false)
 
 const JoinRoom = (Roomname: any) => {
   socket.connect()
@@ -19,19 +21,36 @@ const JoinRoom = (Roomname: any) => {
   socket.emit('JoinRoom', data)
 }
 
-socket.on('JoinRoom', (res) => {
+socket.on('JoinRoom', (res: any) => {
+  joiners.value = res.data.RoomAttendees
+  console.log(joiners.value)
+  admin.value = res.admin
+  console.log(admin.value)
+})
+
+socket.on('Room', (res: any) => {
   joiners.value = res.data.RoomAttendees
   console.log(joiners.value)
 })
-
 socket.on('redirect', (res) => {
-  router.push({
-    name: 'quiz-join',
-    params: {
-      quiz_id: res.quiz_id
-    }
-  })
+  if (admin.value == true) {
+    router.push({
+      name
+    })
+  } else {
+    router.push({
+      name: 'quiz-join',
+      params: {
+        quiz_id: res.quiz_id,
+        room: route.params.room
+      }
+    })
+  }
 })
+
+const QuizStart = () => {
+  socket.emit('QuizStart', { Roomname: route.params.room })
+}
 
 const joiners: any = ref([])
 
@@ -62,6 +81,7 @@ onBeforeUnmount(() => {
               />
             </div>
           </div>
+          <div v-if="admin == true" @click="QuizStart()"><button>Start</button></div>
         </div>
         <div class="col-lg-1"></div>
       </div>
