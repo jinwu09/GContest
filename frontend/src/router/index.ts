@@ -17,6 +17,7 @@ const EditQuestion = () => import('@/views/Quiz/Creator/EditQuestion.vue')
 const BlankQuestion = () => import('@/views/Quiz/Creator/BlankQuestion.vue')
 const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
 const CreatorLobby = () => import('@/views/Quiz/Creator/CreatorLobby.vue')
+const CreatorQuizView = () => import('@/views/Quiz/Creator/CreatorQuizView.vue')
 
 const Playground = () => import('@/views/Quiz/PlaygroundView.vue')
 
@@ -88,6 +89,11 @@ const router = createRouter({
       path: '/creator/quiz/:room_number/lobby',
       name: 'creator-lobby',
       component: CreatorLobby
+    },
+    {
+      path: '/ceator/quiz/:room/start',
+      name: 'creator-join',
+      component: CreatorQuizView
     },
 
     //Joiners
