@@ -89,6 +89,11 @@ const router = createRouter({
       name: 'creator-lobby',
       component: CreatorLobby
     },
+    {
+      path: '/ceator/quiz/:room/start',
+      name: 'quiz-lobby',
+      component: Lobby
+    },
 
     //Joiners
     {
