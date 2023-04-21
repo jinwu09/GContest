@@ -107,7 +107,7 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
       const IsUserCreator = await prisma.room
         .findFirst({
           where: {
-            room: socket.data.Roomname,
+            room: dataIO.Roomname,
           },
           select: {
             room: true,
