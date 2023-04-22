@@ -86,7 +86,7 @@ const router = createRouter({
       component: UpdateQuiz
     },
     {
-      path: '/creator/quiz/:room_number/lobby',
+      path: '/creator/quiz/:room/lobby',
       name: 'creator-lobby',
       component: CreatorLobby
     },

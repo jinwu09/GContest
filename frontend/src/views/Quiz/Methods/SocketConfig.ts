@@ -13,6 +13,7 @@ export const socket = io('http://localhost:8080', {
   },
   transports: ['websocket']
 })
+socket.connect()
 
 socket.on('connect', () => {
   console.log('socket connected, Socket id: ' + socket.id)

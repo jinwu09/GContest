@@ -17,7 +17,7 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
         console.log(e);
       })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
       })
       .finally(() => {
         prisma.$disconnect();

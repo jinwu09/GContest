@@ -21,7 +21,7 @@ router.get("/", async (req: Request, res: Response, next) => {
             last_name: true,
           },
         },
-        room: true
+        room: true,
       },
     })
     .catch((e: any) => {
@@ -55,6 +55,9 @@ router.get("/:quiz_id", async (req: Request, res: Response) => {
           include: {
             choice: true,
           },
+        },
+        room: {
+          select: { room: true },
         },
       },
     })

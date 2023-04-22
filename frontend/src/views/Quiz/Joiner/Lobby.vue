@@ -12,7 +12,8 @@ const route = useRoute()
 const router = useRouter()
 const store = useAuthStore()
 
-const quiz_id = ref()
+const redirect = ref(false)
+
 const admin = ref(false)
 
 const JoinRoom = (Roomname: any) => {
@@ -38,6 +39,7 @@ socket.on('redirect', (res) => {
     //   name:
     // })
   } else {
+    redirect.value = true
     router.push({
       name: 'quiz-join',
       params: {
@@ -59,7 +61,9 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  socket.disconnect()
+  if (redirect.value !== true) {
+    socket.disconnect()
+  }
 })
 </script>
 
