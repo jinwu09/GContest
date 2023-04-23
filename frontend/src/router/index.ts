@@ -98,7 +98,7 @@ const router = createRouter({
 
     //Joiners
     {
-      path: '/join/quiz/:room/:quiz_id/start',
+      path: '/join/quiz/:room//start',
       name: 'quiz-join',
       component: QuizView
     },

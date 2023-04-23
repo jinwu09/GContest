@@ -64,22 +64,22 @@ async function main(
     const createChoice = await prisma.choice.createMany({
       data: [
         {
-          content: "meow no",
+          content: `meow no ${index}`,
           is_correct: false,
           questionId: createQuestion.id,
         },
         {
-          content: "meow yes",
+          content: `meow yes ${index}`,
           is_correct: true,
           questionId: createQuestion.id,
         },
         {
-          content: "meow i don't know",
+          content: `meow i don't know ${index}`,
           is_correct: false,
           questionId: createQuestion.id,
         },
         {
-          content: "meow?",
+          content: `meow? ${index}`,
           is_correct: false,
           questionId: createQuestion.id,
         },

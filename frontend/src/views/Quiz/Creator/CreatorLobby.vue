@@ -12,6 +12,7 @@ const router = useRouter()
 
 const quiz_id = ref()
 const admin = ref(false)
+const redirect = ref(false)
 
 const JoinRoom = (Roomname: any) => {
   socket.connect()
@@ -21,32 +22,23 @@ const JoinRoom = (Roomname: any) => {
 
 socket.on('JoinRoom', (res: any) => {
   joiners.value = res.data.RoomAttendees
-  console.log(joiners.value)
+  //   console.log(joiners.value)
   admin.value = res.admin
-  console.log(admin.value)
+  //   console.log(admin.value)
 })
 
 socket.on('Room', (res: any) => {
   joiners.value = res.data.RoomAttendees
-  console.log(joiners.value)
+  //   console.log(joiners.value)
 })
 socket.on('redirect', (res) => {
-  if (admin.value == true) {
-    router.push({
-      name: 'creator-join',
-      params: {
-        room: route.params.room
-      }
-    })
-  } else {
-    router.push({
-      name: 'quiz-join',
-      params: {
-        quiz_id: res.quiz_id,
-        room: route.params.room
-      }
-    })
-  }
+  redirect.value = true
+  router.push({
+    name: 'creator-join',
+    params: {
+      room: route.params.room
+    }
+  })
 })
 
 const QuizStart = () => {
@@ -60,7 +52,9 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  socket.disconnect()
+  if (redirect.value !== true) {
+    socket.disconnect()
+  }
 })
 </script>
 

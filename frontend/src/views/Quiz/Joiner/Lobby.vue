@@ -24,30 +24,23 @@ const JoinRoom = (Roomname: any) => {
 
 socket.on('JoinRoom', (res: any) => {
   joiners.value = res.data.RoomAttendees
-  console.log(joiners.value)
+  // console.log(joiners.value)
   admin.value = res.admin
-  console.log(admin.value)
+  // console.log(admin.value)
 })
 
 socket.on('Room', (res: any) => {
   joiners.value = res.data.RoomAttendees
-  console.log(joiners.value)
+  // console.log(joiners.value)
 })
 socket.on('redirect', (res) => {
-  if (admin.value == true) {
-    // router.push({
-    //   name:
-    // })
-  } else {
-    redirect.value = true
-    router.push({
-      name: 'quiz-join',
-      params: {
-        quiz_id: res.quiz_id,
-        room: route.params.room
-      }
-    })
-  }
+  redirect.value = true
+  router.push({
+    name: 'quiz-join',
+    params: {
+      room: route.params.room
+    }
+  })
 })
 
 const QuizStart = () => {
