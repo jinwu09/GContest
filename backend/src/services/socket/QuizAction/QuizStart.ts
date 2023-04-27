@@ -42,7 +42,7 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
         },
       })
       .catch((e) => {
-        // console.log(e);
+        console.log(e);
       })
       .finally(() => {
         prisma.$disconnect();
@@ -61,7 +61,7 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
         prisma.$disconnect();
       });
     socket.emit("redirect");
-    socket.to(dataIO.Roomname).emit("redirect");
+    socket.to(dataIO.Roomname).emit("redirect", { PageName: "quiz-join" });
   });
 
   socket.on("next", async (dataIO) => {
@@ -123,10 +123,25 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
         console.log(e);
       })
       .then((data) => {
-        return data?.Question;
+        return data;
+      });
+    const getIsSubmitted = await prisma.answer
+      .findFirst({
+        where: {
+          usersId: socket.data.userID,
+          quizSessionId: getQuizSession?.id,
+          questionId: getQuizSession?.Question?.id,
+        },
+      })
+      .then((data) => {
+        if (data != null) {
+          return true;
+        }
+        return false;
       });
     socket.emit("QuizLoad", {
-      question: getQuizSession,
+      has_submitted: getIsSubmitted,
+      question: getQuizSession?.Question,
     });
   });
 
@@ -159,6 +174,21 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
     const choiceID: any = dataIO.choice;
     const QuestionID: any = dataIO.QuestionID;
     const userID: any = socket.data.userID;
+    const getQuizSessionID: any = await prisma.quizSession
+      .findFirst({
+        where: {
+          roomName: dataIO.Roomname,
+        },
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .then((data) => {
+        return data?.id;
+      })
+      .finally(() => {
+        prisma.$disconnect();
+      });
     const CreateAnswer: any = await prisma.answer
       .create({
         data: {
@@ -166,6 +196,7 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
           questionId: QuestionID,
           quizId: GetQuizID,
           usersId: userID,
+          quizSessionId: getQuizSessionID,
         },
       })
       .catch((e) => {

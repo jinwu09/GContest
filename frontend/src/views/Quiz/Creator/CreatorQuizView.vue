@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NavBar from '@/components/NavBar.vue'
 import { onMounted } from 'vue'
-import { socket } from '../Methods/SocketConfig'
+import { socket } from '@/Socket/SocketConfig'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 

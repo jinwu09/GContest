@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { socket } from '../Methods/SocketConfig'
+import { socket } from '@/Socket/SocketConfig'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -11,7 +11,7 @@ const QuestionID: any = ref(0)
 socket.emit('QuizLoad', { Roomname: route.params.room })
 
 socket.on('QuizLoad', (res) => {
-  has_submitted.value = false
+  has_submitted.value = res.has_submitted
   Choies.value = res.question.choice
   QuestionID.value = res.question.id
 })

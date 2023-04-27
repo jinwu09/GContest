@@ -19,8 +19,6 @@ const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
 const CreatorLobby = () => import('@/views/Quiz/Creator/CreatorLobby.vue')
 const CreatorQuizView = () => import('@/views/Quiz/Creator/CreatorQuizView.vue')
 
-const Playground = () => import('@/views/Quiz/PlaygroundView.vue')
-
 //Joiner
 // const LobbyView = ()=> import('@/views/Quiz/Joiner/LobbyView.vue');
 const QuizView = () => import('@/views/Quiz/Joiner/QuizView.vue')
@@ -32,12 +30,6 @@ const PathNotFound = () => import('@/views/PathNotFound.vue')
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/testPlayground',
-      name: 'testPlayground',
-      component: Playground
-    },
-
     //Landing Page
     {
       path: '/',

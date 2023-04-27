@@ -4,7 +4,7 @@ import LobbyJoiner from '@/components/Joiner/LobbyJoiner.vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-import { socket } from '../Methods/SocketConfig'
+import { socket } from '@/Socket/SocketConfig'
 import axios from 'axios'
 
 const route = useRoute()
