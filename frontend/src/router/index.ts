@@ -18,12 +18,12 @@ const BlankQuestion = () => import('@/views/Quiz/Creator/BlankQuestion.vue')
 const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
 const CreatorLobby = () => import('@/views/Quiz/Creator/CreatorLobby.vue')
 const CreatorQuizView = () => import('@/views/Quiz/Creator/CreatorQuizView.vue')
-
+const SampleLeaderBoard = () => import('@/views/Quiz/Creator/SampleLeaderBoard.vue')
 //Joiner
 // const LobbyView = ()=> import('@/views/Quiz/Joiner/LobbyView.vue');
 const QuizView = () => import('@/views/Quiz/Joiner/QuizView.vue')
 const Lobby = () => import('@/views/Quiz/Joiner/Lobby.vue')
-
+const FeedBack = () => import('@/views/Quiz/Joiner/QuizFeedback.vue')
 //Redirectors
 const PathNotFound = () => import('@/views/PathNotFound.vue')
 
@@ -87,10 +87,15 @@ const router = createRouter({
       name: 'creator-join',
       component: CreatorQuizView
     },
+    {
+      path: '/creator/LeaderBoard/:session/:room/Sample',
+      name: 'leaderboard',
+      component: SampleLeaderBoard
+    },
 
     //Joiners
     {
-      path: '/join/quiz/:room//start',
+      path: '/join/quiz/:room/start',
       name: 'quiz-join',
       component: QuizView
     },
@@ -99,7 +104,11 @@ const router = createRouter({
       name: 'quiz-lobby',
       component: Lobby
     },
-
+    {
+      path: '/join/Result/:session/Sample',
+      name: 'feedback',
+      component: FeedBack
+    },
     //Redirections
     {
       path: '/:pathMatch(.*)*',

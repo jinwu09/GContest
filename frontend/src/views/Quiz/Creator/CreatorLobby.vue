@@ -34,7 +34,7 @@ socket.on('Room', (res: any) => {
 socket.on('redirect', (res) => {
   redirect.value = true
   router.push({
-    name: 'creator-join',
+    name: res.PageName,
     params: {
       room: route.params.room
     }

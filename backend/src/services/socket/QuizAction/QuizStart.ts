@@ -36,9 +36,13 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
     socket.data.questionArr = GetQuizList;
     socket.data.QuestionIndex = 0;
     const DeleteExistingSession = await prisma.quizSession
-      .delete({
+      .updateMany({
         where: {
           roomName: dataIO.Roomname,
+          isActive: true,
+        },
+        data: {
+          isActive: false,
         },
       })
       .catch((e) => {
@@ -52,6 +56,7 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
         data: {
           questionId: socket.data.questionArr[socket.data.QuestionIndex].id,
           roomName: dataIO.Roomname,
+          isActive: true,
         },
       })
       .catch((e) => {
@@ -60,7 +65,7 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
       .finally(() => {
         prisma.$disconnect();
       });
-    socket.emit("redirect");
+    socket.emit("redirect", { PageName: "creator-join" });
     socket.to(dataIO.Roomname).emit("redirect", { PageName: "quiz-join" });
   });
 
@@ -70,9 +75,10 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
       socket.data.QuestionIndex < socket.data.questionArr.length - 1
     ) {
       socket.data.QuestionIndex++;
-      const UpdateSession = await prisma.quizSession.update({
+      const UpdateSession = await prisma.quizSession.updateMany({
         where: {
           roomName: dataIO.Roomname,
+          isActive: true,
         },
         data: {
           questionId: socket.data.questionArr[socket.data.QuestionIndex].id,
@@ -88,9 +94,10 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
       socket.data.QuestionIndex < socket.data.questionArr.length
     ) {
       socket.data.QuestionIndex = socket.data.QuestionIndex - 1;
-      const UpdateSession = await prisma.quizSession.update({
+      const UpdateSession = await prisma.quizSession.updateMany({
         where: {
           roomName: dataIO.Roomname,
+          isActive: true,
         },
         data: {
           questionId: socket.data.questionArr[socket.data.QuestionIndex].id,
@@ -105,6 +112,7 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
       .findFirst({
         where: {
           roomName: dataIO.Roomname,
+          isActive: true,
         },
         include: {
           Question: {
@@ -131,6 +139,9 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
           usersId: socket.data.userID,
           quizSessionId: getQuizSession?.id,
           questionId: getQuizSession?.Question?.id,
+          QuizSession: {
+            isActive: true,
+          },
         },
       })
       .then((data) => {
@@ -178,6 +189,7 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
       .findFirst({
         where: {
           roomName: dataIO.Roomname,
+          isActive: true,
         },
       })
       .catch((e) => {
@@ -205,5 +217,44 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
       .then(() => {
         socket.emit("AnswerSubmited", { has_Submitted: true });
       });
+  });
+  socket.on("Done", async (dataIO) => {
+    const getSessionID = await prisma.quizSession
+      .findFirst({
+        where: {
+          roomName: dataIO.Roomname,
+          isActive: true,
+        },
+        select: {
+          id: true,
+        },
+      })
+      .then((data) => {
+        console.log(data);
+        return data;
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => {
+        prisma.$disconnect();
+      });
+    const sessionIsDone = await prisma.quizSession.updateMany({
+      where: {
+        roomName: dataIO.Roomname,
+        isActive: true,
+      },
+      data: {
+        isActive: false,
+      },
+    });
+    console.log(sessionIsDone);
+    socket.emit("redirectToDone", {
+      PageName: "leaderboard",
+      session: getSessionID,
+    });
+    socket
+      .to(dataIO.Roomname)
+      .emit("redirectToDone", { PageName: "feedback", session: getSessionID });
   });
 };

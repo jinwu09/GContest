@@ -29,7 +29,7 @@ export const tokenChecker = async (
               .status(Code.s401_Unauthorized)
               .send(
                 sendTemplate(
-                  { message: "Invalid Token" },
+                  { message: "Invalid Token 1" },
                   Code.s401_Unauthorized
                 )
               );
@@ -39,19 +39,24 @@ export const tokenChecker = async (
           return res
             .status(Code.s401_Unauthorized)
             .send(
-              sendTemplate({ message: "Invalid Token" }, Code.s401_Unauthorized)
+              sendTemplate(
+                { message: "Invalid Token 2" },
+                Code.s401_Unauthorized
+              )
             );
         });
     } else {
       return res
         .status(Code.s401_Unauthorized)
         .send(
-          sendTemplate({ message: "Invalid Token" }, Code.s401_Unauthorized)
+          sendTemplate({ message: "Invalid Token 3" }, Code.s401_Unauthorized)
         );
     }
   } else {
     return res
       .status(Code.s401_Unauthorized)
-      .send(sendTemplate({ message: "Invalid Token" }, Code.s401_Unauthorized));
+      .send(
+        sendTemplate({ message: "Invalid Token 4" }, Code.s401_Unauthorized)
+      );
   }
 };

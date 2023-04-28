@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import NavBar from '@/components/NavBar.vue'
-import { onMounted } from 'vue'
+import { onMounted, onBeforeUnmount } from 'vue'
 import { socket } from '@/Socket/SocketConfig'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 
 const route = useRoute()
+const router = useRouter()
 const question: any = ref({
   content: 'loading...',
   choice: [
@@ -25,6 +26,10 @@ function PreviousQuestion() {
 function nextQuestion() {
   socket.emit('next', { Roomname: route.params.room })
 }
+function DoneSession() {
+  socket.emit('Done', { Roomname: route.params.room })
+}
+
 socket.on('refresh', () => {
   socket.emit('QuizLoad', { Roomname: route.params.Room })
   socket.emit('AdminQuizLoad', { Roomname: route.params.Room })
@@ -33,15 +38,25 @@ socket.on('refresh', () => {
 socket.on('AdminQuizLoad', (res) => {
   FirstQuestion.value = res.FirstQuestion
   LastQuestion.value = res.LastQuestion
-  console.log(`FirstQuestion value ${FirstQuestion.value}`)
-  console.log(`LastQuestion value ${LastQuestion.value}`)
 })
 socket.on('QuizLoad', (res) => {
   //   console.log(res)
   question.value = res.question
 })
+socket.on('redirectToDone', (res) => {
+  router.push({
+    name: res.PageName,
+    params: {
+      room: route.params.room,
+      session: res.session.id
+    }
+  })
+})
 onMounted(() => {
   socket.emit('QuizLoad', { Roomname: route.params.Room })
+})
+onBeforeUnmount(() => {
+  socket.disconnect()
 })
 </script>
 
@@ -63,7 +78,7 @@ onMounted(() => {
             >
               Next
             </button>
-            <button class="col-2 q-button" @click="nextQuestion()" v-if="LastQuestion == true">
+            <button class="col-2 q-button" @click="DoneSession()" v-if="LastQuestion == true">
               Done
             </button>
           </div>
