@@ -4,9 +4,9 @@ import LobbyJoiner from '@/components/Joiner/LobbyJoiner.vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/AuthStore'
+import { socket } from '@/Socket/SocketConfig'
 
-import { socket } from '../Methods/SocketConfig'
-import axios from 'axios'
+import axios, { formToJSON } from 'axios'
 
 const route = useRoute()
 const router = useRouter()
@@ -36,7 +36,7 @@ socket.on('Room', (res: any) => {
 socket.on('redirect', (res) => {
   redirect.value = true
   router.push({
-    name: 'quiz-join',
+    name: res.PageName,
     params: {
       room: route.params.room
     }

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { socket } from '../Methods/SocketConfig'
+import { socket } from '@/Socket/SocketConfig'
 import { useRoute, useRouter } from 'vue-router'
-
+import { onBeforeUnmount } from 'vue'
 const route = useRoute()
+const router = useRouter()
 
 const has_submitted = ref(true)
 const Choies: any = ref([])
@@ -11,13 +12,21 @@ const QuestionID: any = ref(0)
 socket.emit('QuizLoad', { Roomname: route.params.room })
 
 socket.on('QuizLoad', (res) => {
-  has_submitted.value = false
+  has_submitted.value = res.has_submitted
   Choies.value = res.question.choice
   QuestionID.value = res.question.id
 })
 socket.on('refresh', () => {
   //   console.log('refreshing')
   socket.emit('QuizLoad', { Roomname: route.params.Room })
+})
+socket.on('redirectToDone', (res) => {
+  router.push({
+    name: res.PageName,
+    params: {
+      session: res.session.id
+    }
+  })
 })
 const motivational_quotes = [
   '“We cannot solve problems with the kind of thinking we employed when we came up with them.” — Albert Einstein',
@@ -41,6 +50,9 @@ function submit(id: number) {
 }
 socket.on('AnswerSubmited', (res) => {
   has_submitted.value = res.has_Submitted
+})
+onBeforeUnmount(() => {
+  socket.disconnect()
 })
 </script>
 

@@ -3,6 +3,7 @@ import { body } from "express-validator/src/middlewares/validation-chain-builder
 import { PrismaClient } from "@prisma/client";
 import { validationResult } from "express-validator";
 import { sendTemplate, Code } from "../methods/template";
+import { totalmem } from "os";
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -203,5 +204,100 @@ router.delete("/:quiz_id", async (req: Request, res: Response) => {
       await prisma.$disconnect;
     });
 });
+
+router.get(
+  "/leaderboard/:session/:room",
+  async (req: Request, res: Response) => {
+    let getAnswerIndividual = await prisma.user
+      .findMany({
+        where: {
+          Answer: {
+            some: {
+              quizSessionId: Number(req.params.session),
+            },
+          },
+        },
+        select: {
+          id: true,
+          first_name: true,
+          last_name: true,
+          Answer: {
+            where: {
+              quizSessionId: Number(req.params.session),
+              choice: {
+                is_correct: true,
+              },
+            },
+            select: {
+              Question: {
+                select: {
+                  score: true,
+                },
+              },
+              choice: {
+                select: {
+                  is_correct: true,
+                },
+              },
+            },
+          },
+        },
+      })
+      .then((data) => {
+        return data;
+      })
+      .finally(() => prisma.$disconnect());
+    let getScoreTotal: any = [];
+    getAnswerIndividual.forEach((item) => {
+      let obj = {
+        id: item.id,
+        first_name: item.first_name,
+        last_name: item.first_name,
+        score: 0,
+      };
+      item.Answer.forEach((item) => {
+        if (item.choice?.is_correct == true) {
+          obj.score += item.Question?.score;
+        }
+      });
+      getScoreTotal.push(obj);
+    });
+    const getTotalQuizScore = await prisma.room
+      .findUnique({
+        where: {
+          room: req.params.room,
+        },
+        select: {
+          Quiz: {
+            select: {
+              question: {
+                select: {
+                  score: true,
+                },
+              },
+            },
+          },
+        },
+      })
+      .then((data) => {
+        let total = 0;
+        data?.Quiz?.question.forEach((item) => {
+          total += item.score;
+        });
+        return total;
+      })
+      .finally(() => prisma.$disconnect());
+    res.status(Code.s200_OK).send(
+      sendTemplate(
+        {
+          UsersScore: getScoreTotal,
+          QuizTotal: getTotalQuizScore,
+          message: "leaderboard list",
+        },
+        200
+      )
+    );
+  }
+);
 
 export const QuizRouter: Router = router;

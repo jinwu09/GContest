@@ -4,7 +4,7 @@ import LobbyJoiner from '@/components/Joiner/LobbyJoiner.vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-import { socket } from '../Methods/SocketConfig'
+import { socket } from '@/Socket/SocketConfig'
 import axios from 'axios'
 
 const route = useRoute()
@@ -34,7 +34,7 @@ socket.on('Room', (res: any) => {
 socket.on('redirect', (res) => {
   redirect.value = true
   router.push({
-    name: 'creator-join',
+    name: res.PageName,
     params: {
       room: route.params.room
     }

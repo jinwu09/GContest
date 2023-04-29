@@ -37,18 +37,20 @@ model Token {
 }
 
 model Answer {
-  id          Int       @id @default(autoincrement())
-  Quiz        Quiz?     @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  quizId      Int?
-  Question    Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  questionId  Int?
-  choice      Choice?   @relation(fields: [choiceId], references: [id], onDelete: Cascade)
-  choiceId    Int?
-  Users       User?     @relation(fields: [usersId], references: [id], onDelete: Cascade)
-  usersId     Int?
-  answered_at DateTime  @default(now())
+  id            Int          @id @default(autoincrement())
+  Quiz          Quiz?        @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId        Int?
+  Question      Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId    Int
+  choice        Choice       @relation(fields: [choiceId], references: [id], onDelete: Cascade)
+  choiceId      Int
+  Users         User?        @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  usersId       Int?
+  answered_at   DateTime     @default(now())
   // AnsweredQuiz   AnsweredQuiz? @relation(fields: [answeredQuizId], references: [id])
   // answeredQuizId String?
+  QuizSession   QuizSession? @relation(fields: [quizSessionId], references: [id])
+  quizSessionId Int?
 }
 
 model Quiz {
@@ -86,8 +88,10 @@ model QuizSession {
   id         Int       @id @default(autoincrement())
   Question   Question? @relation(fields: [questionId], references: [id])
   questionId Int?
-  Room       Room?     @relation(fields: [roomName], references: [room])
-  roomName   String    @unique
+  Room       Room      @relation(fields: [roomName], references: [room])
+  roomName   String
+  isActive   Boolean
+  answer     Answer[]
 }
 
 // model AnsweredQuiz {
