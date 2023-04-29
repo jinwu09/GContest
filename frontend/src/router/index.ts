@@ -18,7 +18,7 @@ const BlankQuestion = () => import('@/views/Quiz/Creator/BlankQuestion.vue')
 const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
 const CreatorLobby = () => import('@/views/Quiz/Creator/CreatorLobby.vue')
 const CreatorQuizView = () => import('@/views/Quiz/Creator/CreatorQuizView.vue')
-const SampleLeaderBoard = () => import('@/views/Quiz/Creator/SampleLeaderBoard.vue')
+const LeaderBoard = () => import('@/views/Quiz/Creator/LeaderBoard.vue')
 //Joiner
 // const LobbyView = ()=> import('@/views/Quiz/Joiner/LobbyView.vue');
 const QuizView = () => import('@/views/Quiz/Joiner/QuizView.vue')
@@ -83,14 +83,14 @@ const router = createRouter({
       component: CreatorLobby
     },
     {
-      path: '/ceator/quiz/:room/start',
+      path: '/creator/quiz/:room/start',
       name: 'creator-join',
       component: CreatorQuizView
     },
     {
-      path: '/creator/LeaderBoard/:session/:room/Sample',
+      path: '/creator/leaderboard/:session/:room/',
       name: 'leaderboard',
-      component: SampleLeaderBoard
+      component: LeaderBoard
     },
 
     //Joiners

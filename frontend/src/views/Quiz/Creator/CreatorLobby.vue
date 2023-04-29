@@ -65,11 +65,10 @@ onBeforeUnmount(() => {
       <div class="row">
         <div class="col-lg-1"></div>
         <div class="col-lg-10">
-          <div class="row">
-            <div class="d-grid gap-2">
-              <button v-if="admin == true" @click="QuizStart()" class="btn btn-primary" type="button">Start</button>
-            </div>
-          </div>
+
+          <button v-if="admin == true" @click="QuizStart()" class="floating-button" type="button">Start the Quiz!</button>
+
+
           <div class="row">
             <h1>In Lobby:</h1>
           </div>
@@ -86,4 +85,22 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.floating-button {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  height: 80px;
+  padding: 20px;
+  background-color: var(--main-color);
+  color: #FFF;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+}
+
+.floating-button:hover{
+  transform: scale(1.2);
+  background-color: var(--hover-color);
+}
+</style>
