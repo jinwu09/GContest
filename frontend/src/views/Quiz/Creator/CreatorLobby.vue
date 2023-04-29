@@ -66,17 +66,19 @@ onBeforeUnmount(() => {
         <div class="col-lg-1"></div>
         <div class="col-lg-10">
           <div class="row">
+            <div class="d-grid gap-2">
+              <button v-if="admin == true" @click="QuizStart()" class="btn btn-primary" type="button">Start</button>
+            </div>
+          </div>
+          <div class="row">
             <h1>In Lobby:</h1>
           </div>
           <div class="row">
             <div v-for="user in joiners" :key="user.User.id" class="col-md-3 pt-2">
-              <LobbyJoiner
-                :id="user.User.id"
-                :username="user.User.first_name + user.User.last_name"
-              />
+              <LobbyJoiner :id="user.User.id" :username="user.User.first_name + user.User.last_name" />
             </div>
           </div>
-          <div v-if="admin == true" @click="QuizStart()"><button>Start</button></div>
+
         </div>
         <div class="col-lg-1"></div>
       </div>

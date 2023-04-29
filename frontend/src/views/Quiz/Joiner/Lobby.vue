@@ -68,6 +68,11 @@ onBeforeUnmount(() => {
         <div class="col-lg-1"></div>
         <div class="col-lg-10">
           <div class="row">
+            <div class="d-grid gap-2">
+              <button v-if="admin == true" @click="QuizStart()" class="btn btn-primary" type="button">Start the Quiz</button>
+            </div>
+          </div>
+          <div class="row pt-2">
             <h1>In Lobby:</h1>
           </div>
           <div class="row">
@@ -78,7 +83,6 @@ onBeforeUnmount(() => {
               />
             </div>
           </div>
-          <div v-if="admin == true" @click="QuizStart()"><button>Start</button></div>
         </div>
         <div class="col-lg-1"></div>
       </div>
