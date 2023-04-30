@@ -328,13 +328,24 @@ router.get("/feedback/:session", async (req: Request, res: Response) => {
         Room: {
           include: {
             Quiz: {
-              include: {
+              select: {
+                title: true,
                 question: {
                   include: {
                     choice: true,
                     answer: {
                       where: {
                         usersId: res.locals.userId,
+                      },
+                      select: {
+                        id: true,
+                        choice: {
+                          select: {
+                            id: true,
+                            content: true,
+                            is_correct: true,
+                          },
+                        },
                       },
                     },
                   },
