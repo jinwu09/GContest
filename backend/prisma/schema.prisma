@@ -15,6 +15,13 @@ enum QuizType {
   PUBLIC
 }
 
+enum StatusType {
+  Open
+  Ongoing
+  Done
+  Closed
+}
+
 model User {
   id         Int         @id @default(autoincrement())
   first_name String
@@ -59,6 +66,7 @@ model Quiz {
   password   String?
   room       Room[]
   status     QuizType   @default(PUBLIC)
+  condition  StatusType @default(Closed)
   creator    User       @relation(fields: [creator_id], references: [id], onDelete: Cascade)
   creator_id Int
   created_at DateTime   @default(now())

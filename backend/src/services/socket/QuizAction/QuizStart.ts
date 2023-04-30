@@ -156,7 +156,48 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
     });
   });
 
-  socket.on("AdminQuizLoad", (dataIO) => {
+  socket.on("AdminQuizLoad", async (dataIO) => {
+    const getAllUserInRoomAttendee = await prisma.room
+      .findFirst({
+        where: {
+          room: dataIO.Roomname,
+        },
+        include: {
+          attendees: true,
+        },
+      })
+      .then((data) => {
+        return data?.attendees.length || 0;
+      });
+    const getQuestionIDFromSession = await prisma.quizSession
+      .findFirst({
+        where: {
+          roomName: dataIO.Roomname,
+          isActive: true,
+        },
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .then((data) => {
+        console.log(data);
+        return data;
+      });
+    const getAnswerCount = await prisma.answer
+      .findMany({
+        where: {
+          questionId: getQuestionIDFromSession?.questionId || 0,
+          quizSessionId: getQuestionIDFromSession?.id || 0,
+        },
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .then((data) => {
+        console.log(data);
+        return data;
+      });
+    console.log(getAllUserInRoomAttendee);
     socket.emit("AdminQuizLoad", {
       LastQuestion:
         socket.data.QuestionIndex == socket.data.questionArr.length - 1,
@@ -217,6 +258,8 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
       .then(() => {
         socket.emit("AnswerSubmited", { has_Submitted: true });
       });
+    socket.emit("refresh");
+    socket.to(dataIO.Roomname).emit("refresh");
   });
   socket.on("Done", async (dataIO) => {
     const getSessionID = await prisma.quizSession

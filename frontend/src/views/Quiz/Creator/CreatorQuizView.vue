@@ -31,8 +31,8 @@ function DoneSession() {
 }
 
 socket.on('refresh', () => {
-  socket.emit('QuizLoad', { Roomname: route.params.Room })
-  socket.emit('AdminQuizLoad', { Roomname: route.params.Room })
+  socket.emit('QuizLoad', { Roomname: route.params.room })
+  socket.emit('AdminQuizLoad', { Roomname: route.params.room })
 })
 
 socket.on('AdminQuizLoad', (res) => {
@@ -53,7 +53,8 @@ socket.on('redirectToDone', (res) => {
   })
 })
 onMounted(() => {
-  socket.emit('QuizLoad', { Roomname: route.params.Room })
+  socket.emit('QuizLoad', { Roomname: route.params.room })
+  socket.emit('AdminQuizLoad', { Roomname: route.params.room })
 })
 onBeforeUnmount(() => {
   socket.disconnect()
