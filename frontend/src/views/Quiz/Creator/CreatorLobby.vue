@@ -65,18 +65,19 @@ onBeforeUnmount(() => {
       <div class="row">
         <div class="col-lg-1"></div>
         <div class="col-lg-10">
+
+          <button v-if="admin == true" @click="QuizStart()" class="floating-button" type="button">Start the Quiz!</button>
+
+
           <div class="row">
             <h1>In Lobby:</h1>
           </div>
           <div class="row">
             <div v-for="user in joiners" :key="user.User.id" class="col-md-3 pt-2">
-              <LobbyJoiner
-                :id="user.User.id"
-                :username="user.User.first_name + user.User.last_name"
-              />
+              <LobbyJoiner :id="user.User.id" :username="user.User.first_name + user.User.last_name" />
             </div>
           </div>
-          <div v-if="admin == true" @click="QuizStart()"><button>Start</button></div>
+
         </div>
         <div class="col-lg-1"></div>
       </div>
@@ -84,4 +85,22 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.floating-button {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  height: 80px;
+  padding: 20px;
+  background-color: var(--main-color);
+  color: #FFF;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+}
+
+.floating-button:hover{
+  transform: scale(1.2);
+  background-color: var(--hover-color);
+}
+</style>
