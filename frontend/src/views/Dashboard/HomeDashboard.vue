@@ -19,7 +19,7 @@ onMounted(() => {
         Authorization: 'Bearer ' + store.token
       }
     })
-    .then((res) => {
+    .then((res: any) => {
       quizzes.value = res.data.payload
       console.log(quizzes.value)
     })

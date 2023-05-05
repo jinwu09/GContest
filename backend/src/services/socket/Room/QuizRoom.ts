@@ -1,9 +1,5 @@
 import { Socket, Server } from "socket.io";
 import { PrismaClient } from "@prisma/client";
-import { sendTemplate } from "../../../methods/template";
-import { Code } from "../../../methods/template";
-import { io } from "../../../../app";
-import e from "express";
 const prisma = new PrismaClient();
 
 export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
@@ -133,17 +129,22 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
       const RoomData = { RoomAttendees };
       // who just joined
       socket.emit("JoinRoom", {
+        isExist: RoomExist != null,
         admin: IsUserCreator,
         data: RoomData,
         message: `Successfully joined!`,
       });
       // emits to all in the room except who just join
       socket.to(dataIO.Roomname).emit("Room", {
+        isExist: RoomExist != null,
         data: RoomData,
         message: `new user have joined: ${socket.data.first_name} ${socket.data.last_name}`,
       });
     } else {
-      socket.emit("JoinRoom", "Room Doesn't exist");
+      socket.emit("JoinRoom", {
+        isExist: RoomExist != null,
+        message: "Room Doesn't exist",
+      });
     }
   });
 

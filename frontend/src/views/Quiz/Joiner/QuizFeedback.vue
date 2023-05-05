@@ -8,7 +8,7 @@ import { checkCompatEnabled } from '@vue/compiler-core'
 const route = useRoute()
 const store = useAuthStore()
 
-interface tFeedbacks {
+interface IFeedbacks {
   title: string
   question: [
     {
@@ -37,7 +37,7 @@ interface tFeedbacks {
     }
   ]
 }
-const feedback = ref<tFeedbacks>()
+const feedback = ref<IFeedbacks>()
 
 onMounted(() => {
   axios

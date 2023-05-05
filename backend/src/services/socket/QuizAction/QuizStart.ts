@@ -7,10 +7,11 @@ const prisma = new PrismaClient();
 export const QuizStartSocketListener = (socket: Socket, io: Server) => {
   socket.on("QuizStart", async (dataIO) => {
     console.log("redirecting");
-    const GetQuizList: any = await prisma.room
+    console.log(dataIO.Roomname);
+    const GetQuizList = await prisma.room
       .findUnique({
         where: {
-          room: dataIO.Roomname,
+          room: String(dataIO.Roomname),
         },
         include: {
           Quiz: {
@@ -51,6 +52,9 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
       .finally(() => {
         prisma.$disconnect();
       });
+
+    console.log(socket.data.questionArr);
+    console.log(socket.data);
     const CreateQuizSession = await prisma.quizSession
       .create({
         data: {

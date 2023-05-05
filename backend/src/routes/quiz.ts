@@ -336,6 +336,7 @@ router.get("/feedback/:session", async (req: Request, res: Response) => {
                     answer: {
                       where: {
                         usersId: res.locals.userId,
+                        quizSessionId: Number(req.params.session),
                       },
                       select: {
                         id: true,

@@ -184,4 +184,19 @@ router.put("/:questionID", async (req: Request, res: Response) => {
     .status(Code.s200_OK)
     .send(sendTemplate({ message: "Successfully Updated" }, Code.s200_OK));
 });
+
+router.delete("/:question_id", async (req: Request, res: Response) => {
+  const deleteQuestion = await prisma.question
+    .delete({
+      where: {
+        id: Number(req.params.question_id),
+      },
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+    .finally(() => {
+      prisma.$disconnect();
+    });
+});
 export const QuestionRouter: Router = router;
