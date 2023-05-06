@@ -105,7 +105,7 @@ const router = createRouter({
       component: Lobby
     },
     {
-      path: '/join/Result/:session/Sample',
+      path: '/join/result/:session/',
       name: 'feedback',
       component: FeedBack
     },

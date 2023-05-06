@@ -128,7 +128,7 @@ onMounted(() => {
                 Create a Test</router-link
               >
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link m-2 p-3" aria-current="page" href="#"
                 ><span class="pe-4"
                   ><svg
@@ -181,7 +181,7 @@ onMounted(() => {
                     /></svg></span
                 >Settings</a
               >
-            </li>
+            </li> -->
             <li class="nav-item" @click="logOut">
               <div class="nav-link m-2 p-3" aria-current="page">
                 <span class="pe-4"

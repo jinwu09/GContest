@@ -24,7 +24,7 @@ const JoinRoom = (Roomname: any) => {
 }
 
 socket.on('JoinRoom', (res: any) => {
-  console.log(res.isExist)
+  // console.log(res.isExist)
   isExist.value = res.isExist || false
   joiners.value = res.data.RoomAttendees
   // console.log(joiners.value)

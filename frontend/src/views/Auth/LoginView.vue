@@ -30,7 +30,7 @@ function login(e: any) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: err.data.payload.message
+        text: err.response.data.payload
       })
     })
 }
