@@ -187,6 +187,10 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
         console.log(data);
         return data;
       });
+    if (getQuestionIDFromSession == null) {
+      console.log("errors");
+      return "errors";
+    }
     const getAnswerCount = await prisma.answer
       .findMany({
         where: {
