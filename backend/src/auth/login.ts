@@ -117,23 +117,24 @@ router.post(
         select: { id: true, password: true },
       })
       .catch((e) => {
-        return res
-          .status(Code.S400_Bad_Request)
-          .send(sendTemplate("Bad Request"));
+        res.status(Code.S400_Bad_Request).send(sendTemplate("Bad Request"));
       })
-      .then((data: any) => {
-        if (
-          CryptoJS.AES.decrypt(data?.password, process.env.API_KEY).toString(
-            CryptoJS.enc.Utf8
-          ) === req.body.password
-        ) {
-          res.locals.userID = data?.id;
-          next();
-        } else {
-          return res
-            .status(Code.s401_Unauthorized)
-            .send(sendTemplate("Wrong email or password"));
+      .then((data) => {
+        if (data != null) {
+          if (
+            CryptoJS.AES.decrypt(data?.password, process.env.API_KEY).toString(
+              CryptoJS.enc.Utf8
+            ) === req.body.password
+          ) {
+            res.locals.userID = data?.id;
+            next();
+          } else {
+            res
+              .status(Code.s401_Unauthorized)
+              .send(sendTemplate("Wrong email or password"));
+          }
         }
+        return data;
       })
       .finally(() => {
         prisma.$disconnect();

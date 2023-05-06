@@ -15,6 +15,7 @@ const store = useAuthStore()
 const redirect = ref(false)
 
 const admin = ref(false)
+const isExist: any = ref(false)
 
 const JoinRoom = (Roomname: any) => {
   socket.connect()
@@ -23,6 +24,8 @@ const JoinRoom = (Roomname: any) => {
 }
 
 socket.on('JoinRoom', (res: any) => {
+  console.log(res.isExist)
+  isExist.value = res.isExist || false
   joiners.value = res.data.RoomAttendees
   // console.log(joiners.value)
   admin.value = res.admin
@@ -66,14 +69,22 @@ onBeforeUnmount(() => {
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-1"></div>
-        <div class="col-lg-10">
-          <button v-if="admin == true" @click="QuizStart()" class="floating-button" type="button">Start the Quiz!</button>
+        <div class="col-lg-10" v-if="!isExist">
+          <h1>Room doesn't exist</h1>
+        </div>
+        <div class="col-lg-10" v-if="isExist">
+          <button v-if="admin == true" @click="QuizStart()" class="floating-button" type="button">
+            Start the Quiz!
+          </button>
           <div class="row pt-2">
             <h1>In Lobby:</h1>
           </div>
           <div class="row">
             <div v-for="user in joiners" :key="user.User.id" class="col-md-3 pt-2">
-              <LobbyJoiner :id="user.User.id" :username="user.User.first_name + user.User.last_name" />
+              <LobbyJoiner
+                :id="user.User.id"
+                :username="user.User.first_name + user.User.last_name"
+              />
             </div>
           </div>
         </div>
@@ -93,7 +104,7 @@ onBeforeUnmount(() => {
   height: 80px;
   padding: 20px;
   background-color: var(--main-color);
-  color: #FFF;
+  color: #fff;
   border-radius: 25px;
   text-align: center;
   box-shadow: 2px 2px 3px #999;

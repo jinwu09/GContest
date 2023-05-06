@@ -13,7 +13,15 @@ router.get("/", async (req: Request, res: Response, next) => {
   const showQuiz: any = await prisma.quiz
     .findMany({
       where: {
-        status: "PUBLIC",
+        OR: [
+          {
+            creator_id: res.locals.userId,
+            status: "PRIVATE",
+          },
+          {
+            status: "PUBLIC",
+          },
+        ],
       },
       include: {
         creator: {
@@ -31,6 +39,7 @@ router.get("/", async (req: Request, res: Response, next) => {
     .finally(async () => {
       await prisma.$disconnect();
     });
+  console.log(showQuiz);
   showQuiz.forEach((element: any) => {
     element.admin = element.creator_id == res.locals.userId ? true : false;
   });
@@ -162,7 +171,7 @@ router.post(
       });
   }
 );
-
+// update quiz id
 router.put("/:quiz_id", async (req: Request, res: Response, next) => {
   const updateQuiz = await prisma.quiz
     .update({
@@ -187,6 +196,7 @@ router.put("/:quiz_id", async (req: Request, res: Response, next) => {
     });
 });
 
+// delete specific quiz by id
 router.delete("/:quiz_id", async (req: Request, res: Response) => {
   const deleteQuiz = await prisma.quiz
     .delete({
@@ -205,6 +215,7 @@ router.delete("/:quiz_id", async (req: Request, res: Response) => {
     });
 });
 
+// get leaderboard
 router.get(
   "/leaderboard/:session/:room",
   async (req: Request, res: Response) => {
@@ -244,6 +255,7 @@ router.get(
         },
       })
       .then((data) => {
+        console.log(data);
         return data;
       })
       .finally(() => prisma.$disconnect());
@@ -287,6 +299,11 @@ router.get(
         return total;
       })
       .finally(() => prisma.$disconnect());
+    console.log({
+      UsersScore: getScoreTotal,
+      QuizTotal: getTotalQuizScore,
+      message: "leaderboard list",
+    });
     res.status(Code.s200_OK).send(
       sendTemplate(
         {
@@ -299,5 +316,59 @@ router.get(
     );
   }
 );
+
+// show feedback view
+router.get("/feedback/:session", async (req: Request, res: Response) => {
+  const getAnswer = await prisma.quizSession
+    .findFirst({
+      where: {
+        id: Number(req.params.session),
+      },
+      include: {
+        Room: {
+          include: {
+            Quiz: {
+              select: {
+                title: true,
+                question: {
+                  include: {
+                    choice: true,
+                    answer: {
+                      where: {
+                        usersId: res.locals.userId,
+                        quizSessionId: Number(req.params.session),
+                      },
+                      select: {
+                        id: true,
+                        choice: {
+                          select: {
+                            id: true,
+                            content: true,
+                            is_correct: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+    .then((data) => {
+      return data?.Room.Quiz;
+    });
+  console.log(getAnswer);
+  res
+    .status(Code.s200_OK)
+    .send(
+      sendTemplate(
+        { feedback: getAnswer, message: "this is just a testing" },
+        Code.s200_OK
+      )
+    );
+});
 
 export const QuizRouter: Router = router;
