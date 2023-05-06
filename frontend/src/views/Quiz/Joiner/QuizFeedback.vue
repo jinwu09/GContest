@@ -98,39 +98,9 @@ onMounted(() => {
             <p :class="answer.choice.is_correct ? 'green':'red'">Your Answer {{ answer.choice.content }} is {{ answer.choice.is_correct ? "Right" : "Wrong"}}</p>
           </div>
         </div>
-        <!-- <div class="row">
-          <div class="col-md-10">
-            <h3>{{ item.content }}</h3>
-          </div>
-        </div> -->
-
-        <!-- <h3>Choices:</h3>
-        <div v-for="choice in item.choice" :key="choice.id">
-          <h4>{{ choice.content }}</h4>
-          <h5>{{ choice.is_correct }}</h5>
-        </div>
-        <div v-for="answer in item.answer" :key="answer.id">
-          <h1>Answer</h1>
-          {{ answer.choice.content }} is {{ answer.choice.is_correct }}
-        </div> -->
       </div>
     </div>
   </div>
-
-  <!-- <h1>quiz name {{ feedback?.title }}</h1>
-    <div v-for="item in feedback?.question" :key="item.id">
-      <h1>question: {{ item.content }}</h1>
-      <h2>score: {{ item.score }}</h2>
-      <h3>Choices:</h3>
-      <div v-for="choice in item.choice" :key="choice.id">
-        <h4>{{ choice.content }}</h4>
-        <h5>{{ choice.is_correct }}</h5>
-      </div>
-      <div v-for="answer in item.answer" :key="answer.id">
-        <h1>Answer</h1>
-        {{ answer.choice.content }} is {{ answer.choice.is_correct }}
-      </div>
-    </div> -->
 </template>
 
 <style scoped>
