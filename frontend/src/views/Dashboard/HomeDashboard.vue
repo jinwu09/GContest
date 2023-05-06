@@ -21,10 +21,10 @@ onMounted(() => {
     })
     .then((res: any) => {
       quizzes.value = res.data.payload
-      console.log(quizzes.value)
+      // console.log(quizzes.value)
     })
     .catch((err) => {
-      console.log(err)
+      // console.log(err)
     })
 })
 
@@ -60,7 +60,9 @@ function joinLobbyAsJoiner(room: any) {
         <div class="col-lg-6">
           <div class="row room-background mt-2">
             <div class="d-flex align-items-center justify-content-center">
-              <div class="row w-75">
+            Private rooms are under repair
+
+              <!-- <div class="row w-75">
                 <form @submit.prevent="joinLobbyAsJoiner(JoinRoom)" class="col-md-8 mt-2">
                   <input
                     class="form-control form-control-lg"
@@ -81,7 +83,7 @@ function joinLobbyAsJoiner(room: any) {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

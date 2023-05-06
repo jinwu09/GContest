@@ -77,13 +77,13 @@ function createQuiz(){
                       <label class="form-label">Room Status <span class="text-muted">(Public means every user of this application can join your quiz)</span></label>
                       <select class="form-select" aria-label=".form-select-lg example" v-model="status" required>
                         <option value="PUBLIC">Public</option>
-                        <option value="PRIVATE">Private</option>
+                        <option value="PRIVATE" disabled>Private</option>
                       </select>
                     </div>
 
                     <div class="mb-3">
                       <label class="form-label">Room Password <span class="text-muted">(So that only users authorized by you can join your quiz)</span></label>
-                      <input type="password" v-model="password" class="form-control" autocomplete="off" :disabled="status == 'PUBLIC'" :required="status == 'PRIVATE'">
+                      <input type="password" v-model="password" class="form-control" autocomplete="off" :disabled="status == 'PUBLIC' || status == ''" :required="status == 'PRIVATE'">
                     </div>
 
                     <div class="mb-3">
