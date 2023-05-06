@@ -264,7 +264,7 @@ router.get(
       let obj = {
         id: item.id,
         first_name: item.first_name,
-        last_name: item.first_name,
+        last_name: item.last_name,
         score: 0,
       };
       item.Answer.forEach((item) => {
