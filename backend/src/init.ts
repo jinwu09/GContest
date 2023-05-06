@@ -160,4 +160,5 @@ async function main(
 main("202010597","albert","Mark Thaddeus","Manuel")
 main("202011580","albert","Albert John","Santos")
 main("201910981","albert","Bryan Lee","Diaz")
-// main("201910981","albert","Bryan Lee","Diaz")
+main("202011019","albert","Bryne Lance","Babasa")
+main("202011022","albert","David","Veluz")
