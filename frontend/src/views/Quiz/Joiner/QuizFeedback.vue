@@ -48,7 +48,7 @@ onMounted(() => {
       }
     })
     .then((res) => {
-      console.log(res.data.payload.feedback)
+      // console.log(res.data.payload.feedback)
       feedback.value = res.data.payload.feedback
     })
 })
