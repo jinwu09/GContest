@@ -21,7 +21,7 @@ function logOut() {
 
       Swal.fire({
         icon: 'success',
-        title: res.data.message
+        title: res.data.payload.message
       })
 
       router.push({ name: 'LandingPage' })
