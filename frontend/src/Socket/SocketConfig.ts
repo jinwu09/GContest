@@ -2,8 +2,7 @@ import { io } from 'socket.io-client'
 import { useAuthStore } from '@/store/AuthStore'
 
 const store = useAuthStore()
-
-export const socket = io('http://localhost:8080', {
+export const socket = io(import.meta.env.VITE_APP_STATUS == 'LOCAL' ? import.meta.env.VITE_API_LOCAL_URL:import.meta.env.VITE_API_DEPLOYMENT_URL, {
   auth: {
     token: store.token
   },

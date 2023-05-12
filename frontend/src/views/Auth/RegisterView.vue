@@ -23,7 +23,7 @@ function register(){
     confirm_password: cpassword.value,
   }).then((res)=>{
     Swal.fire({
-      title: res.data.payload.message
+      title: res.data.payload
     })
 
     store.setTokenValue(res.data.payload.token)
@@ -31,7 +31,7 @@ function register(){
     router.push({name: 'dashboard'})
   }).catch((err)=>{
     Swal.fire({
-      title: err.data.message,
+      title: err.response.data.payload,
     })
   })
 }

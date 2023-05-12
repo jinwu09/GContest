@@ -47,6 +47,7 @@ function get_motivational_quotes() {
 }
 function submit(id: number) {
   socket.emit('AnswerSubmit', { choice: id, QuestionID: QuestionID.value })
+  has_submitted.value = true
 }
 socket.on('AnswerSubmited', (res) => {
   has_submitted.value = res.has_Submitted

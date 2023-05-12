@@ -83,7 +83,7 @@ onBeforeUnmount(() => {
             <div v-for="user in joiners" :key="user.User.id" class="col-md-3 pt-2">
               <LobbyJoiner
                 :id="user.User.id"
-                :username="user.User.first_name + user.User.last_name"
+                :username="user.User.first_name +' '+ user.User.last_name"
               />
             </div>
           </div>
