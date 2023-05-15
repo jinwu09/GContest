@@ -147,6 +147,7 @@ router.post(
           password: req.body.password,
           status: req.body.status,
           creator_id: res.locals.userId,
+          description: req.body.description,
           room: {
             create: {
               room: req.body.room,
@@ -183,6 +184,7 @@ router.put("/:quiz_id", async (req: Request, res: Response, next) => {
         password: req.body.password,
         status: req.body.status,
         title: req.body.title,
+        description: req.body.description
       },
     })
     .catch((e: any) => {
