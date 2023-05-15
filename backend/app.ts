@@ -13,7 +13,8 @@ export const app: Express = express();
 const httpServer = createServer(app);
 export const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:8080",
+    origin: ["http://localhost:8080","http://192.168.137.1:5173/","*"],
+    // origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
     allowedHeaders: ["my-custom-header"],

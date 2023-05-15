@@ -29,7 +29,6 @@ export const SocketCheckToken = async (socket: Socket, next: any) => {
         console.log(
           `${socket.id} is success auth name ${socket.data.first_name} ${socket.data.last_name}`
         );
-        console.count("connected");
         next();
       } else {
         console.count("bad token");
