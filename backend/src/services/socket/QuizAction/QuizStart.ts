@@ -1,5 +1,6 @@
 import { Socket, Server } from "socket.io";
 import { PrismaClient } from "@prisma/client";
+import { Code } from "../../../methods/template";
 // import { TokenCheck } from "../../methods/TokenCheck";
 
 const prisma = new PrismaClient();
@@ -7,7 +8,6 @@ const prisma = new PrismaClient();
 export const QuizStartSocketListener = (socket: Socket, io: Server) => {
   socket.on("QuizStart", async (dataIO) => {
     console.log("redirecting");
-    console.log(dataIO.Roomname);
     const GetQuizList = await prisma.room
       .findUnique({
         where: {
@@ -34,6 +34,27 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
       .finally(() => {
         prisma.$disconnect();
       });
+    interface IError {
+      msg: {
+        ErrorType: string;
+        cause: string;
+        ErrLine?: string;
+      };
+      StatusCode: number;
+    }
+
+    if (GetQuizList?.length == 0) {
+      const err: IError = {
+        msg: {
+          cause: "Quiz has no question ",
+          ErrorType: "not found or missing",
+          ErrLine: "line 52",
+        },
+        StatusCode: Code.s204_No_content,
+      };
+      socket.emit("Error", err);
+      return;
+    }
     socket.data.questionArr = GetQuizList;
     socket.data.QuestionIndex = 0;
     const DeleteExistingSession = await prisma.quizSession
