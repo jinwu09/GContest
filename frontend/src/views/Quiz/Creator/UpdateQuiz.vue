@@ -144,6 +144,11 @@ onMounted(() => {
       }
     })
     .then((res) => {
+      if (res.data.payload == null) {
+        router.push({
+          name: 'NotFound'
+        })
+      }
       const payload = res.data.payload
       title.value = payload.title
       room_passcode.value = payload.room[0].room

@@ -3,7 +3,6 @@ import { body } from "express-validator/src/middlewares/validation-chain-builder
 import { PrismaClient } from "@prisma/client";
 import { validationResult } from "express-validator";
 import { sendTemplate, Code } from "../methods/template";
-import { totalmem } from "os";
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -56,10 +55,12 @@ router.get("/:quiz_id", async (req: Request, res: Response) => {
   }
 
   const quiz_detail = await prisma.quiz
-    .findUnique({
+    .findFirst({
       where: {
         id: parseInt(req.params.quiz_id),
+        creator_id: res.locals.userId,
       },
+
       include: {
         question: {
           include: {
@@ -78,7 +79,7 @@ router.get("/:quiz_id", async (req: Request, res: Response) => {
       res.send(sendTemplate(data));
     })
     .finally(async () => {
-      await prisma.$disconnect;
+      prisma.$disconnect;
     });
 });
 
@@ -184,7 +185,7 @@ router.put("/:quiz_id", async (req: Request, res: Response, next) => {
         password: req.body.password,
         status: req.body.status,
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
       },
     })
     .catch((e: any) => {
