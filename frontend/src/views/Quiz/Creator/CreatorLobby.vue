@@ -57,17 +57,6 @@ socket.on('redirect', (res) => {
     }
   })
 })
-interface IError {
-  msg: {
-    ErrorType: string
-    cause: string
-    ErrLine: string
-  }
-  StatusCode: number
-}
-socket.on('Error', (res: IError) => {
-  console.log(res)
-})
 
 const QuizStart = () => {
   socket.emit('QuizStart', { Roomname: route.params.room })
