@@ -205,7 +205,7 @@ function joinLobbyAsJoiner(room: any) {
   background-color: var(--main-color);
   color: white;
   box-shadow: 0 4px 8px 0 var(--main-color), 0 6px 20px 0 var(--main-color);
-  transform: scale(1.1) rotate(3deg);
+  transform: scale(1.1) ;
 }
 
 .card:hover .card-body .text-muted {
