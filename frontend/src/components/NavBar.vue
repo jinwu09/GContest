@@ -53,21 +53,11 @@ onMounted(() => {
         <span style="--i: 5">e</span>
         <span style="--i: 6">r</span>
       </span>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasNavbar"
-        aria-controls="offcanvasNavbar"
-      >
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div
-        class="offcanvas offcanvas-end"
-        tabindex="-1"
-        id="offcanvasNavbar"
-        aria-labelledby="offcanvasNavbarLabel"
-      >
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title title h1 m-2" id="offcanvasNavbarLabel">
             <span style="--i: 1">Q</span>
@@ -77,56 +67,29 @@ onMounted(() => {
             <span style="--i: 5">e</span>
             <span style="--i: 6">r</span>
           </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
-              <router-link class="nav-link m-2 p-3" aria-current="page" :to="{ name: 'dashboard' }"
-                ><span class="pe-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="currentColor"
-                    class="bi bi-house-door-fill"
-                    viewBox="0 0 16 16"
-                  >
+              <router-link class="nav-link m-2 p-3" aria-current="page" :to="{ name: 'dashboard' }"><span class="pe-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                    class="bi bi-house-door-fill" viewBox="0 0 16 16">
                     <path
-                      d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"
-                    />
+                      d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z" />
                   </svg>
                 </span>
-                Home</router-link
-              >
+                Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link
-                class="nav-link m-2 p-3"
-                aria-current="page"
-                :to="{ name: 'create-quiz' }"
-              >
-                <span class="pe-4"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="currentColor"
-                    class="bi bi-plus-square-fill"
-                    viewBox="0 0 16 16"
-                  >
+              <router-link class="nav-link m-2 p-3" aria-current="page" :to="{ name: 'create-quiz' }">
+                <span class="pe-4"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                    class="bi bi-plus-square-fill" viewBox="0 0 16 16">
                     <path
-                      d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"
-                    />
+                      d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z" />
                   </svg>
                 </span>
-                Create a Test</router-link
-              >
+                Create a Test</router-link>
             </li>
             <!-- <li class="nav-item">
               <a class="nav-link m-2 p-3" aria-current="page" href="#"
@@ -147,25 +110,16 @@ onMounted(() => {
                     /></svg></span
                 >My Tests</a
               >
-            </li>
+            </li>-->
             <li class="nav-item">
-              <a class="nav-link m-2 p-3" aria-current="page" href="#"
-                ><span class="pe-4"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="currentColor"
-                    class="bi bi-clock-fill"
-                    viewBox="0 0 16 16"
-                  >
+              <router-link class="nav-link m-2 p-3" aria-current="page" :to="{ name: 'recent-joined' }"><span class="pe-4"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-clock-fill"
+                    viewBox="0 0 16 16">
                     <path
-                      d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"
-                    /></svg></span
-                >Recent Activity</a
-              >
+                      d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                  </svg></span>Recent Activity</router-link>
             </li>
-            <li class="nav-item">
+            <!--<li class="nav-item">
               <a class="nav-link m-2 p-3" aria-current="page" href="#">
                 <span class="pe-4"
                   ><svg
@@ -181,22 +135,15 @@ onMounted(() => {
                     /></svg></span
                 >Settings</a
               >
-            </li> -->
+            </li>
+            -->
             <li class="nav-item" @click="logOut">
               <div class="nav-link m-2 p-3" aria-current="page">
-                <span class="pe-4"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="currentColor"
-                    class="bi bi-door-open-fill"
-                    viewBox="0 0 16 16"
-                  >
+                <span class="pe-4"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                    class="bi bi-door-open-fill" viewBox="0 0 16 16">
                     <path
-                      d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"
-                    /></svg
-                ></span>
+                      d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />
+                  </svg></span>
                 Log Out
               </div>
             </li>
@@ -229,7 +176,7 @@ onMounted(() => {
   color: var(--main-color);
 }
 
-.nav-item:hover > .nav-link:hover {
+.nav-item:hover>.nav-link:hover {
   background: var(--main-color);
   color: #f0f0f0;
 

@@ -16,10 +16,10 @@ enum QuizType {
 }
 
 enum StatusType {
-  Open
-  Ongoing
-  Done
-  Closed
+  OPEN
+  ONGOING
+  DONE
+  CLOSED
 }
 
 model User {
@@ -56,7 +56,7 @@ model Answer {
   answered_at   DateTime     @default(now())
   // AnsweredQuiz   AnsweredQuiz? @relation(fields: [answeredQuizId], references: [id])
   // answeredQuizId String?
-  QuizSession   QuizSession? @relation(fields: [quizSessionId], references: [id])
+  QuizSession   QuizSession? @relation(fields: [quizSessionId], references: [id], onDelete: Cascade)
   quizSessionId Int?
 }
 
@@ -66,7 +66,7 @@ model Quiz {
   password   String?
   room       Room[]
   status     QuizType   @default(PUBLIC)
-  condition  StatusType @default(Closed)
+  condition  StatusType @default(OPEN)
   creator    User       @relation(fields: [creator_id], references: [id], onDelete: Cascade)
   creator_id Int
   created_at DateTime   @default(now())
@@ -78,7 +78,7 @@ model Quiz {
 
 model Room {
   id          Int           @id @default(autoincrement())
-  Quiz        Quiz?         @relation(fields: [quizId], references: [id])
+  Quiz        Quiz?         @relation(fields: [quizId], references: [id], onDelete: Cascade)
   quizId      Int?          @unique
   room        String        @unique
   attendees   Attendees[]
@@ -87,17 +87,17 @@ model Room {
 
 model Attendees {
   id     Int   @id @default(autoincrement())
-  Room   Room? @relation(fields: [roomId], references: [id])
+  Room   Room? @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId Int?
-  User   User? @relation(fields: [userId], references: [id])
+  User   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int?  @unique
 }
 
 model QuizSession {
   id         Int       @id @default(autoincrement())
-  Question   Question? @relation(fields: [questionId], references: [id])
+  Question   Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId Int?
-  Room       Room      @relation(fields: [roomName], references: [room])
+  Room       Room      @relation(fields: [roomName], references: [room], onDelete: Cascade)
   roomName   String
   isActive   Boolean
   answer     Answer[]

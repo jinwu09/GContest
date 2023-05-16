@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import NavBar from '@/components/NavBar.vue'
 import { useAuthStore } from '@/store/AuthStore'
 import axios from 'axios'
@@ -52,4 +52,4 @@ onMounted(() => {
     </div>
     <br />
   </div>
-</template>
+</template> -->

@@ -320,6 +320,19 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
         isActive: false,
       },
     });
+
+    const closeQuiz = await prisma.room.update({
+      where:{
+        room: dataIO.Roomname
+      },
+      data:{
+        Quiz:{
+          update:{
+            condition: 'CLOSED'
+          }
+        }
+      }
+    })
     console.log(sessionIsDone);
     socket.emit("redirectToDone", {
       PageName: "leaderboard",
