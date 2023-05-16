@@ -66,7 +66,11 @@ const router = createRouter({
       name: 'joined',
       component: MyJoined
     },
-
+    {
+      path: '/history/Joined/:quizid',
+      name: 'joined-quizid',
+      component: MyJoined
+    },
     //Creator
     {
       path: '/creator/quiz/create',
