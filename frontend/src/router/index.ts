@@ -13,6 +13,9 @@ const HomeDashboard = () => import('@/views/Dashboard/HomeDashboard.vue')
 const HistoryView = () => import('@/views/Dashboard/History.vue')
 const HistoryDetailVue = () => import('@/views/Dashboard/HistoryDetail.vue')
 
+// History
+const MyJoined = () => import('@/views/Dashboard/MyJoined.vue')
+
 //Creator
 const CreateQuiz = () => import('@/views/Quiz/Creator/CreateQuiz.vue')
 const EditQuestion = () => import('@/views/Quiz/Creator/EditQuestion.vue')
@@ -21,6 +24,7 @@ const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
 const CreatorLobby = () => import('@/views/Quiz/Creator/CreatorLobby.vue')
 const CreatorQuizView = () => import('@/views/Quiz/Creator/CreatorQuizView.vue')
 const LeaderBoard = () => import('@/views/Quiz/Creator/LeaderBoard.vue')
+const HistoryView = () => import('@/views/Quiz/Creator/HistoryView.vue')
 //Joiner
 // const LobbyView = ()=> import('@/views/Quiz/Joiner/LobbyView.vue');
 const QuizView = () => import('@/views/Quiz/Joiner/QuizView.vue')
@@ -68,6 +72,13 @@ const router = createRouter({
       component: HistoryDetailVue
     },
 
+    // history
+    {
+      path: '/history/Joined',
+      name: 'joined',
+      component: MyJoined
+    },
+
     //Creator
     {
       path: '/creator/quiz/create',
@@ -103,6 +114,16 @@ const router = createRouter({
       path: '/creator/leaderboard/:session/:room/',
       name: 'leaderboard',
       component: LeaderBoard
+    },
+    {
+      path: '/creator/history',
+      name: 'creator-history',
+      component: HistoryView
+    },
+    {
+      path: '/creator/history/:quizid',
+      name: 'creator-history-quiz',
+      component: HistoryView
     },
 
     //Joiners
