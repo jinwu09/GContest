@@ -5,8 +5,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/AuthStore'
 import { socket } from '@/Socket/SocketConfig'
-
-import axios, { formToJSON } from 'axios'
+import Swal from 'sweetalert2'
 
 const route = useRoute()
 const router = useRouter()
@@ -45,6 +44,24 @@ socket.on('redirect', (res) => {
     }
   })
 })
+
+interface IError {
+  msg: {
+    ErrorType: string
+    cause: string
+    ErrLine?: string
+  }
+  StatusCode: number
+}
+socket.on('Error', (res: IError) => {
+  if (admin.value != true) return
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: res.msg.cause
+  })
+})
+
 
 const QuizStart = () => {
   socket.emit('QuizStart', { Roomname: route.params.room })
