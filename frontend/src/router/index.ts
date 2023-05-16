@@ -11,6 +11,9 @@ const RegisterView = () => import('@/views/Auth/RegisterView.vue')
 //Dashboard
 const HomeDashboard = () => import('@/views/Dashboard/HomeDashboard.vue')
 
+// History
+const MyJoined = () => import('@/views/Dashboard/MyJoined.vue')
+
 //Creator
 const CreateQuiz = () => import('@/views/Quiz/Creator/CreateQuiz.vue')
 const EditQuestion = () => import('@/views/Quiz/Creator/EditQuestion.vue')
@@ -55,6 +58,13 @@ const router = createRouter({
       path: '/dashboard/',
       name: 'dashboard',
       component: HomeDashboard
+    },
+
+    // history
+    {
+      path: '/history/Joined',
+      name: 'joined',
+      component: MyJoined
     },
 
     //Creator

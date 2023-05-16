@@ -11,10 +11,14 @@ const router = Router();
 router.get("/joined", async (req: Request, res: Response) => {
   const groupSession = await prisma.answer.groupBy({
     by: ["quizSessionId"],
+    where: {
+      usersId: res.locals.userId,
+    },
     orderBy: {
       quizSessionId: "desc",
     },
   });
+  console.log(groupSession);
   let getUserHistory: any[] = [];
 
   for (const item of groupSession) {
@@ -37,6 +41,7 @@ router.get("/joined", async (req: Request, res: Response) => {
           },
           answer: {
             where: {
+              usersId: res.locals.userId,
               quizSessionId: item.quizSessionId,
               choice: {
                 is_correct: true,
@@ -48,6 +53,7 @@ router.get("/joined", async (req: Request, res: Response) => {
                   score: true,
                 },
               },
+              id: true,
             },
           },
         },
@@ -62,7 +68,7 @@ router.get("/joined", async (req: Request, res: Response) => {
         data?.answer.forEach((item) => {
           UserScore += item.Question.score;
         });
-        return { id: data?.id, title: data?.title, QuizScore, UserScore };
+        return { quizID: data?.id, title: data?.title, QuizScore, UserScore };
       });
     getUserHistory.push(QuizSession);
   }
