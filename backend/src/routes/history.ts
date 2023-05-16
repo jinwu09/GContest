@@ -200,7 +200,7 @@ router.get(
         Session: item.quizSessionId,
         totalScore: getScoreTotal,
       };
-      getQuizHistory.push({ data });
+      getQuizHistory.push(data);
     }
     res.status(Code.s200_OK).send(sendTemplate(getQuizHistory, Code.s200_OK));
   }
@@ -256,7 +256,6 @@ router.get("/creator", async (req: Request, res: Response) => {
         },
       })
       .then((data) => {
-        console.log(data);
         return data;
       })
       .catch((e) => {
@@ -281,8 +280,9 @@ router.get("/creator", async (req: Request, res: Response) => {
       Session: item.quizSessionId,
       totalScore: getScoreTotal,
     };
-    getQuizHistory.push({ data });
+    getQuizHistory.push(data);
   }
+  console.log(getQuizHistory);
   res.status(Code.s200_OK).send(sendTemplate(getQuizHistory, Code.s200_OK));
 });
 export const HistoryRouter: Router = router;
