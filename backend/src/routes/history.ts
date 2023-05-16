@@ -119,20 +119,23 @@ router.get(
 );
 // router.get()
 router.get(
-  "/:quizID",
+  "/creator/:quizID",
   param("quizID").isNumeric(),
   Validate,
   async (req: Request, res: Response) => {
+    console.log(res.locals.userId);
     const groupSession = await prisma.answer.groupBy({
       by: ["quizSessionId"],
       where: {
+        Quiz: {
+          creator_id: res.locals.userId,
+        },
         quizId: Number(req.params.quizID),
       },
       orderBy: {
         quizSessionId: "desc",
       },
     });
-    console.log(groupSession);
     let getQuizHistory: any[] = [];
 
     for (const item of groupSession) {
@@ -202,5 +205,84 @@ router.get(
     res.status(Code.s200_OK).send(sendTemplate(getQuizHistory, Code.s200_OK));
   }
 );
+router.get("/creator", async (req: Request, res: Response) => {
+  const groupSession = await prisma.answer.groupBy({
+    by: ["quizSessionId"],
+    where: {
+      Quiz: {
+        creator_id: res.locals.userId,
+      },
+    },
+    orderBy: {
+      quizSessionId: "desc",
+    },
+  });
+  let getQuizHistory: any[] = [];
 
+  for (const item of groupSession) {
+    const QuizSession = await prisma.user
+      .findMany({
+        where: {
+          Answer: {
+            some: {
+              quizSessionId: Number(item.quizSessionId),
+            },
+          },
+        },
+        select: {
+          id: true,
+          first_name: true,
+          last_name: true,
+          Answer: {
+            where: {
+              quizSessionId: Number(item.quizSessionId),
+              choice: {
+                is_correct: true,
+              },
+            },
+            select: {
+              Question: {
+                select: {
+                  score: true,
+                },
+              },
+              choice: {
+                select: {
+                  is_correct: true,
+                },
+              },
+            },
+          },
+        },
+      })
+      .then((data) => {
+        console.log(data);
+        return data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    let getScoreTotal: any = [];
+    QuizSession?.forEach((item) => {
+      let obj = {
+        id: item.id,
+        first_name: item.first_name,
+        last_name: item.last_name,
+        score: 0,
+      };
+      item.Answer.forEach((item) => {
+        if (item.choice?.is_correct == true) {
+          obj.score += item.Question?.score;
+        }
+      });
+      getScoreTotal.push(obj);
+    });
+    const data = {
+      Session: item.quizSessionId,
+      totalScore: getScoreTotal,
+    };
+    getQuizHistory.push({ data });
+  }
+  res.status(Code.s200_OK).send(sendTemplate(getQuizHistory, Code.s200_OK));
+});
 export const HistoryRouter: Router = router;
