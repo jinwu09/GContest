@@ -9,6 +9,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const store = useAuthStore()
 
+const quizid: any = ref('')
 const lists = ref<IJoined[]>([])
 
 interface IJoined {
@@ -18,8 +19,12 @@ interface IJoined {
   UserScore: number
 }
 onMounted(() => {
+  if (route.params.quizid != null) {
+    quizid.value = `/${route.params.quizid}`
+  }
+
   axios
-    .get('/history/joined', {
+    .get('/history/joined' + quizid.value, {
       headers: {
         Authorization: 'Bearer ' + store.token
       }
