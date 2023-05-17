@@ -61,7 +61,28 @@ socket.on('Error', (res: IError) => {
     text: res.msg.cause
   })
 })
-
+interface IPassword {
+  msg: string
+}
+socket.on('password', (res: IPassword) => {
+  isExist.value = true
+  Swal.fire({
+    icon: 'info',
+    text: res.msg,
+    input: 'password',
+    showCancelButton: true
+  }).then((result) => {
+    console.log(result)
+    if (result.isConfirmed) {
+      socket.emit('JoinRoom', { password: result.value, Roomname: route.params.room })
+    }
+    if (result.dismiss) {
+      router.push({
+        name: 'dashboard'
+      })
+    }
+  })
+})
 
 const QuizStart = () => {
   socket.emit('QuizStart', { Roomname: route.params.room })
@@ -100,7 +121,7 @@ onBeforeUnmount(() => {
             <div v-for="user in joiners" :key="user.User.id" class="col-md-3 pt-2">
               <LobbyJoiner
                 :id="user.User.id"
-                :username="user.User.first_name +' '+ user.User.last_name"
+                :username="user.User.first_name + ' ' + user.User.last_name"
               />
             </div>
           </div>

@@ -20,6 +20,18 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
         where: {
           room: dataIO.Roomname,
         },
+        select: {
+          room: true,
+          id: true,
+          quizId: true,
+          Quiz: {
+            select: {
+              status: true,
+              password: true,
+              creator_id: true,
+            },
+          },
+        },
       })
       .catch((e) => {
         console.log(e);
@@ -30,6 +42,26 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
       .finally(() => {
         prisma.$disconnect();
       });
+    if (
+      RoomExist?.Quiz?.status == "PRIVATE" &&
+      RoomExist.Quiz.creator_id != socket.data.userID
+    ) {
+      if (dataIO.password != null) {
+        console.log(dataIO.password);
+        if (RoomExist.Quiz.password == dataIO.password) {
+        } else {
+          socket.emit("password", {
+            msg: "Incorrect Password, Required Password to continue",
+          });
+          return;
+        }
+      } else {
+        socket.emit("password", {
+          msg: "Required Password to continue",
+        });
+        return;
+      }
+    }
     if (RoomExist == null) {
       socket.emit("JoinRoom", {
         isExist: RoomExist != null,
@@ -56,7 +88,6 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
           prisma.$disconnect();
         });
     }
-
     const addAttendees = await prisma.attendees
       .create({
         data: {

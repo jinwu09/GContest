@@ -187,7 +187,11 @@ onMounted(() => {
                     </div>
                     <div class="mb-3">
                       <label class="form-label">Description</label>
-                      <textarea v-model="description" class="form-control" autocomplete="off"></textarea>
+                      <textarea
+                        v-model="description"
+                        class="form-control"
+                        autocomplete="off"
+                      ></textarea>
                     </div>
                     <div class="mb-3">
                       <label class="form-label">Room Status</label>
