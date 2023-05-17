@@ -8,7 +8,9 @@
     "test": "cls && jest --runInBand",
     "init": "(npx prisma db push --force-reset && npx prisma generate) && npx ts-node src/init.ts",
     "dev": "set DEBUG=express:* & nodemon app.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "buildpm2": "tsc && npx pm2 start app.js",
+    "buildfor": "tsc && forever start -c nodemon app.ts"
   },
   "keywords": [],
   "author": "",
