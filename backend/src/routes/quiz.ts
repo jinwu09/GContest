@@ -18,7 +18,20 @@ router.get("/", async (req: Request, res: Response, next) => {
             status: "PRIVATE",
           },
           {
+            creator_id: res.locals.userId,
+            condition: "CLOSED",
+          },
+          {
+            creator_id: res.locals.userId,
+            condition: "DONE",
+          },
+          {
             status: "PUBLIC",
+            condition: "OPEN",
+          },
+          {
+            status: "PUBLIC",
+            condition: "ONGOING",
           },
         ],
       },
@@ -175,20 +188,21 @@ router.post(
 );
 // update quiz id
 router.put("/:quiz_id", async (req: Request, res: Response, next) => {
-  const updateQuiz = await prisma.quiz.update({
+  const updateQuiz = await prisma.quiz
+    .update({
       where: {
-        id: Number(req.params.quiz_id)
+        id: Number(req.params.quiz_id),
       },
       data: {
-        room:{
-          update:{
-            where:{
-              quizId:  Number(req.params.quiz_id)
+        room: {
+          update: {
+            where: {
+              quizId: Number(req.params.quiz_id),
             },
-            data:{
-              room: req.body.room
-            }
-          }
+            data: {
+              room: req.body.room,
+            },
+          },
         },
         password: req.body.password,
         status: req.body.status,

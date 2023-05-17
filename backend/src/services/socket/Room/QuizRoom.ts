@@ -132,6 +132,21 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
       .finally(() => {
         prisma.$disconnect();
       });
+    if (IsUserCreator) {
+      const RoomSetOpen = await prisma.quiz.updateMany({
+        where: {
+          room: {
+            some: {
+              room: dataIO.Roomname,
+            },
+          },
+          creator_id: socket.data.userID,
+        },
+        data: {
+          condition: "OPEN",
+        },
+      });
+    }
     const RoomData = { RoomAttendees };
     // who just joined
     socket.emit("JoinRoom", {
