@@ -14,6 +14,7 @@ const router = useRouter()
 const quiz_id = ref()
 const admin = ref(false)
 const redirect = ref(false)
+const isExist: any = ref(true)
 
 const JoinRoom = (Roomname: any) => {
   socket.connect()
@@ -22,6 +23,7 @@ const JoinRoom = (Roomname: any) => {
 }
 
 socket.on('JoinRoom', (res: any) => {
+  isExist.value = res.isExist || false
   joiners.value = res.data.RoomAttendees
   //   console.log(joiners.value)
   admin.value = res.admin
@@ -81,7 +83,10 @@ onBeforeUnmount(() => {
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-1"></div>
-        <div class="col-lg-10">
+        <div class="col-lg-10" v-if="!isExist">
+          <h1>Room doesn't exist</h1>
+        </div>
+        <div class="col-lg-10" v-if="isExist">
           <button v-if="admin == true" @click="QuizStart()" class="floating-button" type="button">
             Start the Quiz!
           </button>
