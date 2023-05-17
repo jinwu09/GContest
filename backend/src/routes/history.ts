@@ -69,7 +69,13 @@ router.get("/joined", async (req: Request, res: Response) => {
         data?.answer.forEach((item) => {
           user_score += item.Question.score;
         });
-        return { quiz_id: data?.id, title: data?.title, description: data?.description, quiz_score, user_score };
+        return {
+          quiz_id: data?.id,
+          title: data?.title,
+          description: data?.description,
+          quiz_score,
+          user_score,
+        };
       });
     getUserHistory.push(QuizSession);
   }
@@ -117,12 +123,11 @@ router.get(
                       select: {
                         id: true,
                         content: true,
-                        is_correct: true
-                      }
-                    }
-
-                  }
-                }
+                        is_correct: true,
+                      },
+                    },
+                  },
+                },
               },
             },
           },
@@ -155,7 +160,7 @@ router.get(
         quizSessionId: "desc",
       },
     });
-    let getQuizHistory: any[] = [];
+    let getQuizHistory: any = {};
 
     for (const item of groupSession) {
       const QuizSession = await prisma.user
@@ -215,17 +220,37 @@ router.get(
         });
         getScoreTotal.push(obj);
       });
+      const GetQuizTotalScore = await prisma.quiz
+        .findFirst({
+          where: {
+            id: Number(req.params.quizID),
+          },
+          select: {
+            question: {
+              select: {
+                score: true,
+              },
+            },
+          },
+        })
+        .then((data) => {
+          let totalScore = 0;
+          data?.question.forEach((item) => {
+            totalScore += item.score;
+          });
+          return totalScore;
+        });
       const data = {
         Session: item.quizSessionId,
-        totalScore: getScoreTotal,
+        totalScore: GetQuizTotalScore,
+        list: getScoreTotal,
       };
-      getQuizHistory.push(data);
+      getQuizHistory = data;
     }
     res.status(Code.s200_OK).send(sendTemplate(getQuizHistory, Code.s200_OK));
   }
 );
 router.get("/created", async (req: Request, res: Response) => {
-
   const user_created_quiz = await prisma.quiz
     .findMany({
       where: {
@@ -240,7 +265,6 @@ router.get("/created", async (req: Request, res: Response) => {
         },
         room: true,
       },
-      
     })
     .catch((e: any) => {
       console.log(e);

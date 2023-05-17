@@ -8,14 +8,13 @@ import NavBar from '@/components/NavBar.vue'
 const route = useRoute()
 const store = useAuthStore()
 
-const feedback:any = ref([
-// {"id":5,"first_name":"Albert John","last_name":"Santos","score":0}
+const feedback: any = ref([
+  // {"id":5,"first_name":"Albert John","last_name":"Santos","score":0}
 ])
-const quiz:any = ref(
-  // {"id":1,"title":"asdas","description":"asdasda","totalScore":20}
-)
+const quiz: any = ref()
+// {"id":1,"title":"asdas","description":"asdasda","totalScore":20}
 
-onMounted(async() => {
+onMounted(async () => {
   await axios
     .get(`history/created/${route.params.quiz_id}`, {
       headers: {
@@ -23,8 +22,8 @@ onMounted(async() => {
       }
     })
     .then((res) => {
-      feedback.value = res.data.payload.ListLeaderBoard
-      quiz.value = res.data.payload.Quiz
+      feedback.value = res.data.payload.list
+      quiz.value = res.data.payload
       // console.log(res.data.payload)
     })
 })
@@ -37,8 +36,8 @@ onMounted(async() => {
       <div class="col-md-1"></div>
       <div class="col-md-10">
         <div class="row mt-2">
-          <h1>Title: {{quiz?.title}}</h1>
-          <h3>Description: {{ quiz?.description}}</h3>
+          <h1>Title: {{ quiz?.title }}</h1>
+          <h3>Description: {{ quiz?.description }}</h3>
         </div>
         <h4 class="mt-2">Leaderboards:</h4>
         <div v-for="user in feedback" :key="user.id">
