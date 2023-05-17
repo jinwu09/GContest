@@ -8,8 +8,8 @@ const route = useRoute()
 <template>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
+            <div class="col-1"></div>
+            <div class="col-10">
                 <div class="row">
                     <ul class="nav nav-underline mt-2">
                         <li class="nav-item">
@@ -35,7 +35,7 @@ const route = useRoute()
                 </div>
 
             </div>
-            <div class="col-md-1"></div>
+            <div class="col-1"></div>
         </div>
     </div>
 </template>

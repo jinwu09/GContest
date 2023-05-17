@@ -8,111 +8,71 @@ import NavBar from '@/components/NavBar.vue'
 const route = useRoute()
 const store = useAuthStore()
 
-interface IFeedbacks {
-  title: string
-  question: [
-    {
-      id: number
-      content: string
-      score: number
-      quizId: number
-      choice: [
-        {
-          id: number
-          content: string
-          is_correct: boolean
-          questionId: number
-        }
-      ]
-      answer: [
-        {
-          id: number
-          choice: {
-            id: number
-            content: string
-            is_correct: boolean
-          }
-        }
-      ]
-    }
-  ]
-}
-const feedback = ref<IFeedbacks>()
+const feedback:any = ref([
+// {"id":5,"first_name":"Albert John","last_name":"Santos","score":0}
+])
+const quiz:any = ref(
+  // {"id":1,"title":"asdas","description":"asdasda","totalScore":20}
+)
 
-onMounted(() => {
-  axios
+onMounted(async() => {
+  await axios
     .get(`history/created/${route.params.quiz_id}`, {
       headers: {
         Authorization: 'Bearer ' + store.token
       }
     })
     .then((res) => {
-      console.log(res.data.payload)
-      feedback.value = res.data.payload.feedback
+      feedback.value = res.data.payload.ListLeaderBoard
+      quiz.value = res.data.payload.Quiz
+      // console.log(res.data.payload)
     })
 })
 </script>
 
 <template>
   <NavBar />
-  <div class="mt-4">
-    <div class="container-fluid">
-      <div class="row">
-        <h1 class="text-center">{{ feedback?.title }}</h1>
-      </div>
-      <div v-for="item in feedback?.question" :key="item.id" class="bounder my-1">
-        <div class="row pt-3">
-          <div class="container-fluid p-4">
-            <div>
-              Question: {{ item.content }}
-            </div>
-          </div>
+  <div class="container-fluid">
+    <div class="row mt-2">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div class="row mt-2">
+          <h1>Title: {{quiz?.title}}</h1>
+          <h3>Description: {{ quiz?.description}}</h3>
         </div>
-        <div class="row">
-          <div class="container-fluid">
-            <div>
-              <hr />
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="container-fluid">
-            <div class="row">
-              <p>Choices:</p>
-              <div v-for="choice in item.choice" :key="choice.id" class="col-md-6">
-                <p :class="choice.is_correct ? 'text-center green' : 'text-center red'">{{ choice.content }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="container-fluid">
-            <div>
-              <hr />
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div v-for="answer in item.answer" :key="answer.id">
-            <p :class="answer.choice.is_correct ? 'green':'red'">Your Answer {{ answer.choice.content }} is {{ answer.choice.is_correct ? "Right" : "Wrong"}}</p>
+        <h4 class="mt-2">Leaderboards:</h4>
+        <div v-for="user in feedback" :key="user.id">
+          <div class="line">
+            <h5>{{ user?.first_name }} {{ user?.last_name }}</h5>
+            <h5>{{ user?.score }} / {{ quiz?.totalScore }}</h5>
           </div>
         </div>
       </div>
+      <div class="col-md-1"></div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.green {
-  color: green;
+.line {
+  border-top: 2px var(--main-color) solid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 2%;
 }
 
-.red {
-  color: red;
+.line:hover {
+  background-color: var(--main-color);
+  color: white;
+  transform: scale(1.1);
+  transition: 0.1s ease-in-out;
 }
 
-.bounder{
-  border: 3px solid var(--main-color);
-  padding: 25px;
+@media only screen and (max-width: 768px) {
+  .line:hover {
+    transform: unset;
+  }
 }
 </style>

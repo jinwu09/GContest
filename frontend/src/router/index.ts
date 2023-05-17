@@ -26,7 +26,6 @@ const UpdateQuiz = () => import('@/views/Quiz/Creator/UpdateQuiz.vue')
 const CreatorLobby = () => import('@/views/Quiz/Creator/CreatorLobby.vue')
 const CreatorQuizView = () => import('@/views/Quiz/Creator/CreatorQuizView.vue')
 const LeaderBoard = () => import('@/views/Quiz/Creator/LeaderBoard.vue')
-const HistoryView = () => import('@/views/Quiz/Creator/HistoryView.vue')
 //Joiner
 // const LobbyView = ()=> import('@/views/Quiz/Joiner/LobbyView.vue');
 const QuizView = () => import('@/views/Quiz/Joiner/QuizView.vue')

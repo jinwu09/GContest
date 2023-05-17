@@ -22,7 +22,6 @@ onMounted(() => {
 
             // console.log(quizzes.value)
             feedback.value = res.data.payload[0]
-            console.log(feedback.value)
         })
         .catch((err) => {
             // console.log(err)
