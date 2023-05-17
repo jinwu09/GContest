@@ -34,6 +34,7 @@ router.get("/joined", async (req: Request, res: Response) => {
         select: {
           id: true,
           title: true,
+          description: true,
           question: {
             select: {
               score: true,
@@ -60,15 +61,15 @@ router.get("/joined", async (req: Request, res: Response) => {
       })
       .then(async (data) => {
         console.log(data);
-        let QuizScore: number = 0;
-        let UserScore: number = 0;
+        let quiz_score: number = 0;
+        let user_score: number = 0;
         data?.question.forEach((item) => {
-          QuizScore += item.score;
+          quiz_score += item.score;
         });
         data?.answer.forEach((item) => {
-          UserScore += item.Question.score;
+          user_score += item.Question.score;
         });
-        return { quizID: data?.id, title: data?.title, QuizScore, UserScore };
+        return { quiz_id: data?.id, title: data?.title, description: data?.description, quiz_score, user_score };
       });
     getUserHistory.push(QuizSession);
   }
@@ -109,7 +110,19 @@ router.get(
                 content: true,
                 score: true,
                 choice: true,
-                answer: true,
+                answer: {
+                  select: {
+                    id: true,
+                    choice: {
+                      select: {
+                        id: true,
+                        content: true,
+                        is_correct: true
+                      }
+                    }
+
+                  }
+                }
               },
             },
           },
@@ -125,7 +138,7 @@ router.get(
 );
 // router.get()
 router.get(
-  "/creator/:quizID",
+  "/created/:quizID",
   param("quizID").isNumeric(),
   Validate,
   async (req: Request, res: Response) => {
@@ -211,84 +224,109 @@ router.get(
     res.status(Code.s200_OK).send(sendTemplate(getQuizHistory, Code.s200_OK));
   }
 );
-router.get("/creator", async (req: Request, res: Response) => {
-  const groupSession = await prisma.answer.groupBy({
-    by: ["quizSessionId"],
-    where: {
-      Quiz: {
-        creator_id: res.locals.userId,
-      },
-    },
-    orderBy: {
-      quizSessionId: "desc",
-    },
-  });
-  let getQuizHistory: any[] = [];
+router.get("/created", async (req: Request, res: Response) => {
 
-  for (const item of groupSession) {
-    const QuizSession = await prisma.user
-      .findMany({
-        where: {
-          Answer: {
-            some: {
-              quizSessionId: Number(item.quizSessionId),
-            },
+  const user_created_quiz = await prisma.quiz
+    .findMany({
+      where: {
+        creator_id: parseInt(res.locals.userId),
+      },
+      include: {
+        creator: {
+          select: {
+            first_name: true,
+            last_name: true,
           },
         },
-        select: {
-          id: true,
-          first_name: true,
-          last_name: true,
-          Answer: {
-            where: {
-              quizSessionId: Number(item.quizSessionId),
-              choice: {
-                is_correct: true,
-              },
-            },
-            select: {
-              Question: {
-                select: {
-                  score: true,
-                },
-              },
-              choice: {
-                select: {
-                  is_correct: true,
-                },
-              },
-            },
-          },
-        },
-      })
-      .then((data) => {
-        return data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    let getScoreTotal: any = [];
-    QuizSession?.forEach((item) => {
-      let obj = {
-        id: item.id,
-        first_name: item.first_name,
-        last_name: item.last_name,
-        score: 0,
-      };
-      item.Answer.forEach((item) => {
-        if (item.choice?.is_correct == true) {
-          obj.score += item.Question?.score;
-        }
-      });
-      getScoreTotal.push(obj);
+        room: true,
+      },
+    })
+    .catch((e: any) => {
+      console.log(e);
+    })
+    .then((data: any) => {
+      res.send(sendTemplate(data));
+    })
+    .finally(async () => {
+      await prisma.$disconnect;
     });
-    const data = {
-      Session: item.quizSessionId,
-      totalScore: getScoreTotal,
-    };
-    getQuizHistory.push(data);
-  }
-  console.log(getQuizHistory);
-  res.status(Code.s200_OK).send(sendTemplate(getQuizHistory, Code.s200_OK));
+  // const groupSession = await prisma.answer.groupBy({
+  //   by: ["quizSessionId"],
+  //   where: {
+  //     Quiz: {
+  //       creator_id: res.locals.userId,
+  //     },
+  //   },
+  //   orderBy: {
+  //     quizSessionId: "desc",
+  //   },
+  // });
+  // let getQuizHistory: any[] = [];
+
+  // for (const item of groupSession) {
+  //   const QuizSession = await prisma.user
+  //     .findMany({
+  //       where: {
+  //         Answer: {
+  //           some: {
+  //             quizSessionId: Number(item.quizSessionId),
+  //           },
+  //         },
+  //       },
+  //       select: {
+  //         id: true,
+  //         first_name: true,
+  //         last_name: true,
+  //         Answer: {
+  //           where: {
+  //             quizSessionId: Number(item.quizSessionId),
+  //             choice: {
+  //               is_correct: true,
+  //             },
+  //           },
+  //           select: {
+  //             Question: {
+  //               select: {
+  //                 score: true,
+  //               },
+  //             },
+  //             choice: {
+  //               select: {
+  //                 is_correct: true,
+  //               },
+  //             },
+  //           },
+  //         },
+  //       },
+  //     })
+  //     .then((data) => {
+  //       return data;
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  //   let getScoreTotal: any = [];
+  //   QuizSession?.forEach((item) => {
+  //     let obj = {
+  //       id: item.id,
+  //       first_name: item.first_name,
+  //       last_name: item.last_name,
+  //       score: 0,
+  //     };
+  //     item.Answer.forEach((item) => {
+  //       if (item.choice?.is_correct == true) {
+  //         obj.score += item.Question?.score;
+  //       }
+  //     });
+  //     getScoreTotal.push(obj);
+  //   });
+  //   const data = {
+  //     Session: item.quizSessionId,
+  //     totalScore: getScoreTotal,
+  //   };
+  //   getQuizHistory.push(data);
+  // }
+  // console.log(getQuizHistory);
+  // res.status(Code.s200_OK).send(sendTemplate(user_created_quiz, Code.s200_OK));
 });
 export const HistoryRouter: Router = router;

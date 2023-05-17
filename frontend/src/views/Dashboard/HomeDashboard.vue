@@ -111,7 +111,7 @@ function joinLobbyAsJoiner(room: any) {
         <div class="col-md-1"></div>
         <div class="col-lg-10">
           <div class="row my-3">
-            <div v-for="quiz in quizzes" :key="quiz.id" class="col-md-3 mt-4">
+            <div v-for="quiz in quizzes" :key="quiz.id" class="col-md-3 mt-4" v-show="quiz.condition != 'CLOSED'">
               <div class="card max">
                 <div class="card-body">
                   <div class="d-flex justify-content-between">
@@ -158,97 +158,5 @@ function joinLobbyAsJoiner(room: any) {
 </template>
 
 <style scoped>
-.room-background {
-  background: #f0f0f0;
-  height: 165px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 25px;
-}
-
-.btn {
-  background: var(--main-color);
-  border: none;
-  border-radius: 15px;
-}
-
-.btn:active {
-  border: var(--main-color) 3px solid;
-  background: #f0f0f0;
-  color: var(--main-color);
-}
-
-.form-control {
-  border: var(--main-color) 3px solid;
-  border-radius: 25px;
-}
-
-.test-color {
-  color: var(--main-color);
-}
-
-.test-background {
-  background: #f0f0f0;
-  height: 165px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 25px;
-}
-
-.max{
-  height: inherit;
-}
-
-.card{
-  border: 2px solid var(--main-color);
-}
-
-.card:hover {
-  background-color: var(--main-color);
-  color: white;
-  box-shadow: 0 4px 8px 0 var(--main-color), 0 6px 20px 0 var(--main-color);
-  transform: scale(1.1) rotate(3deg);
-}
-
-.card:hover .card-body .text-muted {
-  color: white !important;
-}
-
-.card:hover .card-body div .btn {
-  background-color: white;
-  color: var(--main-color);
-}
-
-.no-long-text{
-  text-overflow: ellipsis;
-  overflow: hidden; 
-  white-space: nowrap;
-  width: 100%; 
-  height: 1.2em;
-}
-
-
-@keyframes bounce {
-
-  0%,
-  20%,
-  60%,
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-
-  40% {
-    -webkit-transform: translateY(-20px);
-    transform: translateY(-20px);
-  }
-
-  80% {
-    -webkit-transform: translateY(-10px);
-    transform: translateY(-10px);
-  }
-}
-
-.test-background:hover {
-  border: var(--main-color) 3px solid;
-  animation: bounce 0.2s;
-}
+@import url('@/assets/dashboard.css');
 </style>

@@ -154,7 +154,7 @@ onMounted(() => {
       room_passcode.value = payload.room[0].room
       status.value = payload.status
       quiz_id.value = payload.id
-
+      description.value = payload.description
       questions.value = payload.question
     })
 })
@@ -184,6 +184,10 @@ onMounted(() => {
                         class="form-control"
                         autocomplete="off"
                       />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Description</label>
+                      <textarea v-model="description" class="form-control" autocomplete="off"></textarea>
                     </div>
                     <div class="mb-3">
                       <label class="form-label">Room Status</label>

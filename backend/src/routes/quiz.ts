@@ -175,13 +175,21 @@ router.post(
 );
 // update quiz id
 router.put("/:quiz_id", async (req: Request, res: Response, next) => {
-  const updateQuiz = await prisma.quiz
-    .update({
+  const updateQuiz = await prisma.quiz.update({
       where: {
-        id: req.params.quiz_id as any,
+        id: Number(req.params.quiz_id)
       },
       data: {
-        room: req.body.room,
+        room:{
+          update:{
+            where:{
+              quizId:  Number(req.params.quiz_id)
+            },
+            data:{
+              room: req.body.room
+            }
+          }
+        },
         password: req.body.password,
         status: req.body.status,
         title: req.body.title,
@@ -204,7 +212,7 @@ router.delete("/:quiz_id", async (req: Request, res: Response) => {
   const deleteQuiz = await prisma.quiz
     .delete({
       where: {
-        id: req.params.quiz_id as any,
+        id: Number(req.params.quiz_id),
       },
     })
     .catch((e: any) => {

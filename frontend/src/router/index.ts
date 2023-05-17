@@ -10,6 +10,10 @@ const RegisterView = () => import('@/views/Auth/RegisterView.vue')
 
 //Dashboard
 const HomeDashboard = () => import('@/views/Dashboard/HomeDashboard.vue')
+const RecentJoined = () => import('@/views/Dashboard/RecentJoined.vue')
+const RecentJoinedDetail = () => import('@/views/Dashboard/RecentJoinedDetail.vue')
+const RecentCreated = () => import('@/views/Dashboard/RecentCreated.vue')
+const RecentCreatedDetail = () => import('@/views/Dashboard/RecentCreatedDetail.vue')
 
 // History
 const MyJoined = () => import('@/views/Dashboard/MyJoined.vue')
@@ -59,18 +63,38 @@ const router = createRouter({
       name: 'dashboard',
       component: HomeDashboard
     },
+    {
+      path: '/dashboard/recent/joined',
+      name: 'recent-joined',
+      component: RecentJoined
+    },
+    {
+      path: '/dashboard/recent/joined/:quiz_id',
+      name: 'recent-joined-detail',
+      component: RecentJoinedDetail
+    },
+    {
+      path: '/dashboard/recent/created',
+      name: 'recent-created',
+      component: RecentCreated
+    },
+    {
+      path: '/dashboard/recent/created/:quiz_id',
+      name: 'recent-created-detail',
+      component: RecentCreatedDetail
+    },
 
     // history
-    {
-      path: '/history/Joined',
-      name: 'joined',
-      component: MyJoined
-    },
-    {
-      path: '/history/Joined/:quizid',
-      name: 'joined-quizid',
-      component: MyJoined
-    },
+    // {
+    //   path: '/history/Joined',
+    //   name: 'joined',
+    //   component: MyJoined
+    // },
+    // {
+    //   path: '/history/Joined/:quizid',
+    //   name: 'joined-quizid',
+    //   component: MyJoined
+    // },
     //Creator
     {
       path: '/creator/quiz/create',
@@ -107,16 +131,16 @@ const router = createRouter({
       name: 'leaderboard',
       component: LeaderBoard
     },
-    {
-      path: '/creator/history',
-      name: 'creator-history',
-      component: HistoryView
-    },
-    {
-      path: '/creator/history/:quizid',
-      name: 'creator-history-quiz',
-      component: HistoryView
-    },
+    // {
+    //   path: '/creator/history',
+    //   name: 'creator-history',
+    //   component: HistoryView
+    // },
+    // {
+    //   path: '/creator/history/:quizid',
+    //   name: 'creator-history-quiz',
+    //   component: HistoryView
+    // },
 
     //Joiners
     {
