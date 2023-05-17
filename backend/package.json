@@ -10,7 +10,6 @@
     "dev": "set DEBUG=express:* & nodemon app.ts",
     "build": "tsc",
     "buildpm2": "tsc && npx pm2 start app.js",
-    "buildfor": "tsc && forever start -c nodemon app.ts"
   },
   "keywords": [],
   "author": "",
