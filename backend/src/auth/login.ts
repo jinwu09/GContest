@@ -40,10 +40,14 @@ router.post(
           if (req.body.password === req.body.confirm_password) {
             next();
           } else {
-            return res.send(sendTemplate("Passwords doesnt match."));
+            return res
+              .status(Code.s406_Not_Acceptable)
+              .send(sendTemplate("Passwords doesnt match."));
           }
         } else {
-          return res.send(sendTemplate("Email Already Exist!"));
+          return res
+            .status(Code.s401_Unauthorized)
+            .send(sendTemplate("Email Already Exist!"));
         }
       });
   },
