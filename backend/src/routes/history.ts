@@ -69,13 +69,7 @@ router.get("/joined", async (req: Request, res: Response) => {
         data?.answer.forEach((item) => {
           user_score += item.Question.score;
         });
-        return {
-          quiz_id: data?.id,
-          title: data?.title,
-          description: data?.description,
-          quiz_score,
-          user_score,
-        };
+        return { quiz_id: data?.id, title: data?.title, description: data?.description, quiz_score, user_score };
       });
     getUserHistory.push(QuizSession);
   }
@@ -123,11 +117,12 @@ router.get(
                       select: {
                         id: true,
                         content: true,
-                        is_correct: true,
-                      },
-                    },
-                  },
-                },
+                        is_correct: true
+                      }
+                    }
+
+                  }
+                }
               },
             },
           },
@@ -160,7 +155,7 @@ router.get(
         quizSessionId: "desc",
       },
     });
-    let getScoreTotal: any = [];
+    let getQuizHistory: any[] = [];
 
     for (const item of groupSession) {
       const QuizSession = await prisma.user
@@ -205,6 +200,7 @@ router.get(
         .catch((e) => {
           console.log(e);
         });
+      let getScoreTotal: any = [];
       QuizSession?.forEach((item) => {
         let obj = {
           id: item.id,
@@ -219,111 +215,119 @@ router.get(
         });
         getScoreTotal.push(obj);
       });
+      const data = {
+        Session: item.quizSessionId,
+        totalScore: getScoreTotal,
+      };
+      getQuizHistory.push(data);
     }
-    const GetQuiz = await prisma.quiz
-      .findFirst({
-        where: {
-          id: Number(req.params.quizID),
-        },
-        select: {
-          id: true,
-          title: true,
-          description: true,
-          question: {
-            where: {
-              choice: {
-                some: {
-                  is_correct: true,
-                },
-              },
-            },
-            select: {
-              score: true,
-            },
-          },
-        },
-      })
-      .then((data) => {
-        let totalScore: number = 0;
-        data?.question.forEach((item) => {
-          totalScore += item.score;
-        });
-        const ret = {
-          id: data?.id,
-          title: data?.title,
-          description: data?.description,
-          totalScore,
-        };
-        return ret;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    const data = {
-      Quiz: GetQuiz,
-      ListLeaderBoard: getScoreTotal,
-    };
-    res.status(Code.s200_OK).send(sendTemplate(data, Code.s200_OK));
+    res.status(Code.s200_OK).send(sendTemplate(getQuizHistory, Code.s200_OK));
   }
 );
 router.get("/created", async (req: Request, res: Response) => {
-  // const user_created_quiz = await prisma.quiz
-  //   .findMany({
-  //     where: {
-  //       creator_id: parseInt(res.locals.userId),
 
+  const user_created_quiz = await prisma.quiz
+    .findMany({
+      where: {
+        creator_id: parseInt(res.locals.userId),
+      },
+      include: {
+        creator: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+        room: true,
+      },
+      
+    })
+    .catch((e: any) => {
+      console.log(e);
+    })
+    .then((data: any) => {
+      res.send(sendTemplate(data));
+    })
+    .finally(async () => {
+      await prisma.$disconnect;
+    });
+  // const groupSession = await prisma.answer.groupBy({
+  //   by: ["quizSessionId"],
+  //   where: {
+  //     Quiz: {
+  //       creator_id: res.locals.userId,
   //     },
-  //     include: {
-  //       creator: {
-  //         select: {
-  //           first_name: true,
-  //           last_name: true,
+  //   },
+  //   orderBy: {
+  //     quizSessionId: "desc",
+  //   },
+  // });
+  // let getQuizHistory: any[] = [];
+
+  // for (const item of groupSession) {
+  //   const QuizSession = await prisma.user
+  //     .findMany({
+  //       where: {
+  //         Answer: {
+  //           some: {
+  //             quizSessionId: Number(item.quizSessionId),
+  //           },
   //         },
   //       },
-  //       room: true,
-  //     },
-  //   })
-  //   .catch((e: any) => {
-  //     console.log(e);
-  //   })
-  //   .then((data: any) => {
-  //     console.log(data);
-  //     res.send(sendTemplate(data));
-  //   })
-  //   .finally(async () => {
-  //     await prisma.$disconnect;
+  //       select: {
+  //         id: true,
+  //         first_name: true,
+  //         last_name: true,
+  //         Answer: {
+  //           where: {
+  //             quizSessionId: Number(item.quizSessionId),
+  //             choice: {
+  //               is_correct: true,
+  //             },
+  //           },
+  //           select: {
+  //             Question: {
+  //               select: {
+  //                 score: true,
+  //               },
+  //             },
+  //             choice: {
+  //               select: {
+  //                 is_correct: true,
+  //               },
+  //             },
+  //           },
+  //         },
+  //       },
+  //     })
+  //     .then((data) => {
+  //       return data;
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  //   let getScoreTotal: any = [];
+  //   QuizSession?.forEach((item) => {
+  //     let obj = {
+  //       id: item.id,
+  //       first_name: item.first_name,
+  //       last_name: item.last_name,
+  //       score: 0,
+  //     };
+  //     item.Answer.forEach((item) => {
+  //       if (item.choice?.is_correct == true) {
+  //         obj.score += item.Question?.score;
+  //       }
+  //     });
+  //     getScoreTotal.push(obj);
   //   });
-  const GroupQuizID = await prisma.answer.groupBy({
-    by: ["quizId"],
-    where: {
-      Quiz: {
-        creator_id: res.locals.userId,
-      },
-    },
-  });
-  let data: any[] = [];
-
-  for (const quizid of GroupQuizID) {
-    const id: number = quizid.quizId || 0;
-    const GetQuiz = await prisma.quiz
-      .findFirst({
-        where: {
-          id: id,
-        },
-        select: {
-          id: true,
-          title: true,
-          description: true,
-        },
-      })
-      .then((data) => {
-        return data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    data.push(GetQuiz);
-  }
-  res.status(Code.s200_OK).send(sendTemplate(data, Code.s200_OK));
+  //   const data = {
+  //     Session: item.quizSessionId,
+  //     totalScore: getScoreTotal,
+  //   };
+  //   getQuizHistory.push(data);
+  // }
+  // console.log(getQuizHistory);
+  // res.status(Code.s200_OK).send(sendTemplate(user_created_quiz, Code.s200_OK));
 });
 export const HistoryRouter: Router = router;

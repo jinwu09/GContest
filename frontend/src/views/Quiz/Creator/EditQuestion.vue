@@ -17,27 +17,26 @@ const score = ref(0)
 const choice_a = ref({
   id: '',
   content: '',
-  isCorrect: false
+  isCorrect: ''
 })
 
 const choice_b = ref({
   id: '',
   content: '',
-  isCorrect: false
+  isCorrect: ''
 })
 
 const choice_c = ref({
   id: '',
 
   content: '',
-  isCorrect: false
+  isCorrect: ''
 })
 
 const choice_d = ref({
   id: '',
-
   content: '',
-  isCorrect: false
+  isCorrect: true
 })
 
 function updateQuiz() {
@@ -52,22 +51,22 @@ function updateQuiz() {
           {
             id: choice_a.value.id,
             content: choice_a.value.content,
-            isCorrect: choice_a.value.isCorrect
+            is_correct: choice_a.value.isCorrect
           },
           {
             id: choice_b.value.id,
             content: choice_b.value.content,
-            isCorrect: choice_b.value.isCorrect
+            is_correct: choice_b.value.isCorrect
           },
           {
             id: choice_c.value.id,
             content: choice_c.value.content,
-            isCorrect: choice_c.value.isCorrect
+            is_correct: choice_c.value.isCorrect
           },
           {
             id: choice_d.value.id,
             content: choice_d.value.content,
-            isCorrect: choice_d.value.isCorrect
+            is_correct: choice_d.value.isCorrect
           }
         ]
       },
@@ -100,25 +99,25 @@ onMounted(() => {
       }
     })
     .then((res) => {
-      console.log(res.data)
+      console.log(res.data.payload)
       content.value = res.data.payload.content
       score.value = res.data.payload.score
 
       choice_a.value.id = res.data.payload.choice[0].id
       choice_a.value.content = res.data.payload.choice[0].content
-      choice_a.value.isCorrect = res.data.payload.choice[0].isCorrect
+      choice_a.value.isCorrect = res.data.payload.choice[0].is_correct
 
       choice_b.value.id = res.data.payload.choice[1].id
       choice_b.value.content = res.data.payload.choice[1].content
-      choice_b.value.isCorrect = res.data.payload.choice[1].isCorrect
+      choice_b.value.isCorrect = res.data.payload.choice[1].is_correct
 
       choice_c.value.id = res.data.payload.choice[2].id
       choice_c.value.content = res.data.payload.choice[2].content
-      choice_c.value.isCorrect = res.data.payload.choice[2].isCorrect
+      choice_c.value.isCorrect = res.data.payload.choice[2].is_correct
 
       choice_d.value.id = res.data.payload.choice[3].id
       choice_d.value.content = res.data.payload.choice[3].content
-      choice_d.value.isCorrect = res.data.payload.choice[3].isCorrect
+      choice_d.value.isCorrect = res.data.payload.choice[3].is_correct
     })
 })
 </script>
@@ -185,7 +184,6 @@ onMounted(() => {
         <div class="col-12 d-flex">
           <div class="w-25 p-2 questionBox1 rounded m-2">
             <label class="switch w-100 mb-3">
-              {{ choice_a.isCorrect }}
               <input type="checkbox" v-model="choice_a.isCorrect" />
               <span class="slider rounded"></span>
             </label>
@@ -224,7 +222,9 @@ onMounted(() => {
             ></textarea>
           </div>
           <div class="w-25 p-2 questionBox4 rounded m-2">
+            
             <label class="switch w-100 mb-3">
+              
               <input type="checkbox" v-model="choice_d.isCorrect" />
               <span class="slider rounded"></span>
             </label>

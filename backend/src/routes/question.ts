@@ -123,7 +123,7 @@ router.put("/:questionID", async (req: Request, res: Response) => {
             },
             data: {
               content: req.body.choices[0].content,
-              is_correct: req.body.choices[0].isCorrect,
+              is_correct: req.body.choices[0].is_correct,
             },
           },
         },
@@ -147,7 +147,7 @@ router.put("/:questionID", async (req: Request, res: Response) => {
       },
       data: {
         content: req.body.choices[1].content,
-        is_correct: req.body.choices[1].isCorrect,
+        is_correct: req.body.choices[1].is_correct,
       },
     })
     .catch((e) => {
@@ -160,14 +160,34 @@ router.put("/:questionID", async (req: Request, res: Response) => {
           )
         );
     });
-  const update3ndchoice = await prisma.choice
+  const update3rdchoice = await prisma.choice
     .update({
       where: {
         id: req.body.choices[2].id,
       },
       data: {
         content: req.body.choices[2].content,
-        is_correct: req.body.choices[2].isCorrect,
+        is_correct: req.body.choices[2].is_correct,
+      },
+    })
+    .catch((e) => {
+      res
+        .status(Code.S400_Bad_Request)
+        .send(
+          sendTemplate(
+            { message: "unsuccefully update 3" },
+            Code.S400_Bad_Request
+          )
+        );
+    });
+  const update4thchoice = await prisma.choice
+    .update({
+      where: {
+        id: req.body.choices[3].id,
+      },
+      data: {
+        content: req.body.choices[3].content,
+        is_correct: req.body.choices[3].is_correct,
       },
     })
     .catch((e) => {
