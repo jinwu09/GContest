@@ -160,7 +160,7 @@ router.get(
         quizSessionId: "desc",
       },
     });
-    let getQuizHistory: any[] = [];
+    let getScoreTotal: any = [];
 
     for (const item of groupSession) {
       const QuizSession = await prisma.user
@@ -205,7 +205,6 @@ router.get(
         .catch((e) => {
           console.log(e);
         });
-      let getScoreTotal: any = [];
       QuizSession?.forEach((item) => {
         let obj = {
           id: item.id,
@@ -220,11 +219,6 @@ router.get(
         });
         getScoreTotal.push(obj);
       });
-      const data = {
-        Session: item.quizSessionId,
-        totalScore: getScoreTotal,
-      };
-      getQuizHistory.push(data);
     }
     const GetQuiz = await prisma.quiz
       .findFirst({
@@ -267,7 +261,7 @@ router.get(
       });
     const data = {
       Quiz: GetQuiz,
-      ListLeaderBoard: getQuizHistory,
+      ListLeaderBoard: getScoreTotal,
     };
     res.status(Code.s200_OK).send(sendTemplate(data, Code.s200_OK));
   }

@@ -56,6 +56,7 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
           prisma.$disconnect();
         });
     }
+
     const addAttendees = await prisma.attendees
       .create({
         data: {
@@ -132,21 +133,22 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
       .finally(() => {
         prisma.$disconnect();
       });
-    if (IsUserCreator) {
-      const RoomSetOpen = await prisma.quiz.updateMany({
-        where: {
-          room: {
-            some: {
-              room: dataIO.Roomname,
-            },
-          },
-          creator_id: socket.data.userID,
-        },
-        data: {
-          condition: "OPEN",
-        },
-      });
-    }
+    // Wheneever creator join the the room the room will be open
+    // if (IsUserCreator) {
+    //   const RoomSetOpen = await prisma.quiz.updateMany({
+    //     where: {
+    //       room: {
+    //         some: {
+    //           room: dataIO.Roomname,
+    //         },
+    //       },
+    //       creator_id: socket.data.userID,
+    //     },
+    //     data: {
+    //       condition: "OPEN",
+    //     },
+    //   });
+    // }
     const RoomData = { RoomAttendees };
     // who just joined
     socket.emit("JoinRoom", {
