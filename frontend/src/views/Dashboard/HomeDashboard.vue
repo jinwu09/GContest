@@ -62,7 +62,7 @@ function joinLobbyAsJoiner(room: any) {
             <div class="d-flex align-items-center justify-content-center">
               Private rooms are under repair
 
-              <!-- <div class="row w-75">
+              <div class="row w-75">
                 <form @submit.prevent="joinLobbyAsJoiner(JoinRoom)" class="col-md-8 mt-2">
                   <input
                     class="form-control form-control-lg"
@@ -83,7 +83,7 @@ function joinLobbyAsJoiner(room: any) {
                     </button>
                   </div>
                 </div>
-              </div> -->
+              </div>
             </div>
           </div>
         </div>
