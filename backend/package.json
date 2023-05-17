@@ -9,7 +9,7 @@
     "init": "(npx prisma db push --force-reset && npx prisma generate) && npx ts-node src/init.ts",
     "dev": "set DEBUG=express:* & nodemon app.ts",
     "build": "tsc",
-    "buildpm2": "tsc && npx pm2 start app.js"
+    "buildpm2": "tsc && npx pm2 start app.js && npx pm2 monit"
   },
   "keywords": [],
   "author": "",
