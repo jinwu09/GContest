@@ -5,9 +5,38 @@ import { Code } from "../../../methods/template";
 
 const prisma = new PrismaClient();
 
+interface IError {
+  msg: {
+    ErrorType: string;
+    cause: string;
+    ErrLine?: string;
+  };
+  StatusCode: number;
+}
+
 export const QuizStartSocketListener = (socket: Socket, io: Server) => {
   socket.on("QuizStart", async (dataIO) => {
     console.log("redirecting");
+    const GetListAttendee = await prisma.attendees.findMany({
+      where: {
+        Room: {
+          room: String(dataIO.Roomname),
+        },
+      },
+    });
+
+    if (GetListAttendee?.length < 2) {
+      const err: IError = {
+        msg: {
+          cause: "there are no Participants/Player in this Lobby ",
+          ErrorType: "lack of player/Participants",
+          ErrLine: "line 32",
+        },
+        StatusCode: Code.s204_No_content,
+      };
+      socket.emit("Error", err);
+      return;
+    }
     const GetQuizList = await prisma.room
       .findUnique({
         where: {
@@ -34,14 +63,6 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
       .finally(() => {
         prisma.$disconnect();
       });
-    interface IError {
-      msg: {
-        ErrorType: string;
-        cause: string;
-        ErrLine?: string;
-      };
-      StatusCode: number;
-    }
 
     if (GetQuizList?.length == 0) {
       const err: IError = {
@@ -322,17 +343,17 @@ export const QuizStartSocketListener = (socket: Socket, io: Server) => {
     });
 
     const closeQuiz = await prisma.room.update({
-      where:{
-        room: dataIO.Roomname
+      where: {
+        room: dataIO.Roomname,
       },
-      data:{
-        Quiz:{
-          update:{
-            condition: 'CLOSED'
-          }
-        }
-      }
-    })
+      data: {
+        Quiz: {
+          update: {
+            condition: "CLOSED",
+          },
+        },
+      },
+    });
     console.log(sessionIsDone);
     socket.emit("redirectToDone", {
       PageName: "leaderboard",

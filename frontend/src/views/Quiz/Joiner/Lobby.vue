@@ -14,7 +14,7 @@ const store = useAuthStore()
 const redirect = ref(false)
 
 const admin = ref(false)
-const isExist: any = ref(false)
+const isExist: any = ref(true)
 
 const JoinRoom = (Roomname: any) => {
   socket.connect()

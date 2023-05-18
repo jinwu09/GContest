@@ -16,9 +16,12 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
 
   socket.on("JoinRoom", async (dataIO) => {
     const RoomExist = await prisma.room
-      .findUnique({
+      .findFirst({
         where: {
           room: dataIO.Roomname,
+          Quiz: {
+            condition: "OPEN",
+          },
         },
         select: {
           room: true,
