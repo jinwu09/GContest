@@ -117,11 +117,11 @@ function joinLobbyAsJoiner(room: any) {
         <div class="col-md-1"></div>
         <div class="col-lg-10">
           <div class="row my-3">
-            <div v-for="quiz in quizzes" :key="quiz.id" class="col-md-6 col-lg-4 col-xl-3 mt-4">
+            <div v-for="quiz in quizzes" :key="quiz.id" class="col-md-6 col-lg-4 col-xl-3 mt-4 d-flex align-items-strecth">
               <div class="card max">
                 <img :src="quiz.image_path ? quiz.image_path:'https://images.unsplash.com/photo-1603366615917-1fa6dad5c4fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8OXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80'" class="card-img-top h-25" alt="Image"/>
 
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                   <div class="d-flex justify-content-between">
                     <h5 class="card-title">{{ quiz.title }}</h5>
                     <div v-if="quiz.admin">
@@ -155,11 +155,11 @@ function joinLobbyAsJoiner(room: any) {
                   </div>
 
                   <p class="card-text text-muted">{{ quiz.description }}</p>
-                  <p class="text-muted">
+                  <p class="text-muted mt-auto">
                     Created by:
                     {{ quiz.creator.first_name + ' ' + quiz.creator.last_name }}
                   </p>
-                  <div class="d-grid gap-2">
+                  <div class="d-grid gap-2 mt-auto">
                     <button
                       class="btn btn-primary px-4"
                       @click="joinLobbyAsJoiner(quiz.room[0].room)"

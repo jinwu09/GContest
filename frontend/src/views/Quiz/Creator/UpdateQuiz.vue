@@ -117,7 +117,6 @@ function addNewQuestion() {
 }
 
 function deleteQuestion() {
-  console.log('hii')
   axios
     .get('/quiz/' + route.params.quiz_id, {
       headers: {
@@ -125,7 +124,6 @@ function deleteQuestion() {
       }
     })
     .then((res) => {
-      console.log(res)
       questions.value = res.data.data
     })
 }

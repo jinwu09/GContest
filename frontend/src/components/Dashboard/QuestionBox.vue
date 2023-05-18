@@ -36,7 +36,6 @@ function deleteQuestion() {
     confirmButtonText: 'Yes, delete it!'
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log('confirmed')
       axios
         .delete('/question/' + props.question_id, {
           headers: {
