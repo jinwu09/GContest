@@ -16,6 +16,7 @@ const room_passcode = ref('')
 const description = ref('')
 const status = ref('')
 const password = ref('')
+const image_path = ref('')
 
 function createQuiz() {
   axios
@@ -26,7 +27,8 @@ function createQuiz() {
         room: room_passcode.value,
         description: description.value,
         status: status.value,
-        password: password.value
+        password: password.value,
+        image_path: image_path.value
       },
       {
         headers: {
@@ -109,6 +111,21 @@ function createQuiz() {
                         autocomplete="off"
                         required
                       ></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label"
+                        >Image
+                        <span class="text-muted"
+                          >(Copy an image address from the internet)</span
+                        ></label
+                      >
+                      <input
+                        type="text"
+                        v-model="image_path"
+                        class="form-control"
+                        autocomplete="off"
+                        required
+                      />
                     </div>
                     <div class="mb-3">
                       <label class="form-label"

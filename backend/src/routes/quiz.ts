@@ -162,6 +162,7 @@ router.post(
           status: req.body.status,
           creator_id: res.locals.userId,
           description: req.body.description,
+          image_path: req.body.image_path,
           room: {
             create: {
               room: req.body.room,
@@ -208,6 +209,7 @@ router.put("/:quiz_id", async (req: Request, res: Response, next) => {
         status: req.body.status,
         title: req.body.title,
         description: req.body.description,
+        image_path: req.body.image_path,
       },
     })
     .catch((e: any) => {

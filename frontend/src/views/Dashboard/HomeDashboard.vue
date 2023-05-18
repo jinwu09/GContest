@@ -55,13 +55,11 @@ function joinLobbyAsJoiner(room: any) {
   <NavBar />
   <div class="mt-1">
     <div class="container-fluid">
-      <div class="row mt-4">
+      <div class="row mt-2">
         <div class="col-lg-1"></div>
         <div class="col-lg-6">
           <div class="row room-background mt-2">
             <div class="d-flex align-items-center justify-content-center">
-              Private rooms are under repair
-
               <div class="row w-75">
                 <form @submit.prevent="joinLobbyAsJoiner(JoinRoom)" class="col-md-8 mt-2">
                   <input
@@ -119,11 +117,13 @@ function joinLobbyAsJoiner(room: any) {
         <div class="col-md-1"></div>
         <div class="col-lg-10">
           <div class="row my-3">
-            <div v-for="quiz in quizzes" :key="quiz.id" class="col-md-3 mt-4">
+            <div v-for="quiz in quizzes" :key="quiz.id" class="col-md-6 col-lg-4 col-xl-3 mt-4">
               <div class="card max">
+                <img :src="quiz.image_path ? quiz.image_path:'https://images.unsplash.com/photo-1603366615917-1fa6dad5c4fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8OXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80'" class="card-img-top h-25" alt="Image"/>
+
                 <div class="card-body">
                   <div class="d-flex justify-content-between">
-                    <h3 class="card-title text-center">{{ quiz.title }}</h3>
+                    <h5 class="card-title">{{ quiz.title }}</h5>
                     <div v-if="quiz.admin">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +154,7 @@ function joinLobbyAsJoiner(room: any) {
                     </div>
                   </div>
 
-                  <h5 class="card-subtitle my-4 text-muted no-long-text">{{ quiz.description }}</h5>
+                  <p class="card-text text-muted">{{ quiz.description }}</p>
                   <p class="text-muted">
                     Created by:
                     {{ quiz.creator.first_name + ' ' + quiz.creator.last_name }}

@@ -17,6 +17,7 @@ const description = ref('')
 const status = ref('')
 const password = ref('')
 const quiz_id = ref('')
+const image_path = ref('')
 
 const questions: any = ref([])
 
@@ -38,7 +39,8 @@ function updateQuiz() {
             room: room_passcode.value,
             description: description.value,
             status: status.value,
-            password: password.value
+            password: password.value,
+            image_path: image_path.value
           },
           {
             headers: {
@@ -156,6 +158,7 @@ onMounted(() => {
       quiz_id.value = payload.id
       description.value = payload.description
       questions.value = payload.question
+      image_path.value = payload.image_path
     })
 })
 </script>
@@ -192,6 +195,14 @@ onMounted(() => {
                         class="form-control"
                         autocomplete="off"
                       ></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Image</label>
+                      <input
+                        v-model="image_path"
+                        class="form-control"
+                        autocomplete="off"
+                      />
                     </div>
                     <div class="mb-3">
                       <label class="form-label">Room Status</label>

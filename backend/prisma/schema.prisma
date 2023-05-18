@@ -73,6 +73,7 @@ model Quiz {
   question   Question[]
   answer     Answer[]
   description String
+  image_path String?
   // totalScore AnsweredQuiz[]
 }
 
