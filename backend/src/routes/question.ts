@@ -218,5 +218,7 @@ router.delete("/:question_id", async (req: Request, res: Response) => {
     .finally(() => {
       prisma.$disconnect();
     });
+
+    res.send(sendTemplate("Successfully Deleted!")).status(Code.s200_OK)
 });
 export const QuestionRouter: Router = router;

@@ -117,13 +117,15 @@ function addNewQuestion() {
 }
 
 function deleteQuestion() {
+  console.log('hii')
   axios
-    .get('/question/all/' + route.params.quiz_id, {
+    .get('/quiz/' + route.params.quiz_id, {
       headers: {
         Authorization: 'Bearer ' + store.token
       }
     })
     .then((res) => {
+      console.log(res)
       questions.value = res.data.data
     })
 }
