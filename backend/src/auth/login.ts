@@ -67,8 +67,7 @@ router.post(
       })
 
       .catch((e) => {
-        console.log("from create user");
-        console.log(e);
+        console.log("Error in creating a user from " + req.body.email);
         return res
           .status(Code.S400_Bad_Request)
           .send(sendTemplate("Error in user creation"));

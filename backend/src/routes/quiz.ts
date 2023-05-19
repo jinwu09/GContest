@@ -51,7 +51,7 @@ router.get("/", async (req: Request, res: Response, next) => {
     .finally(async () => {
       await prisma.$disconnect();
     });
-  console.log(showQuiz);
+  console.log(res.locals.email + " is in dashboard");
   showQuiz.forEach((element: any) => {
     element.admin = element.creator_id == res.locals.userId ? true : false;
   });
