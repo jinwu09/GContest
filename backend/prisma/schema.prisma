@@ -61,17 +61,17 @@ model Answer {
 }
 
 model Quiz {
-  id         Int        @id @default(autoincrement())
-  title      String
-  password   String?
-  room       Room[]
-  status     QuizType   @default(PUBLIC)
-  condition  StatusType @default(OPEN)
-  creator    User       @relation(fields: [creator_id], references: [id], onDelete: Cascade)
-  creator_id Int
-  created_at DateTime   @default(now())
-  question   Question[]
-  answer     Answer[]
+  id          Int        @id @default(autoincrement())
+  title       String
+  password    String?
+  room        Room[]
+  status      QuizType   @default(PUBLIC)
+  condition   StatusType @default(OPEN)
+  creator     User       @relation(fields: [creator_id], references: [id], onDelete: Cascade)
+  creator_id  Int
+  created_at  DateTime   @default(now())
+  question    Question[]
+  answer      Answer[]
   description String
   // totalScore AnsweredQuiz[]
 }
@@ -86,11 +86,12 @@ model Room {
 }
 
 model Attendees {
-  id     Int   @id @default(autoincrement())
-  Room   Room? @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  id     Int     @id @default(autoincrement())
+  Room   Room?   @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId Int?
-  User   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int?  @unique
+  admin  Boolean @default(false)
+  User   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int?    @unique
 }
 
 model QuizSession {

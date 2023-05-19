@@ -6,17 +6,20 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), VitePWA({
-    registerType: 'autoUpdate',
-    devOptions: {
-      enabled: true
-    },
-    injectRegister: 'auto',
-    includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+  plugins: [
+    vue(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true
+      },
+      injectRegister: 'auto',
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
         name: 'Quiger',
         short_name: 'Quiger',
-        description: 'Quiger: Real Time Quiz Application for Gordon College - College of Computer Studies',
+        description:
+          'Quiger: Real Time Quiz Application for Gordon College - College of Computer Studies',
         theme_color: '#ffffff',
         icons: [
           {
@@ -34,13 +37,11 @@ export default defineConfig({
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
-          },
-          
+          }
         ]
-        
       },
       workbox: {
-        cleanupOutdatedCaches: true, 
+        cleanupOutdatedCaches: true,
         sourcemap: true,
         runtimeCaching: [
           {
@@ -68,12 +69,13 @@ export default defineConfig({
               },
               cacheableResponse: {
                 statuses: [0, 200]
-              },
+              }
             }
           }
-        ] 
-      },
-  })],
+        ]
+      }
+    })
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

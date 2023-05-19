@@ -7,6 +7,7 @@
     "testasd": "echo \"Error: no test specified\" && exit 1",
     "test": "cls && jest --runInBand",
     "init": "(npx prisma db push --force-reset && npx prisma generate) && npx ts-node src/init.ts",
+    "initdata": "npx ts-node src/init.ts",
     "dev": "set DEBUG=express:* & nodemon app.ts",
     "build": "tsc",
     "buildpm2": "tsc && npx pm2 start app.js && npx pm2 monit"
