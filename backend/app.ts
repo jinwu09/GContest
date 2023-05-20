@@ -15,7 +15,7 @@ export const app: Express = express();
 const httpServer = createServer(app);
 export const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:8080", "http://192.168.137.1:5173/", "*"],
+    origin: ["http://localhost:8080", "http://192.168.137.1:5173/", "http://quiger.com", "https://quiger.com"],
     // origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
