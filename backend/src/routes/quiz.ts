@@ -4,13 +4,13 @@ import { PrismaClient } from "@prisma/client";
 import { validationResult } from "express-validator";
 import { sendTemplate, Code } from "../methods/template";
 
-
 const prisma = new PrismaClient();
 const router = Router();
 
-function makeid(length : number) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+function makeid(length: number) {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   let counter = 0;
   while (counter < length) {
@@ -19,7 +19,6 @@ function makeid(length : number) {
   }
   return result;
 }
-
 
 //Get all Quizzes
 router.get("/", async (req: Request, res: Response, next) => {
@@ -186,7 +185,14 @@ router.post(
         },
       })
       .then(async (data: any) => {
-        return res.send(sendTemplate({ quiz_id: data.id, message:'Successfully created quiz!' })).status(200);
+        return res
+          .send(
+            sendTemplate({
+              quiz_id: data.id,
+              message: "Successfully created quiz!",
+            })
+          )
+          .status(200);
         // res.locals.room = req.body.room
         // next()
       })
