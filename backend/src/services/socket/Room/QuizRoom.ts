@@ -127,6 +127,7 @@ export const QuizRoomSocketListener = (socket: Socket, io: Server) => {
               id: true,
               first_name: true,
               last_name: true,
+              username: true
             },
           },
         },

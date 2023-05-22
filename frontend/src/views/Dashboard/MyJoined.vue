@@ -2,7 +2,6 @@
 import NavBar from '@/components/NavBar.vue'
 import { useAuthStore } from '@/store/AuthStore'
 import axios from 'axios'
-import Swal from 'sweetalert2'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 

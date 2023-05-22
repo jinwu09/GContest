@@ -5,7 +5,7 @@ import { useAuthStore } from '@/store/AuthStore'
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import Swal from 'sweetalert2'
+import { SwalDesign } from '@/assets/CustomSwal'
 
 const route = useRoute()
 const router = useRouter()
@@ -22,13 +22,13 @@ const image_path = ref('')
 const questions: any = ref([])
 
 function updateQuiz() {
-  Swal.fire({
+  SwalDesign.fire({
     title: 'Are you sure you want to update your quiz settings?',
     icon: 'warning',
+    timer: 0,
     showCancelButton: true,
-    confirmButtonColor: '#5D6A59',
-    cancelButtonColor: '#8a2f2f',
-    confirmButtonText: 'Yes, update it!'
+    showConfirmButton: true,
+    confirmButtonText: 'Yes, update it!',
   }).then((result) => {
     if (result.isConfirmed) {
       axios
@@ -49,7 +49,7 @@ function updateQuiz() {
           }
         )
         .then((res) => {
-          Swal.fire({
+          SwalDesign.fire({
             icon: 'success',
             title: res.data.payload
           })
@@ -57,7 +57,7 @@ function updateQuiz() {
           password.value = ''
         })
         .catch((err) => {
-          Swal.fire({
+          SwalDesign.fire({
             icon: 'error',
             title: err.data.payload
           })
@@ -67,10 +67,11 @@ function updateQuiz() {
 }
 
 function deleteQuiz() {
-  Swal.fire({
+  SwalDesign.fire({
     title: 'Are you sure you want to delete your quiz?',
     icon: 'warning',
     showCancelButton: true,
+    showConfirmButton: true,
     confirmButtonColor: '#8a2f2f',
     cancelButtonColor: '#3085d6',
     confirmButtonText: 'Yes, delete it!'
@@ -83,17 +84,17 @@ function deleteQuiz() {
           }
         })
         .then((res) => {
-          Swal.fire({
+          SwalDesign.fire({
             icon: 'success',
-            title: res.data.message
+            title: res.data.payload
           })
 
           router.push({ name: 'dashboard' })
         })
         .catch((err) => {
-          Swal.fire({
+          SwalDesign.fire({
             icon: 'question',
-            title: err.data.message
+            title: err.data.payload
           })
         })
     }

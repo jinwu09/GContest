@@ -23,22 +23,66 @@ export const io = new Server(httpServer, {
   },
 });
 
+let winston = require('winston'),
+  expressWinston = require('express-winston');
+
 const port = 8080;
 app.use(cors());
 app.use(express.json());
 
+
+// Request/Response Logger
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.timestamp(),
+    winston.format.align(),
+    winston.format.printf((info: any) => {
+      const {
+        timestamp, level, message, ...args
+      } = info;
+
+      const ts = timestamp.slice(0, 19).replace('T', ' ');
+      return `${ts} [${level}]: ${message} ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`;
+    }),
+  ),
+  meta: true, // optional: control whether you want to log the meta data about the request (default to true)
+  msg: "HTTP {{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}", // optional: customize the default logging message. E.g. "{{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}"
+  expressFormat: true, // Use the default Express/morgan request formatting. Enabling this will override any msg if true. Will only output colors with colorize set to true
+  colorize: false, // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red). // optional: allows to skip some log messages based on request and/or response
+}));
+
 // routes
 app.use("/api", indexRouter);
-
-app.get("/test", (req: Request, res: Response) => {
-  res.send("the typescript express get method is working");
-});
 
 app.all("/*", (req: Request, res: Response) => {
   res
     .status(Code.S400_Bad_Request)
     .send(sendTemplate({ msg: "Route doesn't exist" }, Code.S400_Bad_Request));
 });
+
+// error logger
+app.use(expressWinston.errorLogger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.timestamp(),
+    winston.format.align(),
+    winston.format.printf((info: any) => {
+      const {
+        timestamp, level, message, ...args
+      } = info;
+
+      const ts = timestamp.slice(0, 19).replace('T', ' ');
+      return `${ts} [${level}]: ${message} ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`;
+    }),
+  )
+}))
 
 httpServer.listen(port, () => {
   console.log("The server is running in port " + port);

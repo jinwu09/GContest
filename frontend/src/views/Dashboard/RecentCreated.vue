@@ -18,10 +18,10 @@ onMounted(() => {
       }
     })
     .then((res: any) => {
-      console.log(res.data.payload)
+      
       // console.log(quizzes.value)
       created.value = res.data.payload
-      console.log(created.value)
+      
     })
     .catch((err) => {
       // console.log(err)

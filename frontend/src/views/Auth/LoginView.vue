@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-import Swal from 'sweetalert2'
 import { useAuthStore } from '@/store/AuthStore'
+import { SwalDesign } from '@/assets/CustomSwal'
 
 const router = useRouter()
 
@@ -19,7 +19,7 @@ function login(e: any) {
     })
     .then((res) => {
       store.setTokenValue(res.data.payload.token)
-      Swal.fire({
+      SwalDesign.fire({
         icon: 'success',
         text: res.data.payload.message
       })
@@ -27,7 +27,8 @@ function login(e: any) {
       router.push({ name: 'dashboard' })
     })
     .catch((err: any) => {
-      Swal.fire({
+
+      SwalDesign.fire({
         icon: 'error',
         title: 'Oops...',
         text: err.response.data.payload
@@ -54,7 +55,7 @@ function navToRegister() {
     </div>
 
     <div class="col-lg-8 col-md-12">
-      <div class="d-flex align-items-center justify-content-center vh-100 m-4">
+      <div class="d-flex align-items-center justify-content-center vh-100 m-4 ">
         <div class="row">
           <div class="row">
             <h1 class="title text-center">Quiger</h1>
@@ -243,6 +244,7 @@ input::placeholder {
   position: relative;
   text-decoration: none;
   font-style: italic;
+  
 }
 .accountLoginLink::before {
   content: '';
@@ -294,5 +296,9 @@ input::placeholder {
   transform: scale(1.2);
   -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
   transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+}
+
+.accountSwitchLink{
+  cursor: pointer;
 }
 </style>

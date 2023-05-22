@@ -5,8 +5,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { socket } from '@/Socket/SocketConfig'
-import axios from 'axios'
-import Swal from 'sweetalert2'
+import { SwalDesign } from '@/assets/CustomSwal'
 
 const route = useRoute()
 const router = useRouter()
@@ -39,7 +38,7 @@ interface IError {
 }
 socket.on('Error', (res: IError) => {
   if (admin.value != true) return
-  Swal.fire({
+  SwalDesign.fire({
     icon: 'error',
     title: 'Oops...',
     text: res.msg.cause

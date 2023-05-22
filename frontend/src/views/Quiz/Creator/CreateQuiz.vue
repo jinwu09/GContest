@@ -3,7 +3,7 @@ import QuestionBox from '@/components/Dashboard/QuestionBox.vue'
 import NavBar from '@/components/NavBar.vue'
 import { useAuthStore } from '@/store/AuthStore'
 import axios from 'axios'
-import Swal from 'sweetalert2'
+import { SwalDesign } from '@/assets/CustomSwal'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -27,7 +27,7 @@ function createQuiz() {
         room: room_passcode.value,
         description: description.value,
         status: status.value,
-        password: password.value,
+        password: status.value == 'PRIVATE' ? password.value : null,
         image_path: image_path.value
       },
       {
@@ -37,9 +37,9 @@ function createQuiz() {
       }
     )
     .then((res) => {
-      Swal.fire({
+      SwalDesign.fire({
         icon: 'success',
-        title: res.data.message
+        title: res.data.payload.message
       })
 
       router.push({
@@ -63,120 +63,74 @@ function createQuiz() {
         <div class="col-md-1"></div>
         <div class="col-md-10">
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 d-flex align-items-center justify-content-center customHeight">
               <div class="row p-3 border rounded-3 border-dark">
                 <div class="col-md-12">
                   <form @submit.prevent="createQuiz">
+
                     <div class="mb-3">
                       <h1>Create your Quiz:</h1>
                     </div>
                     <div class="mb-3">
-                      <label class="form-label"
-                        >Title <span class="text-muted">(The main idea of your quiz)</span></label
-                      >
-                      <input
-                        type="text"
-                        v-model="title"
-                        class="form-control"
-                        autocomplete="off"
-                        required
-                      />
+                      <label class="form-label">Title <span class="text-muted"></span></label>
+                      <input type="text" v-model="title" class="form-control" autocomplete="off" required />
                     </div>
-                    <div class="mb-3">
-                      <label class="form-label"
-                        >Room Number
-                        <span class="text-muted"
-                          >(Unique code to be easily distinguishable from other quiz)</span
-                        ></label
-                      >
-                      <input
-                        type="text"
-                        v-model="room_passcode"
-                        class="form-control"
-                        autocomplete="off"
-                        required
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label"
-                        >Description
-                        <span class="text-muted"
-                          >(A short and brief description of your quiz)</span
-                        ></label
-                      >
-                      <textarea
-                        type="text"
-                        v-model="description"
-                        class="form-control"
-                        autocomplete="off"
-                        required
-                      ></textarea>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label"
-                        >Image
-                        <span class="text-muted"
-                          >(Copy an image address from the internet)</span
-                        ></label
-                      >
-                      <input
-                        type="text"
-                        v-model="image_path"
-                        class="form-control"
-                        autocomplete="off"
-                        required
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label"
-                        >Room Status
-                        <span class="text-muted"
-                          >(Public means every user of this application can join your quiz)</span
-                        ></label
-                      >
-                      <select
-                        class="form-select"
-                        aria-label=".form-select-lg example"
-                        v-model="status"
-                        required
-                      >
-                        <option value="PUBLIC">Public</option>
-                        <option value="PRIVATE">Private</option>
-                      </select>
+                    <div class="row">
+
+                      <div class="col-md-4">
+                        <div class="mb-3">
+                          <label class="form-label">Room Number
+                            <span class="text-muted"></span></label>
+                          <input type="text" v-model="room_passcode" class="form-control" autocomplete="off" required />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="mb-3">
+                          <label class="form-label">Room Status
+                            <span class="text-muted"></span></label>
+                          <select class="form-select" aria-label=".form-select-lg example" v-model="status" required>
+                            <option value="PUBLIC">Public</option>
+                            <option value="PRIVATE">Private</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="mb-3">
+                          <label class="form-label">Room Password
+                            <span class="text-muted"></span></label>
+                          <input type="password" v-model="password" class="form-control" autocomplete="off"
+                            :disabled="status == 'PUBLIC' || status == ''" :required="status == 'PRIVATE'" />
+                        </div>
+                      </div>
                     </div>
 
+
                     <div class="mb-3">
-                      <label class="form-label"
-                        >Room Password
-                        <span class="text-muted"
-                          >(So that only users authorized by you can join your quiz)</span
-                        ></label
-                      >
-                      <input
-                        type="password"
-                        v-model="password"
-                        class="form-control"
-                        autocomplete="off"
-                        :disabled="status == 'PUBLIC' || status == ''"
-                        :required="status == 'PRIVATE'"
-                      />
+                      <label class="form-label">Description
+                        <span class="text-muted"></span></label>
+                      <textarea type="text" v-model="description" class="form-control" autocomplete="off"
+                        required></textarea>
                     </div>
+                    <div class="mb-3">
+                      <label class="form-label">Image
+                        <span class="text-muted">(Copy an image address from the internet)</span></label>
+                      <input type="text" v-model="image_path" class="form-control" autocomplete="off" required />
+                    </div>
+
+
+
 
                     <div class="mb-3">
                       <div class="container-fluid">
                         <div class="row gx-2">
                           <div class="col">
                             <div class="d-grid gap-2">
-                              <button class="btn button-update" type="submit">Create Quiz</button>
+                              <button class="btn button-update add-new-background" type="submit">Create Quiz</button>
                             </div>
                           </div>
                           <div class="col">
                             <div class="d-grid gap-2">
-                              <button
-                                class="btn button-delete"
-                                type="button"
-                                @click="router.push({ name: 'dashboard' })"
-                              >
+                              <button class="btn button-delete" type="button" @click="router.push({ name: 'dashboard' })">
                                 Cancel
                               </button>
                             </div>
@@ -224,5 +178,9 @@ function createQuiz() {
 .form-control,
 .form-select {
   border: 1px solid black;
+}
+
+.customHeight {
+  height: 80vh;
 }
 </style>

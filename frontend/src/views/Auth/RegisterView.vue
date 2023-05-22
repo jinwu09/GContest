@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/store/AuthStore';
 import axios from 'axios';
-import Swal from 'sweetalert2';
+import { SwalDesign } from '@/assets/CustomSwal';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 
@@ -22,15 +22,16 @@ function register(){
     password: password.value,
     confirm_password: cpassword.value,
   }).then((res)=>{
-    Swal.fire({
-      title: res.data.payload
+    SwalDesign.fire({
+      title: res.data.payload.message
     })
 
     store.setTokenValue(res.data.payload.token)
 
     router.push({name: 'dashboard'})
   }).catch((err)=>{
-    Swal.fire({
+    SwalDesign.fire({
+      icon:'error',
       title: err.response.data.payload,
     })
   })
@@ -284,6 +285,7 @@ input::placeholder {
   position: relative;
   text-decoration: none;
   font-style: italic;
+  cursor: pointer;
 }
 .accountLoginLink::before {
   content: '';
@@ -308,6 +310,10 @@ input::placeholder {
   position: relative;
   animation: picAnimate 0.5s infinite alternate linear;
   width: 65svh;
+}
+
+.accountSwitchLink{
+  cursor: pointer;
 }
 @keyframes picAnimate {
   0% {

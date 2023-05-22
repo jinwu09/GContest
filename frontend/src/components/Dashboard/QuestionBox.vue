@@ -2,7 +2,7 @@
 import router from '@/router'
 import { useAuthStore } from '@/store/AuthStore'
 import axios from 'axios'
-import Swal from 'sweetalert2'
+import { SwalDesign } from '@/assets/CustomSwal'
 
 const emit = defineEmits(['delete', 'update'])
 
@@ -26,11 +26,12 @@ const props = defineProps<Question>()
 const store = useAuthStore()
 
 function deleteQuestion() {
-  Swal.fire({
+  SwalDesign.fire({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
     icon: 'warning',
     showCancelButton: true,
+    showConfirmButton: true,
     confirmButtonColor: '#BB4545',
     cancelButtonColor: '#3085d6',
     confirmButtonText: 'Yes, delete it!'
@@ -43,7 +44,7 @@ function deleteQuestion() {
           }
         })
         .then((res) => {
-          Swal.fire({
+          SwalDesign.fire({
             icon: 'success',
             title: res.data.payload
           })
@@ -51,7 +52,7 @@ function deleteQuestion() {
           emit('delete')
         })
         .catch((err) => {
-          Swal.fire({
+          SwalDesign.fire({
             icon: 'error',
             title: 'There has been an error, please try again later'
           })

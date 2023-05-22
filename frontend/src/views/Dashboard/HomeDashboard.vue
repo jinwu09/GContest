@@ -4,7 +4,6 @@ import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useAuthStore } from '@/store/AuthStore'
 import { useRouter } from 'vue-router'
-import Swal from 'sweetalert2'
 const store = useAuthStore()
 
 const quizzes: any = ref({})
@@ -21,7 +20,6 @@ onMounted(() => {
     })
     .then((res: any) => {
       quizzes.value = res.data.payload
-      // console.log(quizzes.value)
     })
     .catch((err) => {
       // console.log(err)
@@ -117,8 +115,8 @@ function joinLobbyAsJoiner(room: any) {
         <div class="col-md-1"></div>
         <div class="col-lg-10">
           <div class="row my-3">
-            <div v-for="quiz in quizzes" :key="quiz.id" class="col-md-6 col-lg-4 col-xl-3 mt-4 d-flex align-items-strecth">
-              <div class="card max">
+            <div v-for="quiz in quizzes" :key="quiz.id" class="col-md-6 col-lg-4 col-xl-3 mt-4 d-flex align-items-stretch" >
+              <div class="card max" v-if="quiz.condition != 'CLOSED'">
                 <img :src="quiz.image_path ? quiz.image_path:'https://images.unsplash.com/photo-1603366615917-1fa6dad5c4fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8OXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80'" class="card-img-top h-25" alt="Image"/>
 
                 <div class="card-body d-flex flex-column">

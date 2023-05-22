@@ -4,8 +4,22 @@ import { PrismaClient } from "@prisma/client";
 import { validationResult } from "express-validator";
 import { sendTemplate, Code } from "../methods/template";
 
+
 const prisma = new PrismaClient();
 const router = Router();
+
+function makeid(length : number) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
+
 
 //Get all Quizzes
 router.get("/", async (req: Request, res: Response, next) => {
@@ -51,7 +65,6 @@ router.get("/", async (req: Request, res: Response, next) => {
     .finally(async () => {
       await prisma.$disconnect();
     });
-  console.log(showQuiz);
   showQuiz.forEach((element: any) => {
     element.admin = element.creator_id == res.locals.userId ? true : false;
   });
@@ -153,7 +166,6 @@ router.post(
       });
   },
   async (req: Request, res: Response, next) => {
-    console.log(req.body.status);
     const createquiz = await prisma.quiz
       .create({
         data: {
@@ -165,7 +177,7 @@ router.post(
           image_path: req.body.image_path,
           room: {
             create: {
-              room: req.body.room,
+              room: req.body.room ? req.body.room : makeid(9),
             },
           },
         },
@@ -174,7 +186,7 @@ router.post(
         },
       })
       .then(async (data: any) => {
-        return res.send(sendTemplate({ quiz_id: data.id })).status(200);
+        return res.send(sendTemplate({ quiz_id: data.id, message:'Successfully created quiz!' })).status(200);
         // res.locals.room = req.body.room
         // next()
       })
@@ -282,7 +294,6 @@ router.get(
         },
       })
       .then((data) => {
-        console.log(data);
         return data;
       })
       .finally(() => prisma.$disconnect());
@@ -326,11 +337,6 @@ router.get(
         return total;
       })
       .finally(() => prisma.$disconnect());
-    console.log({
-      UsersScore: getScoreTotal,
-      QuizTotal: getTotalQuizScore,
-      message: "leaderboard list",
-    });
     res.status(Code.s200_OK).send(
       sendTemplate(
         {
@@ -387,7 +393,6 @@ router.get("/feedback/:session", async (req: Request, res: Response) => {
     .then((data) => {
       return data?.Room.Quiz;
     });
-  console.log(getAnswer);
   res
     .status(Code.s200_OK)
     .send(

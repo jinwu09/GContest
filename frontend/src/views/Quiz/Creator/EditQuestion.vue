@@ -2,7 +2,7 @@
 import NavBar from '@/components/NavBar.vue'
 import { useAuthStore } from '@/store/AuthStore'
 import axios from 'axios'
-import Swal from 'sweetalert2'
+import { SwalDesign } from '@/assets/CustomSwal'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 // import Vue from "vue";
@@ -77,7 +77,7 @@ function updateQuiz() {
       }
     )
     .then((res) => {
-      Swal.fire({
+      SwalDesign.fire({
         icon: 'success',
         title: res.data.message
       })

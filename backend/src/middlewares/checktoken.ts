@@ -18,11 +18,19 @@ export const tokenChecker = async (
           where: {
             token: token,
           },
+          include:{
+            Users:{
+              select:{
+                email: true
+              }
+            }
+          }
         })
         .then((data) => {
           if (data != null) {
             res.locals.token = data.token;
             res.locals.userId = data.usersId;
+            res.locals.email = data.Users.email
             next();
           } else {
             return res
