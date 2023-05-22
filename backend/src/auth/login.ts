@@ -16,6 +16,8 @@ const prisma = new PrismaClient();
 
 var CryptoJS = require("crypto-js");
 
+CryptoJS.SHA
+
 router.post(
   "/register",
   body("firstName").isString(),
@@ -32,8 +34,12 @@ router.post(
         .send(sendTemplate({ errors: errors.array() }));
     }
     const validateEmail = await prisma.user
-      .findUnique({
+      .findFirstOrThrow({
         where: { email: req.body.email },
+      }).catch(()=>{
+        res
+            .status(Code.s401_Unauthorized)
+            .send(sendTemplate("Email Already Exist!"));
       })
       .then((email) => {
         if (email?.email == null) {
@@ -68,6 +74,7 @@ router.post(
 
       .catch((e) => {
         console.log("Error in creating a user from " + req.body.email);
+
         return res
           .status(Code.S400_Bad_Request)
           .send(sendTemplate("Error in user creation"));
@@ -115,12 +122,12 @@ router.post(
     }
 
     const LoginUser = await prisma.user
-      .findUnique({
+      .findFirstOrThrow({
         where: { email: req.body.email },
         select: { id: true, password: true },
       })
       .catch((e) => {
-        res.status(Code.S400_Bad_Request).send(sendTemplate("Bad Request"));
+        res.status(Code.S400_Bad_Request).send(sendTemplate("Your account is not registered."));
       })
       .then((data) => {
         if (data != null) {

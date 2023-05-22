@@ -91,7 +91,7 @@ router.post(
       })
       .then((data: any) => {
         res
-          .send(sendTemplate({ message: "Successfully created!" }))
+          .send(sendTemplate({ message: "Successfully created Question!" }))
           .status(Code.s200_OK);
       })
       .catch((err: any) => {

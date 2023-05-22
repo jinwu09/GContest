@@ -24,3 +24,30 @@
   font-family: var(--title-font) !important;
 }
 
+.swal-container{
+  background-color: var(--main-color) !important;
+}
+
+.swal-white-text{
+  color: white !important;
+}
+
+.swal-icon{
+  border-color: white !important;
+}
+
+.swal-progress-bar{
+  background-color: whitesmoke !important;
+}
+
+.swal-cancel{
+  
+  background-color: '#3C19FC' !important;
+  color:white !important;
+}
+
+.swal-confirm{
+  background-color: '#D92122' !important;
+  color: 'white' !important;
+}
+

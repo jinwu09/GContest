@@ -24,7 +24,7 @@ export const io = new Server(httpServer, {
 });
 
 let winston = require('winston'),
-expressWinston = require('express-winston');
+  expressWinston = require('express-winston');
 
 const port = 8080;
 app.use(cors());
@@ -38,7 +38,16 @@ app.use(expressWinston.logger({
   ],
   format: winston.format.combine(
     winston.format.colorize(),
-    winston.format.json()
+    winston.format.timestamp(),
+    winston.format.align(),
+    winston.format.printf((info: any) => {
+      const {
+        timestamp, level, message, ...args
+      } = info;
+
+      const ts = timestamp.slice(0, 19).replace('T', ' ');
+      return `${ts} [${level}]: ${message} ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`;
+    }),
   ),
   meta: true, // optional: control whether you want to log the meta data about the request (default to true)
   msg: "HTTP {{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}", // optional: customize the default logging message. E.g. "{{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}"
@@ -49,10 +58,6 @@ app.use(expressWinston.logger({
 // routes
 app.use("/api", indexRouter);
 
-app.get("/test", (req: Request, res: Response) => {
-  res.send("the typescript express get method is working");
-});
-
 app.all("/*", (req: Request, res: Response) => {
   res
     .status(Code.S400_Bad_Request)
@@ -60,15 +65,24 @@ app.all("/*", (req: Request, res: Response) => {
 });
 
 // error logger
-  app.use(expressWinston.errorLogger({
-    transports: [
-      new winston.transports.Console()
-    ],
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.json()
-    )
-  }))
+app.use(expressWinston.errorLogger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.timestamp(),
+    winston.format.align(),
+    winston.format.printf((info: any) => {
+      const {
+        timestamp, level, message, ...args
+      } = info;
+
+      const ts = timestamp.slice(0, 19).replace('T', ' ');
+      return `${ts} [${level}]: ${message} ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`;
+    }),
+  )
+}))
 
 httpServer.listen(port, () => {
   console.log("The server is running in port " + port);

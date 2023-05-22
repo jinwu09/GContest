@@ -2,7 +2,7 @@
 import NavBar from '@/components/NavBar.vue'
 import { useAuthStore } from '@/store/AuthStore';
 import axios from 'axios';
-import Swal from 'sweetalert2';
+import { SwalDesign } from '@/assets/CustomSwal';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 // import Vue from "vue";
@@ -63,7 +63,7 @@ function createQuiz(){
             Authorization: 'Bearer '+store.token
         }
     }).then((res)=>{
-        Swal.fire({
+        SwalDesign.fire({
             icon:'success',
             title: res.data.payload.message,
         })

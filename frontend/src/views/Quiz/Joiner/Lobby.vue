@@ -6,6 +6,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/AuthStore'
 import { socket } from '@/Socket/SocketConfig'
 import Swal from 'sweetalert2'
+import { SwalDesign } from '@/assets/CustomSwal'
 
 const route = useRoute()
 const router = useRouter()
@@ -55,7 +56,7 @@ interface IError {
 }
 socket.on('Error', (res: IError) => {
   if (admin.value != true) return
-  Swal.fire({
+  SwalDesign.fire({
     icon: 'error',
     title: 'Oops...',
     text: res.msg.cause
@@ -66,7 +67,7 @@ interface IPassword {
 }
 socket.on('password', (res: IPassword) => {
   isExist.value = true
-  Swal.fire({
+  SwalDesign.fire({
     icon: 'info',
     text: res.msg,
     input: 'password',

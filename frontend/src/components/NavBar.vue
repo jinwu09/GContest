@@ -4,12 +4,12 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 import { useAuthStore } from '@/store/AuthStore'
 import { useRouter } from 'vue-router'
+import { SwalDesign } from '@/assets/CustomSwal'
 
 const store = useAuthStore()
 const router = useRouter()
 
 function logOut() {
-  console.log('clicked')
   axios
     .post('/auth/logout', null, {
       headers: {
@@ -19,15 +19,15 @@ function logOut() {
     .then((res) => {
       store.removeTokenValue()
 
-      Swal.fire({
+      SwalDesign.fire({
         icon: 'success',
-        title: res.data.payload.message
+        title: res.data.payload
       })
 
       router.push({ name: 'LandingPage' })
     })
     .catch((err) => {
-      Swal.fire({
+      SwalDesign.fire({
         icon: 'error',
         title: err.response.data.payload.message
       })
@@ -43,7 +43,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <nav class="navbar bg-body-tertiary sticky-top bar-design">
+  <nav class="navbar bg-body-tertiary navbar-expand-lg sticky-top bar-design">
     <div class="container-fluid">
       <span class="mb-0 h1 title" @click="router.push({ name: 'dashboard' })">
         <span style="--i: 1">Q</span>
@@ -72,7 +72,7 @@ onMounted(() => {
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
-              <router-link class="nav-link m-2 p-3" aria-current="page" :to="{ name: 'dashboard' }"><span class="pe-4">
+              <router-link class="nav-link p-3" aria-current="page" :to="{ name: 'dashboard' }"><span class="pe-4">
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                     class="bi bi-house-door-fill" viewBox="0 0 16 16">
                     <path
@@ -82,7 +82,7 @@ onMounted(() => {
                 Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link m-2 p-3" aria-current="page" :to="{ name: 'create-quiz' }">
+              <router-link class="nav-link p-3" aria-current="page" :to="{ name: 'create-quiz' }">
                 <span class="pe-4"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                     class="bi bi-plus-square-fill" viewBox="0 0 16 16">
                     <path
@@ -112,7 +112,7 @@ onMounted(() => {
               >
             </li>-->
             <li class="nav-item">
-              <router-link class="nav-link m-2 p-3" aria-current="page" :to="{ name: 'recent-joined' }"><span class="pe-4"><svg
+              <router-link class="nav-link p-3" aria-current="page" :to="{ name: 'recent-joined' }"><span class="pe-4"><svg
                     xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-clock-fill"
                     viewBox="0 0 16 16">
                     <path
@@ -138,7 +138,7 @@ onMounted(() => {
             </li>
             -->
             <li class="nav-item" @click="logOut">
-              <div class="nav-link m-2 p-3" aria-current="page">
+              <div class="nav-link p-3" aria-current="page">
                 <span class="pe-4"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                     class="bi bi-door-open-fill" viewBox="0 0 16 16">
                     <path
