@@ -14,9 +14,7 @@ export const AuthRouter: Router = router;
 
 const prisma = new PrismaClient();
 
-var CryptoJS = require("crypto-js");
-
-CryptoJS.SHA
+const bcrypt = require('bcrypt')
 
 router.post(
   "/register",
@@ -34,12 +32,12 @@ router.post(
         .send(sendTemplate({ errors: errors.array() }));
     }
     const validateEmail = await prisma.user
-      .findFirstOrThrow({
+      .findUnique({
         where: { email: req.body.email },
       }).catch(()=>{
         res
-            .status(Code.s401_Unauthorized)
-            .send(sendTemplate("Email Already Exist!"));
+            
+            .send(sendTemplate("Email Already Exist!")).status(Code.s401_Unauthorized);
       })
       .then((email) => {
         if (email?.email == null) {
@@ -65,10 +63,7 @@ router.post(
           last_name: req.body.lastName,
           school: req.body.school != null ? req.body.school : null,
           email: req.body.email,
-          password: CryptoJS.AES.encrypt(
-            req.body.password,
-            process.env.API_KEY
-          ).toString(),
+          password: await bcrypt.hash(req.body.password, 10)
         },
       })
 
@@ -105,6 +100,8 @@ router.post(
             token: jwtoken,
           })
         );
+      }).catch((err)=>{
+        console.log(err)
       });
   }
 );
@@ -129,12 +126,10 @@ router.post(
       .catch((e) => {
         res.status(Code.S400_Bad_Request).send(sendTemplate("Your account is not registered."));
       })
-      .then((data) => {
+      .then( async (data) => {
         if (data != null) {
           if (
-            CryptoJS.AES.decrypt(data?.password, process.env.API_KEY).toString(
-              CryptoJS.enc.Utf8
-            ) === req.body.password
+            await bcrypt.compare(req.body.password, data.password)
           ) {
             res.locals.userID = data?.id;
             next();

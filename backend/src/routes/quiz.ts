@@ -31,20 +31,9 @@ router.get("/", async (req: Request, res: Response, next) => {
             status: "PRIVATE",
           },
           {
-            creator_id: res.locals.userId,
-            condition: "CLOSED",
-          },
-          {
-            creator_id: res.locals.userId,
-            condition: "DONE",
-          },
-          {
+            
             status: "PUBLIC",
             condition: "OPEN",
-          },
-          {
-            status: "PUBLIC",
-            condition: "ONGOING",
           },
         ],
       },
@@ -106,30 +95,48 @@ router.get("/:quiz_id", async (req: Request, res: Response) => {
     .finally(async () => {
       prisma.$disconnect;
     });
+
+    
 });
 
 //Get all user created
-router.get("/created/:user_id/", async (req: Request, res: Response) => {
-  const user_created_quiz = await prisma.quiz
+router.get("/me/created", async (req: Request, res: Response) => {
+  const showQuiz: any = await prisma.quiz
     .findMany({
       where: {
-        creator_id: parseInt(req.params.user_id),
+        OR: [
+          {
+            creator_id: res.locals.userId,
+            status: "PRIVATE",
+          },
+          {
+            creator_id: res.locals.userId,
+            status: "PUBLIC",
+            condition: "OPEN",
+          },
+        ],
       },
-      select: {
-        id: true,
+      include: {
+        creator: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
         room: true,
-        title: true,
       },
     })
     .catch((e: any) => {
       console.log(e);
     })
-    .then((data: any) => {
-      res.send(sendTemplate(data));
-    })
     .finally(async () => {
-      await prisma.$disconnect;
+      await prisma.$disconnect();
     });
+  showQuiz.forEach((element: any) => {
+    element.admin = element.creator_id == res.locals.userId ? true : false;
+  });
+  return res.send(sendTemplate(showQuiz));
+
 });
 
 //Create Quiz

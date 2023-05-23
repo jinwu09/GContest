@@ -47,7 +47,27 @@
 }
 
 .swal-confirm{
-  background-color: '#D92122' !important;
+  background-color: #D92122 !important;
   color: 'white' !important;
+}
+
+.swal-input{
+  color: white !important;
+  border: none;
+}
+.swal-input-label{
+  color: white !important;
+  text-align: left !important;
+}
+
+.swal-input:focus{
+  border: 3px solid white !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.swal-settings-cancel{
+  color: white !important;
+  background-color: rgba(255, 0, 0, 0) !important;
 }
 

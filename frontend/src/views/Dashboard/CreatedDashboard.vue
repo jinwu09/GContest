@@ -13,12 +13,13 @@ const router = useRouter()
 
 onMounted(() => {
   axios
-    .get('/quiz', {
+    .get('/quiz/me/created', {
       headers: {
         Authorization: 'Bearer ' + store.token
       }
     })
     .then((res: any) => {
+      console.log(res)
       quizzes.value = res.data.payload
     })
     .catch((err) => {
@@ -116,7 +117,7 @@ function joinLobbyAsJoiner(room: any) {
         <div class="col-lg-10">
           <div class="row my-3">
             <div v-for="quiz in quizzes" :key="quiz.id" class="col-md-6 col-lg-4 col-xl-3 mt-4 d-flex align-items-stretch" >
-              <div class="card max" v-show="quiz.condition != 'CLOSED'">
+              <div class="card max" v-if="quiz.condition != 'CLOSED'">
                 <img :src="quiz.image_path ? quiz.image_path:'https://images.unsplash.com/photo-1603366615917-1fa6dad5c4fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8OXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80'" class="card-img-top h-25" alt="Image"/>
 
                 <div class="card-body d-flex flex-column">
@@ -165,7 +166,6 @@ function joinLobbyAsJoiner(room: any) {
                       Join
                     </button>
                     <button
-                      v-show="quiz.admin"
                       class="btn btn-primary px-4"
                       @click="editQuiz(quiz.id)"
                     >
