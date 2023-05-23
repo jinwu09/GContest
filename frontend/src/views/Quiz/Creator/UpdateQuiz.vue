@@ -72,6 +72,7 @@ function deleteQuiz() {
     icon: 'warning',
     showCancelButton: true,
     showConfirmButton: true,
+    timer:0,
     confirmButtonColor: '#8a2f2f',
     cancelButtonColor: '#3085d6',
     confirmButtonText: 'Yes, delete it!'

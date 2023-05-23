@@ -14,9 +14,8 @@ const RecentJoined = () => import('@/views/Dashboard/RecentJoined.vue')
 const RecentJoinedDetail = () => import('@/views/Dashboard/RecentJoinedDetail.vue')
 const RecentCreated = () => import('@/views/Dashboard/RecentCreated.vue')
 const RecentCreatedDetail = () => import('@/views/Dashboard/RecentCreatedDetail.vue')
-
-// History
-const MyJoined = () => import('@/views/Dashboard/MyJoined.vue')
+const CreatedByMe = () => import('@/views/Dashboard/CreatedDashboard.vue')
+const UserSettings = () => import('@/views/Dashboard/Settings.vue')
 
 //Creator
 const CreateQuiz = () => import('@/views/Quiz/Creator/CreateQuiz.vue')
@@ -81,6 +80,16 @@ const router = createRouter({
       path: '/dashboard/recent/created/:quiz_id',
       name: 'recent-created-detail',
       component: RecentCreatedDetail
+    },
+    {
+      path: '/dashboard/created/',
+      name: 'created-by-me',
+      component: CreatedByMe
+    },
+    {
+      path: '/dashboard/settings/',
+      name: 'user-settings',
+      component: UserSettings
     },
 
     // history

@@ -1,19 +1,17 @@
 // const { PrismaClient } = require("@prisma/client");
 import { PrismaClient } from "@prisma/client";
 
-var CryptoJS = require("crypto-js");
+const bcrypt = require('bcrypt')
 const prisma = new PrismaClient();
 
 async function main(student_num: String,password: String,first_name: string,last_name: string){
+
   const create_user = await prisma.user.create({
         data: {
           email: student_num + "@gordoncollege.edu.ph",
           first_name: first_name,
           last_name: last_name,
-          password: CryptoJS.AES.encrypt(
-            password,
-            process.env.API_KEY
-          ).toString(),
+          password: await bcrypt.hash(password, 10),
         },
       });
 }

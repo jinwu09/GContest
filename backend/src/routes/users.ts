@@ -3,8 +3,12 @@ import { body } from "express-validator/src/middlewares/validation-chain-builder
 import { PrismaClient } from "@prisma/client";
 import { validationResult } from "express-validator";
 import { sendTemplate, Code } from "../methods/template";
+const bcrypt = require('bcrypt')
+
+
 const prisma = new PrismaClient();
 const router = Router();
+
 
 router.get("/me", async (req: Request, res: Response)=>{
     const showUser: any = await prisma.user.findUnique({
@@ -20,7 +24,7 @@ router.get("/me", async (req: Request, res: Response)=>{
         }
     })
 
-    return res.send(sendTemplate(showUser)).status(Code.s200_OK)
+    return res.status(Code.s200_OK).send(sendTemplate(showUser))
 })
 
 router.put("/me/update",async (req: Request, res: Response)=>{
@@ -29,18 +33,19 @@ router.put("/me/update",async (req: Request, res: Response)=>{
             id: Number(res.locals.userId)
         },
         data:{
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            school: req.body.school,
-            username: req.body.username
+            first_name: req.body.first_name || undefined,
+            last_name: req.body.last_name || undefined,
+            // school: req.body.school || undefined,
+            // username: req.body.username,
+            email: req.body.email || undefined
         }
     }).catch((err: any)=>{
-        return res.send(sendTemplate({message: "There has been an error in updating your credentials", error :err})).status(Code.S400_Bad_Request)
+        return res.status(Code.S400_Bad_Request).send(sendTemplate({message: "There has been an error in updating your credentials", error :err}))
 
     })
 
-    return res.send(sendTemplate({message: "Your credentials has been updated!"})).status(Code.s200_OK)
-
+    return res.status(Code.s200_OK)
+    .send(sendTemplate({message: "Your credentials has been updated!"}))
 })
 
 router.put("/me/password", async (req: Request, res: Response)=>{
@@ -51,17 +56,18 @@ router.put("/me/password", async (req: Request, res: Response)=>{
                 id : Number(res.locals.userId)
             },
             data:{
-                password: req.body.password
+                password: await bcrypt.hash(req.body.password, 10)
+
             }
         }).catch((err)=>{
-            return res.send(sendTemplate({message: "There has been an error in updating your password", error: err})).status(Code.S400_Bad_Request)
+            return res.status(Code.S400_Bad_Request).send(sendTemplate({message: "There has been an error in updating your password", error: err}))
         })
 
-    return res.send(sendTemplate({message: "Your password has been updated!"})).status(Code.s200_OK)
+    return res.status(Code.s200_OK).send(sendTemplate({message: "Your password has been updated!"}))
 
     }
 
-    return res.send(sendTemplate({message: "Password mismatch"})).status(Code.S400_Bad_Request)
+    return res.status(Code.S400_Bad_Request).send(sendTemplate({message: "Password mismatch"}))
     
 })
 
@@ -70,6 +76,9 @@ router.delete("/me/deactivate", async (req: Request, res: Response)=>{
         where:{
             id: Number(res.locals.userId)
         }
+    }).then(()=>{
+        return res.status(Code.s200_OK).send(sendTemplate({message: "Successfully deleted your account!"}))
+
     }).catch((err: any)=>{
         return res.send(sendTemplate({message: "There has been an error in deleting your account", error: err})).status(Code.S400_Bad_Request)
     })
