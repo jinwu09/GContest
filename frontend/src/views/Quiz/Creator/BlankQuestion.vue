@@ -12,7 +12,7 @@ const router = useRouter()
 const store = useAuthStore()
 
 const content = ref('')
-const score = ref(0)
+const score = ref(1)
 
 const choice_a = ref({
   content: '',
